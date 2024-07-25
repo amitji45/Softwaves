@@ -8,6 +8,7 @@ public class SoftwavesApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SoftwavesApplication.class, args);
+
 	}
 
 }
