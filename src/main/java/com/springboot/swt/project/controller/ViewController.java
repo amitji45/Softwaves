@@ -12,5 +12,14 @@ public class ViewController {
 	{
 		return "index";
 	}
-	
+	@RequestMapping("/login")
+	public String getLoginPage()
+	{
+		return "login";
+	}
+	@RequestMapping("/regis")
+	public String getRegistrationPage()
+	{
+		return "regis";
+	}
 }
