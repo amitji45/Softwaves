@@ -1,6 +1,7 @@
 package com.springboot.swt.project.UserServiceImpl;
 
 import java.util.Base64;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class UserServiceImpl implements UserService{
 		userrepo.save(user);
 		user.setContactNo(decode(user.getContactNo()));
 		user.setPassword(decode(user.getPassword()));
+		HashSet st=new HashSet();
+		st.add(user);
 		return user;
 	}
 
