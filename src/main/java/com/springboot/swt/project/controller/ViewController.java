@@ -22,4 +22,10 @@ public class ViewController {
 	{
 		return "regis";
 	}
+	@RequestMapping("/demo")
+	public String getdemo()
+	{
+	return "demo";
+	}
+	
 }
