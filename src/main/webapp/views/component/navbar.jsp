@@ -15,6 +15,21 @@
 				<li><a href="#rules">Rules</a></li>
 				<li><a href="#review">Review</a></li>
 				<li><a href="#contact">Contact</a></li>
+				<li class="dropdown"><a href="#"><span>Students</span> <i
+						class="bi bi-chevron-down toggle-dropdown"></i></a>
+					<ul>
+						<li><a href="#">Approval</a></li>
+						<li class="dropdown"><a href="#"><span>Marks</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+							<ul>
+								<li><a href="#">c & C++</a></li>
+								<li><a href="#">Core Java</a></li>
+								<li><a href="#">Advance Java</a></li>
+								
+							</ul></li>
+						<li><a href="#">Attendance</a></li>
+						<li><a href="#">All Students</a></li>
+						<li><a href="#">New Batch</a></li>
+					</ul></li>
 			</ul>
 			<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 		</nav>
