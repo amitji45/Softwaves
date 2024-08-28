@@ -54,7 +54,6 @@ public class UserController {
 	public ModelAndView registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
 		user.setRole("Student");
 		User temp = userserviceimpl.register(user);
-		System.out.println(user);
 		ModelAndView modal = new ModelAndView();
 		if (temp == null) {
 			modal.addObject("error", "Something Went Wrong try Again Later");
