@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <%@ include file="component/head.jsp"%>
+<link href="<%=assetspath%>css/demo.css"
+	rel="stylesheet">
 </head>
 <body>
 	<%@ include file="component/navbar.jsp"%>

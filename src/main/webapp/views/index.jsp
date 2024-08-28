@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%@ include file="component/head.jsp"%>
+<%@ include file="component/head.jsp"%>
 </head>
 <body>
 	<%@ include file="component/navbar.jsp"%>
@@ -190,45 +190,36 @@
 			<!-- End Section Title -->
 
 			<div class="container">
-
 				<div class="row text-center">
 					<div class="col-md-12">
-						<!-- Carousel wrapper -->
-						<div id="carouselBasicExample"
-							class="carousel slide carousel-dark" data-ride="carousel">
-							<!-- Inner -->
+						<div id="carouselExampleControls"
+							class="carousel slide carousel-dark" data-bs-ride="carousel">
 							<div class="carousel-inner">
-								<!-- Single item -->
 								<div class="carousel-item active">
-									<p class="lead font-italic mx-4 mx-md-5">"Lorem ipsum dolor
-										sit amet, consectetur adipisicing elit. Fugit, error amet
-										numquam iure provident voluptate esse quasi, voluptas nostrum
-										quisquam!"</p>
+									<p class="lead font-italic mx-4 mx-md-5">
+										https://maps.app.goo.gl/rWeZFANcuqJL371F7
+									</p>
 									<div class="mt-5 mb-4">
 										<img
-											src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(2).webp"
+											src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp"
 											class="rounded-circle img-fluid shadow-1-strong"
 											alt="smaple image" width="100" height="100" />
 									</div>
-									<p class="text-muted mb-0">- Anna Morian</p>
+									<p class="text-muted mb-0">- Kate Allise</p>
 								</div>
-
-								<!-- Single item -->
 								<div class="carousel-item">
-									<p class="lead font-italic mx-4 mx-md-5">"Neque cupiditate
-										assumenda in maiores repudiandae mollitia adipisci maiores
-										repudiandae mollitia consectetur adipisicing architecto elit
-										sed adipiscing elit."</p>
+									<p class="lead font-italic mx-4 mx-md-5">"Duis aute irure
+										dolor in reprehenderit in voluptate velit esse cillum dolore
+										eu fugiat nulla pariatur est laborum neque cupiditate
+										assumenda in maiores."</p>
 									<div class="mt-5 mb-4">
 										<img
-											src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(31).webp"
+											src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp"
 											class="rounded-circle img-fluid shadow-1-strong"
 											alt="smaple image" width="100" height="100" />
 									</div>
-									<p class="text-muted mb-0">- Teresa May</p>
+									<p class="text-muted mb-0">- Kate Allise</p>
 								</div>
-
-								<!-- Single item -->
 								<div class="carousel-item">
 									<p class="lead font-italic mx-4 mx-md-5">"Duis aute irure
 										dolor in reprehenderit in voluptate velit esse cillum dolore
@@ -243,27 +234,22 @@
 									<p class="text-muted mb-0">- Kate Allise</p>
 								</div>
 							</div>
-							<!-- Inner -->
 
-							<!-- Controls -->
-							<a class="carousel-control-prev" role="button"
-								href="#carouselBasicExample" data-slide="prev"> <span
-								class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-								class="visually-hidden">Previous</span>
-							</a> <a class="carousel-control-next" role="button"
-								href="#carouselBasicExample" data-slide="next"> <span
-								class="carousel-control-next-icon" aria-hidden="true"></span> <span
-								class="visually-hidden">Next</span>
-							</a>
+							<button class="carousel-control-prev " type="button"
+								data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+								<span class="carousel-control-prev-icon " aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button"
+								data-bs-target="#carouselExampleControls" data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
 						</div>
-						<!-- Carousel wrapper -->
 					</div>
 				</div>
-
 			</div>
-
 		</section>
-		<!-- /Portfolio Section -->
 
 		<!-- Contact Section -->
 		<section id="contact" class="contact section">
@@ -365,7 +351,6 @@
 
 		</section>
 		<!-- /Contact Section -->
-
 	</main>
 	<%@ include file="component/footer.jsp"%>
 	<%@ include file="component/script.jsp"%>
