@@ -8,22 +8,25 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Batch {
-   
-	 @Id 
-	 private String batchId;
-	 
-	 @Column(nullable = false)
-	 private String batchTopic;
-	 
-	 @Column(nullable = false)
-	 private Date startDate;
-	 
-	 @Column
-	 private Date endDate;
-	 
-	 @Column
-	 private int numberOfStudents;
-	 
+
+	@Id
+	private String batchId;
+
+	@Column(nullable = false)
+	private String batchTopic;
+
+	@Column
+	private Date startDate;
+
+	@Column
+	private Date endDate;
+
+	@Column(nullable = false)
+	private String currentStatus = "Enroll";
+
+	@Column
+	private int numberOfStudents;
+
 	public String getBatchId() {
 		return batchId;
 	}
@@ -55,7 +58,15 @@ public class Batch {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
+
+	public String getCurrentStatus() {
+		return currentStatus;
+	}
+
+	public void setCurrentStatus(String currentStatus) {
+		this.currentStatus = currentStatus;
+	}
+
 	public int getNumberOfStudents() {
 		return numberOfStudents;
 	}
@@ -67,7 +78,7 @@ public class Batch {
 	@Override
 	public String toString() {
 		return "Batch [batchId=" + batchId + ", batchTopic=" + batchTopic + ", startDate=" + startDate + ", endDate="
-				+ endDate + "]";
+				+ endDate + ", currentStatus=" + currentStatus + ", numberOfStudents=" + numberOfStudents + "]";
 	}
-	  
+
 }

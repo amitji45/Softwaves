@@ -1,58 +1,107 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page import="com.springboot.swt.project.entity.Batch,java.util.List"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <%@ include file="component/head.jsp"%>
 </head>
 <body>
 	<%@ include file="component/navbar.jsp"%>
-	<main class="main">
-		<!-- Contact Section -->
-		<section id="login" class="contact section">
-			<!-- Section Title -->
-			<div class="container section-title">
-				<h2>create batch</h2>
-			</div>
-			<!-- End Section Title -->
-			<div class="container d-flex justify-content-center">
-				<div class="col-lg-6">
-					<form action="newbatch" method="post" class="php-email-form">
-						<div class="row gy-4">
-							<div class="col-md-12">
-								<label for="email-field" class="pb-2">Enter new Batch</label> <input
-									type="text" class="form-control" name="batchTopic" id="email-field"
-									required>
-							</div>
+	<%
+	List<Batch> batches = (List<Batch>) request.getAttribute("batches");
+	%>
+	<section id="contact" class="section">
 
-							<div class="col-md-12">
-								<label for="password-field" class="pb-2">startding date </label> <input
-									type="date" class="form-control" name="startDate"
-									id="subject-field" required>
-							</div>
+		<div class="container section-title">
+			<h2>All Batches</h2>
+		</div>
 
-
-							<div class="col-md-12 text-center">
-								<button type="submit">create batch</button>
-							</div>
-
-							<div class="col-md-12 text-center">
-								<p>
-									Forget <a href="#">Password</a> ?
-								</p>
-								<p>
-									Don't have Account ?<a href="regis"> Sign up</a>
-								</p>
-							</div>
+		<div class="row">
+			<div class="col-lg-12 mb-lg-0 mb-4">
+				<div class="card ">
+					<div class="card-header pb-0 p-3">
+						<div class="d-flex justify-content-between">
+							<h6 class="mb-2">Batches</h6>
 						</div>
-					</form>
+					</div>
+					<div class="table-responsive">
+						<table class="table align-items-center ">
+							<tbody>
+								<%
+								for (Batch batch : batches) {
+								%>
+								<tr id="<%=batch.getBatchId()%>">
+									<td>
+										<div class="text-center">
+											<p class="text-xs font-weight-bold mb-0">Name:</p>
+											<h6 class="text-sm mb-0"><%=batch.getBatchTopic()%></h6>
+										</div>
+									</td>
+									<td class="align-middle text-sm">
+										<div class="col text-center">
+											<p class="text-xs font-weight-bold mb-0">Status</p>
+											<h6 class="text-sm mb-0"><%=batch.getCurrentStatus()%></h6>
+										</div>
+									</td>
+									<td class="align-middle text-sm">
+										<div class="col text-center">
+											<p class="text-xs font-weight-bold mb-0">Start Date</p>
+											<h6 class="text-sm mb-0"><%=batch.getStartDate()%></h6>
+										</div>
+									</td>
+									<%
+									if (batch.getCurrentStatus().equals("Enroll")) {
+									%>
+									<td>
+										<div class="text-center">
+											<a class="btn btn-outline-success"
+												href="startbatch?id=<%=batch.getBatchId()%>">Start</a>
+											<button type="button" class="btn btn-outline-danger"
+												onclick="blockUser('<%=batch.getBatchId()%>')">Delete</button>
+										</div>
+									</td>
+									<%
+									} else if (batch.getCurrentStatus().equals("Active")) {
+									%>
+									<td>
+										<div class="text-center">
+											<a class="btn btn-outline-danger"
+												href="endbatch?id=<%=batch.getBatchId()%>">End</a>
+										</div>
+									</td>
+									<%
+									}
+									%>
+								</tr>
+								<%
+								}
+								%>
+							</tbody>
+						</table>
+					</div>
 				</div>
-				<!-- End Contact Form -->
-
 			</div>
-		</section>
-		<!-- /Contact Section -->
-	</main>
-	 
+		</div>
+	</section>
+	<script type="text/javascript">
+		function allowUser(id) {
+			url = "http://localhost:9090/admin/approval/allow?id=";
+			allowOrBlockUser(id, url);
+		}
+		function blockUser(id) {
+			url = "http://localhost:9090/admin/approval/block?id=";
+			allowOrBlockUser(id, url);
+		}
+
+		function allowOrBlockUser(id, url) {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				document.getElementById(id).remove();
+			};
+			xhttp.open("GET", url + id + "", true);
+			xhttp.send();
+		}
+	</script>
+	<%@ include file="component/footer.jsp"%>
+	<%@ include file="component/script.jsp"%>
 </body>
 </html>
