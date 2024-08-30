@@ -19,16 +19,26 @@
 						class="bi bi-chevron-down toggle-dropdown"></i></a>
 					<ul>
 						<li><a href="#">Approval</a></li>
-						<li class="dropdown"><a href="#"><span>Marks</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+						<li class="dropdown"><a href="#"><span>Marks</span> <i
+								class="bi bi-chevron-down toggle-dropdown"></i></a>
 							<ul>
 								<li><a href="#">c & C++</a></li>
 								<li><a href="#">Core Java</a></li>
 								<li><a href="#">Advance Java</a></li>
-								
+
 							</ul></li>
 						<li><a href="#">Attendance</a></li>
 						<li><a href="#">All Students</a></li>
-						<li><a href="#">New Batch</a></li>
+						<li class="dropdown"><a href="#"><span>New Batch</span><i
+								class="bi bi-chevron-down toggle-dropdown"></i></a>
+							<ul>
+								<li><a href="#" onclick="createBatch('C\C++')">c & C++</a></li>
+								<li><a href="#" onclick="createBatch('Core Java')">Core
+										Java</a></li>
+								<li><a href="#" onclick="createBatch('Advance Java')">Advance
+										Java</a></li>
+
+							</ul></li>
 					</ul></li>
 			</ul>
 			<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -44,6 +54,18 @@
 		<%
 		}
 		%>
-
+		<script type="text/javascript">
+			function createBatch(batch_name) {
+				url = "http://localhost:9090/admin/newbatch?name=";
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function(response) {
+					if (this.readyState == 4 && this.status == 200) {
+						alert(response.target.responseText);
+					}
+				};
+				xhttp.open("GET", url + batch_name + "", true);
+				xhttp.send();
+			}
+		</script>
 	</div>
 </header>

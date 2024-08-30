@@ -7,6 +7,7 @@ public class Attendance {
 	 int precount;
 	 String batch;
 	 int totalday;
+	 
 }
 
 

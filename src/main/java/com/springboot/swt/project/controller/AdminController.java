@@ -1,14 +1,13 @@
 package com.springboot.swt.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.swt.project.UserServiceImpl.BatchServiceImpl;
 import com.springboot.swt.project.UserServiceImpl.UserServiceImpl;
@@ -26,18 +25,30 @@ public class AdminController {
 
 	@RequestMapping("/dashboard")
 	public String getAdminDashboard() {
-		return "newbatch";
+		return "admindashboard";
 	}
 
-	@RequestMapping("/createBatch")
-	public String createBatchPage() {
-		return "createBatch";
+	@RequestMapping("/allBatches")
+	public String createBatchPage(Model model) {
+		model.addAttribute("batches", batchservicesimpl.getAllBatches());
+		return "newbatch";
+	}
+	
+	@RequestMapping("/startbatch")
+	public String startbatch(@RequestParam("id") String batchId) {
+		 batchservicesimpl.startBatchByID(batchId);
+		return "redirect:allBatches";
+	}
+	
+	@RequestMapping("/endbatch")
+	public String endbatch(@RequestParam("id") String batchId) {
+		 batchservicesimpl.endBatchByID(batchId);
+		return "redirect:allBatches";
 	}
 
 	@RequestMapping("/approval")
 	public String getNotAllowedUsers(Model model) {
 		model.addAttribute("data", userserviceimpl.getNotAllowedUsers());
-
 		return "approval";
 	}
 
@@ -57,20 +68,14 @@ public class AdminController {
 
 	@ResponseBody
 	@RequestMapping("/newbatch")
-	public ModelAndView newBatch(@ModelAttribute("batch") Batch batch, BindingResult bindingResult) {
-		System.out.println(batch);
+	public ResponseEntity<String> newBatch(@RequestParam String name) {
+		Batch batch = new Batch();
+		batch.setBatchTopic(name);
 		Batch temp = batchservicesimpl.newBatch(batch);
-		ModelAndView modal = new ModelAndView();
 		if (temp == null) {
-			modal.addObject("error", "Something Went Wrong try Again Later");
-			modal.setViewName("redirect:dashboard");
-			return modal;
+			return new ResponseEntity<>("Something Went Wrong",HttpStatus.FORBIDDEN);
 		}
-		modal.setViewName("redirect:dashboard");
-		return modal;
+		return new ResponseEntity<>("Batch Created SuccessFully ", HttpStatus.OK);
 	}
 
 }
-
-
-                      
