@@ -1,4 +1,4 @@
-package com.springboot.swt.project.UserService;
+package com.springboot.swt.project.Service;
 
 import java.util.List;
 

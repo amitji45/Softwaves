@@ -8,6 +8,6 @@ import com.springboot.swt.project.entity.User;
 
 public interface StudentAttendanceRepo extends JpaRepository<StudentAttendance, Integer> {
 	StudentAttendance findByUserAndBatch(User user,Batch batch);
-	StudentAttendance findByRollNoAndBatch
+	StudentAttendance findByRollNoAndBatch(String rollNo,Batch batch);
 	
 }

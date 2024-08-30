@@ -1,4 +1,4 @@
-package com.springboot.swt.project.UserServiceImpl;
+package com.springboot.swt.project.ServiceImpl;
 
 import java.time.LocalDate;
 import java.util.Base64;
@@ -9,7 +9,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.springboot.swt.project.UserService.UserService;
+import com.springboot.swt.project.Service.UserService;
 import com.springboot.swt.project.entity.User;
 import com.springboot.swt.project.repo.UserRepo;
 

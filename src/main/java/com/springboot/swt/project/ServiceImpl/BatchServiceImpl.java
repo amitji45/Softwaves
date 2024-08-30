@@ -1,4 +1,4 @@
-package com.springboot.swt.project.UserServiceImpl;
+package com.springboot.swt.project.ServiceImpl;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -9,7 +9,7 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.springboot.swt.project.UserService.BatchService;
+import com.springboot.swt.project.Service.BatchService;
 import com.springboot.swt.project.entity.Batch;
 import com.springboot.swt.project.repo.BatchRepo;
 

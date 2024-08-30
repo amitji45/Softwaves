@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.springboot.swt.project.UserServiceImpl.UserServiceImpl;
+import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.User;
 
 import jakarta.servlet.http.HttpServletRequest;
