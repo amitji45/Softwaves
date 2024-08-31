@@ -10,4 +10,5 @@ public interface UserService {
 	String decode(String s);
 
 	boolean finder(User user);
+	String[] validation(User user);
 }

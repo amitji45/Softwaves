@@ -3,17 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-<meta content="" name="description">
-<meta content="" name="keywords">
-<!-- Favicons -->
-<meta charset="ISO-8859-1">
-<title>Softwaves</title>
-<link href="/img/favicon.png " rel="icon">
-<link href="/img/apple-touch-icon.png "
-	rel="apple-touch-icon">
+  <%@ include file="component/head.jsp"%>
 </head>
 <body>
 	<%@ include file="component/navbar.jsp"%>
@@ -378,5 +368,6 @@
 
 	</main>
 	<%@ include file="component/footer.jsp"%>
+	<%@ include file="component/script.jsp"%>
 </body>
 </html>
