@@ -16,4 +16,7 @@ public interface UserService {
 	String allowOrBlockUserByID(String id , String allowed);
 	
 	public List<User> getNotAllowedUsers();
+	
+	public List<Integer> getMarksList(String id);
+
 }

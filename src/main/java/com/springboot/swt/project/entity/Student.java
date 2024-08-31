@@ -1,8 +1,9 @@
 package com.springboot.swt.project.entity;
 
-import java.sql.Date;
+import java.util.ArrayList;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -11,8 +12,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "studentTable")
 
-public class StudentAttendance {
-   
+public class Student {
+	
 	 @Id
 	 private Integer Id;
 	 
@@ -28,7 +29,8 @@ public class StudentAttendance {
 	 @Column
 	 private int attendanceCount;
 
-
+	 @ElementCollection
+	 private ArrayList<Integer> marks;
 	public Integer getId() {
 		return Id;
 	}
@@ -66,6 +68,26 @@ public class StudentAttendance {
 
 	public void setAttendanceCount(int attendanceCount) {
 		this.attendanceCount = attendanceCount;
+	}
+
+
+	public String getRollNo() {
+		return rollNo;
+	}
+
+
+	public void setRollNo(String rollNo) {
+		this.rollNo = rollNo;
+	}
+
+
+	public ArrayList<Integer> getMarks() {
+		return marks;
+	}
+
+
+	public void setMarks(ArrayList<Integer> marks) {
+		this.marks = marks;
 	} 
 	 
 	}

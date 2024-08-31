@@ -1,32 +1,30 @@
 package com.springboot.swt.project.ServiceImpl;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.springboot.swt.project.Service.StudentAttendanceService;
+import com.springboot.swt.project.Service.StudentService;
 import com.springboot.swt.project.entity.Batch;
-import com.springboot.swt.project.entity.StudentAttendance;
+import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.repo.BatchRepo;
-import com.springboot.swt.project.repo.StudentAttendanceRepo;
+import com.springboot.swt.project.repo.StudentRepo;
 
-public class StudentAttendanceServiceImpl implements StudentAttendanceService{
+public class StudentAttendanceServiceImpl implements StudentService{
 	
 	@Autowired
-	StudentAttendanceRepo studentAttendanceRepo;
+	StudentRepo studentRepo;
 	
 	@Autowired
 	BatchRepo batchRepo;
 	
 	@Override
-	public StudentAttendance markAttendance(String rollNo,String batchId) {
+	public Student markAttendance(String rollNo,String batchId) {
 		
 		Batch batch=(batchRepo.findById(batchId)).get();
-		StudentAttendance student= studentAttendanceRepo.findByRollNoAndBatch(rollNo,batch);
+		Student student= studentRepo.findByRollNoAndBatch(rollNo,batch);
 		
 		if(student==null)return null;
 		student.setAttendanceCount(student.getAttendanceCount()+1);
-		studentAttendanceRepo.save(student);
+		studentRepo.save(student);
 
 		return student;
 	}

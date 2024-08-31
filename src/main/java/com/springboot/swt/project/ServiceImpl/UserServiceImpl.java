@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springboot.swt.project.Service.UserService;
+import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.entity.User;
+import com.springboot.swt.project.repo.StudentRepo;
 import com.springboot.swt.project.repo.UserRepo;
 
 @Service
@@ -18,7 +20,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepo userrepo;
-
+	
+	@Autowired
+	private StudentRepo studentrepo;
 	@Override
 	public User register(User user) {
 		user.setId(generateUserId(user));
@@ -84,6 +88,13 @@ public class UserServiceImpl implements UserService {
 			user.setContactNo(decode(user.getContactNo()));
 			return user;
 		}).toList();
+	}
+
+	public List<Integer> getMarksList(String id) {
+		User user=userrepo.findById(id).get();
+		Student student=studentrepo.findByUser(user);
+		if(student!=null)return student.getMarks();
+		return null;
 	}
 
 	
