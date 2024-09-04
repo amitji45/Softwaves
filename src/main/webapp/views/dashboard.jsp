@@ -116,7 +116,9 @@
 											<h5 class="font-weight-bolder">4</h5>
 											<p class="mb-0">
 												<span class="text-success text-sm font-weight-bolder">100%</span>
-												since Today
+												since Today <a
+													class="bg-gradient-warning btn text-light mt-1"
+													href="/user/marks?id=<%=(user != null)? user.getId():null%>">View</a>
 											</p>
 										</div>
 									</div>

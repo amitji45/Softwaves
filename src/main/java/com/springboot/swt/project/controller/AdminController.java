@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.springboot.swt.project.UserServiceImpl.BatchServiceImpl;
-import com.springboot.swt.project.UserServiceImpl.UserServiceImpl;
+import com.springboot.swt.project.ServiceImpl.BatchServiceImpl;
+import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.Batch;
 
 @RequestMapping("/admin")
@@ -77,5 +77,6 @@ public class AdminController {
 		}
 		return new ResponseEntity<>("Batch Created SuccessFully ", HttpStatus.OK);
 	}
+	
 
 }

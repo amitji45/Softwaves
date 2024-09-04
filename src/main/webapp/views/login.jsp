@@ -6,6 +6,7 @@
 <%@ include file="component/head.jsp"%>
 </head>
 <body>
+<%  %>
 	<%@ include file="component/navbar.jsp"%>
 	<main class="main">
 		<!-- Contact Section -->
@@ -34,7 +35,21 @@
 							<%
 							}
 							%>
+							<%
+							if (request.getParameter("success") != null) {
+							%>
+							<div class="col-lg-12">
+								<div class="alert alert-success alert-dismissible fade show"
+									role="alert">
+									<%=request.getParameter("success")%>
+									<button type="button" class="btn-close" data-bs-dismiss="alert"
+										aria-label="Close"></button>
+								</div>
+							</div>
 
+							<%
+							}
+							%>
 							<div class="col-md-12">
 								<label for="email-field" class="pb-2">Your Email</label> <input
 									type="email" class="form-control" name="email" id="email-field"
@@ -51,10 +66,10 @@
 							<div class="col-md-12 text-center">
 								<button type="submit">Login</button>
 							</div>
-
 							<div class="col-md-12 text-center">
 								<p>
-									Forget <a href="#">Password</a> ?
+		<!-- when we click on forget pass word button forget api will be called for view  -->
+									Forget <a href="forget">Password</a> ?
 								</p>
 								<p>
 									Don't have Account ?<a href="regis"> Sign up</a>

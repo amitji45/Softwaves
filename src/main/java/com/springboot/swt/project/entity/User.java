@@ -12,6 +12,9 @@ public class User {
 	@Id
 	private String id;
 
+	@Column
+	private String otp;
+	
 	@Column(nullable = false, unique = true)
 	private String contactNo;
 	@Column(nullable = false)
@@ -99,10 +102,20 @@ public class User {
 		this.password = password;
 	}
 
+	public String getOtp() {
+		return otp;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+	
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", contactNo=" + contactNo + ", name=" + name + ", email=" + email + ", batch="
-				+ batch + ", role=" + role + ", password=" + password + ", allowed=" + allowed + "]";
+		return "User [id=" + id + ", otp=" + otp + ", contactNo=" + contactNo + ", name=" + name + ", email=" + email
+				+ ", batch=" + batch + ", role=" + role + ", password=" + password + ", allowed=" + allowed + "]";
 	}
 
 	public User(String id, String contactNo, String name, String email, String batch, String role, String password,

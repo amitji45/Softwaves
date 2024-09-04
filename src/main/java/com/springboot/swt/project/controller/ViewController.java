@@ -26,4 +26,16 @@ public class ViewController {
 		model.addAttribute("user", new User());
 		return "regis";
 	}
+	@RequestMapping("/forget")
+	public String forget(Model model)
+	{
+		model.addAttribute("user", new User());
+		return "forgetPassword";// this will redirect us to forget password page 
+	}
+	@RequestMapping("/reset")
+	public String reset(Model model)
+	{
+		model.addAttribute("user", new User());
+		return "PasswordReset";
+	}
 }
