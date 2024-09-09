@@ -1,4 +1,4 @@
-package com.springboot.swt.project.UserServiceImpl;
+package com.springboot.swt.project.ServiceImpl;
   
 import java.util.Properties;
 
@@ -13,13 +13,13 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.stereotype.Service;
 
-import com.springboot.swt.project.UserService.EmailSender;
+import com.springboot.swt.project.Service.EmailSender;
 
 @Service
-public class EmailSenderImp implements EmailSender {
+public class EmailSenderImpl implements EmailSender {
 
 	@Override
-	public String sendEmail(String to, String subject, String massage) {
+	public String sendEmail(String to, String subject, String massege) {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
@@ -36,12 +36,12 @@ public class EmailSenderImp implements EmailSender {
 			message.setFrom(new InternetAddress("coachingswt@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
 			message.setSubject(subject);
-			message.setText(massage);
+			message.setText(massege);
 			Transport.send(message);
 			return "Email sent successfully!";
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-		return "not send gmail...";
+		return "not send Email...";
 	}
 }
