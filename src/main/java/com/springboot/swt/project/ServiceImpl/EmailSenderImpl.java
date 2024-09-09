@@ -1,5 +1,5 @@
 package com.springboot.swt.project.ServiceImpl;
-  
+
 import java.util.Properties;
 
 import javax.mail.Authenticator;
