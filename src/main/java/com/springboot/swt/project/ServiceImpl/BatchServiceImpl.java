@@ -22,7 +22,7 @@ public class BatchServiceImpl implements BatchService {
 		StringBuilder id = new StringBuilder();
 		LocalDate local = LocalDate.now();
 		id = id.append(("" + local.getYear()).substring(2));
-		id = id.append("-");
+		 
 		Random rand = new Random();
 		id = id.append(String.format("%04d", rand.nextInt(10000)));
 		return id.toString();
@@ -35,7 +35,7 @@ public class BatchServiceImpl implements BatchService {
 	}
 
 	public List<Batch> getAllBatches() {
-		return batchrepo.findAll();
+		return batchrepo.findByCurrentStatus("Enroll");
 	}
 
 	public void startBatchByID(String batchId) {
@@ -56,6 +56,12 @@ public class BatchServiceImpl implements BatchService {
 			batch.setEndDate(Date.valueOf(LocalDate.now()));
 			batchrepo.save(batch);
 		}
+	}
+
+	@Override
+	public List<Batch> findByCurrentStatus(String currentstatus) {
+		
+		return batchrepo.findByCurrentStatus(currentstatus);
 	}
 
 }

@@ -1,6 +1,11 @@
 package com.springboot.swt.project.entity;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -30,65 +35,56 @@ public class Student {
 	 private int attendanceCount;
 
 	 @ElementCollection
-	 private ArrayList<Integer> marks;
+	 private List<Integer> marks;
+	
+	 
+	 @Autowired
+	 @ElementCollection
+	 public  List<StringBuilder> absent;
+
+//	 @Autowired
+//	 @ElementCollection
+////student present    batchId       batchname           date
+//	 public List<Map<String, Map<String,LinkedHashSet<String>>>> present;
+//	 
 	public Integer getId() {
 		return Id;
 	}
-
-
 	public void setId(Integer id) {
 		Id = id;
 	}
-
-
 	public Batch getBatch() {
 		return batch;
 	}
-
-
 	public void setBatch(Batch batch) {
 		this.batch = batch;
 	}
-
-
 	public User getUser() {
 		return user;
 	}
-
-
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-
-	public int getAttendanceCount() {
-		return attendanceCount;
-	}
-
-
-	public void setAttendanceCount(int attendanceCount) {
-		this.attendanceCount = attendanceCount;
-	}
-
-
 	public String getRollNo() {
 		return rollNo;
 	}
-
-
 	public void setRollNo(String rollNo) {
 		this.rollNo = rollNo;
 	}
-
-
-	public ArrayList<Integer> getMarks() {
-		return marks;
+	public int getAttendanceCount() {
+		return attendanceCount;
 	}
-
-
-	public void setMarks(ArrayList<Integer> marks) {
-		this.marks = marks;
-	} 
+	public void setAttendanceCount(int attendanceCount) {
+		this.attendanceCount = attendanceCount;
+	}
+	
+	  public List<Integer> getMarks() { return marks; }
+	   public void setMarks(List<Integer> marks) { this.marks = marks; } 
+	 public List<StringBuilder> getAbsent() { return absent; }
+	  public void setAbsent(List<StringBuilder> absent) { this.absent = absent; }
 	 
-	}
+	 
+	  
+}
+ 
 

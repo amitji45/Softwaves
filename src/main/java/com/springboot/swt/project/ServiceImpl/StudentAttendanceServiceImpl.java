@@ -1,13 +1,17 @@
 package com.springboot.swt.project.ServiceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.springboot.swt.project.Service.StudentService;
 import com.springboot.swt.project.entity.Batch;
 import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.repo.BatchRepo;
 import com.springboot.swt.project.repo.StudentRepo;
-
+@Service
 public class StudentAttendanceServiceImpl implements StudentService{
 	
 	@Autowired
@@ -29,4 +33,18 @@ public class StudentAttendanceServiceImpl implements StudentService{
 		return student;
 	}
 
+	@Override
+	public List<Student> findByBatch(String batchId)
+	{
+		List<Student> list= studentRepo.findAll();
+		List<Student> currentlist=new ArrayList<>();
+		for(Student s:list)
+		{
+			if(batchId.equals(s.getBatch().getBatchId()))
+				currentlist.add(s);
+			
+		}
+ 		return currentlist;
+	}
+ 
 }

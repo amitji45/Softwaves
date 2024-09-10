@@ -20,11 +20,7 @@
 	if (user == null) {
 		response.sendRedirect("/swt/login");
 	}
-		ArrayList<Integer> marksList=(ArrayList<Integer>) request.getAttribute("marksList");
-	
-	
-		 
-	
+	ArrayList<Integer> marksList=(ArrayList<Integer>) request.getAttribute("marksList");
 	%>
 	<div class="d-flex justify-content-center">
 	<div class="col-8 md-10 mb-lg-8 mb-4">

@@ -7,7 +7,7 @@
 <body>
 	<%@ include file="component/navbar.jsp"%>
 	<%
-	List<User> users = (List<User>) request.getAttribute("data");
+ 	List<User> users = (List<User>) request.getAttribute("data");
 	%>
 	<section id="contact" class="section">
 
@@ -64,11 +64,11 @@
 	</section>
 	<script type="text/javascript">
 		function allowUser(id) {
-			url = "http://localhost:9090/admin/approval/allow?id=";
+			url = "http://localhost:9098/admin/approval/allow?id=";
 			allowOrBlockUser(id, url);
 		}
 		function blockUser(id) {
-			url = "http://localhost:9090/admin/approval/block?id=";
+			url = "http://localhost:9098/admin/approval/block?id=";
 			allowOrBlockUser(id, url);
 		}
 
