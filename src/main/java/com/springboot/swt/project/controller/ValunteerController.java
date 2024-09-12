@@ -29,36 +29,43 @@ public class ValunteerController {
 	StudentAttendanceServiceImpl StudentAttendanceServiceImpl;
 
 	@RequestMapping("/findActivebatches")
-	public ResponseEntity findActivebatches() {
+	public ResponseEntity findActivebatches(Model model) {
 		List<Batch> batchlist = batchservice.findByCurrentStatus("Active");
-
+		if(batchlist.size()==0)
+		{
+			model.addAttribute("activebatch",batchlist);
+			return null;
+		}
 		return new ResponseEntity(batchlist, HttpStatus.OK);
 	}
 
 	@RequestMapping("/findallstudent")
 	public String findallstudent(@RequestParam("batchId") String batchId, Model model) {
 		List<Student> studentlist = StudentAttendanceServiceImpl.findByBatch(batchId);
+//		List<Student> absentlist = StudentAttendanceServiceImpl.findByBatch(batchId);
+		if(studentlist.size()!=0)
 		model.addAttribute("studentlist", studentlist);
-		return "userattendence";
+	//	model.addAttribute("absentlist", absentlist);
+		return "userattendance";
 
 	}
 	
-	@RequestMapping("/userattendence")
-	public String userattendence() {
-		return "userattendence";
+	@RequestMapping("/userattendance")
+	public String userattendance() {
+		return "userattendance";
 		
 	}
 
-	@RequestMapping("/studentattendence/present")
+	@RequestMapping("/studentattendance/present")
 	public String markAttendancepresent(@RequestParam("rollNo") String rollNo,@RequestParam("batchId") String batchId) {
-			Student s=userserviceimpl.markAttendancepresent(rollNo, batchId);
-			System.out.println("ram ji..."+s);
-		return "userattendence";
+			userserviceimpl.markAttendancepresent(rollNo, batchId);
+			 
+		return "userattendance";
 	}
-	@RequestMapping("/studentattendence/absent")
+	@RequestMapping("/studentattendance/absent")
 	public String markAttendanceAbsent(@RequestParam("rollNo") String rollNo,@RequestParam("batchId") String batchId) {
-		Student s=userserviceimpl.markAttendanceAbsent(rollNo, batchId);
-		System.out.println("ram ji..."+s);
-		return "userattendence";
+		userserviceimpl.markAttendanceAbsent(rollNo, batchId); 
+		
+		return "userattendance";
 	}
 }

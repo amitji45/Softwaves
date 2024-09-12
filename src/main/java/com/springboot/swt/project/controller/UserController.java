@@ -6,12 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,13 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-
-import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
-
 import com.springboot.swt.project.ServiceImpl.BatchServiceImpl;
-
+import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.Batch;
-
 import com.springboot.swt.project.entity.User;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,9 +41,21 @@ public class UserController {
 		User temp = userserviceimpl.login(email, password);
 		if (temp != null && temp.getAllowed().equals("Allowed")) {
 			HttpSession session = request.getSession();
-			session.setAttribute("user", temp);
-			modal.setViewName("redirect:dashboard");
-			return modal;
+			if(temp.getRole().equalsIgnoreCase("Student")||temp.getRole().equalsIgnoreCase("Volunteer"))
+			{				
+ 				session.setAttribute("user", temp) ;
+				modal.setViewName("redirect:dashboard");
+				return modal;
+			}
+			if(temp.getRole().equalsIgnoreCase("Admin"))
+			{					
+				session.setAttribute("admin", temp);
+
+				modal.setViewName("redirect:/admin/dashboard");
+				return modal;
+			}
+			
+			
 		}
 
 		if (temp == null) {
@@ -143,7 +146,7 @@ public class UserController {
 	public ModelAndView getStudentMarks(@RequestParam String id) {
 
 		List<Integer> marksList = userserviceimpl.getMarksList(id);
-		System.out.println(marksList);
+	
 		return new ModelAndView("redirect:/views/studentmarks.jsp", "marksList", marksList);
 	}
 
@@ -156,13 +159,12 @@ public class UserController {
 	public  ResponseEntity enrollstudent(@RequestParam String batchId, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		User session1 = (User) session.getAttribute("user");
-		System.out.println("enrollstudent controller....." + session1 + "    " + batchId);
-		if (session1 != null)
+ 		if (session1 != null)
 		{
-			String cuurentstatus=(String)  userserviceimpl.enrollstudent(batchId, session1);
+			String cuurentstatus=  userserviceimpl.enrollstudent(batchId, session1);
 			return  new ResponseEntity<>(cuurentstatus, HttpStatus.OK);
 		}
-		return new ResponseEntity<>("error not enroll..",HttpStatus.FORBIDDEN);
+		return new ResponseEntity<>(null ,HttpStatus.FORBIDDEN);
 	}
 
 }

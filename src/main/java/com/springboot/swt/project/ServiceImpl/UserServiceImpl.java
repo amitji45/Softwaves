@@ -22,15 +22,14 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepo userrepo;
-	
+
 	@Autowired
 	private StudentRepo studentrepo;
-	
+
 	@Autowired
 	private EmailSenderImpl emailSenderImpl;
 	@Autowired
 	private BatchRepo batchrepo;
-
 
 	@Override
 	public User register(User user) {
@@ -106,13 +105,19 @@ public class UserServiceImpl implements UserService {
 		Optional<Batch> optional = batchrepo.findById(batchId);
 		Batch batch = optional.get();
 
-		Student student = new Student();
-		student.setId(rand.nextInt(1000));
-		student.setBatch(batch);
-		student.setUser(user);
-		studentrepo.save(student);
+		Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
+		if (oldbatch == null) {
+			Student student = new Student();
+			student.setId(rand.nextInt(1000));
+			student.setBatch(batch);
+			student.setUser(user);
+			studentrepo.save(student);
+			return " enrollstudent done..";
 
-		return "you are done..";
+		} else {
+			return "you are already enroll for  => " + batch.getBatchTopic();
+		}
+
 	}
 
 	@Override
@@ -126,40 +131,39 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void otpSend(String email) {
-		// it will generate 6 digit no and we will find the user by the email to set the otp in the attribute 
-	User user = userrepo.findByContactNoOrEmail(null, email);
-	 int min = 100000; // Minimum 6-digit number
-	 int max = 999999; // Maximum 6-digit number
+		// it will generate 6 digit no and we will find the user by the email to set the
+		// otp in the attribute
+		User user = userrepo.findByContactNoOrEmail(null, email);
+		int min = 100000; // Minimum 6-digit number
+		int max = 999999; // Maximum 6-digit number
 
-	Random random = new Random();
-	int randomNumber = random.nextInt(max - min + 1) + min;
-	user.setOtp(""+randomNumber);
-	userrepo.save(user); // we will update the otp in the database 
-	emailSenderImpl.sendEmail(email,"Password Reset OTP - Softwaves" , ""+randomNumber); // this will send email to the user 
+		Random random = new Random();
+		int randomNumber = random.nextInt(max - min + 1) + min;
+		user.setOtp("" + randomNumber);
+		userrepo.save(user); // we will update the otp in the database
+		emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber); // this will send email
+																								// to the user
 	}
 
-	public User getUser(String email)
-	{
+	public User getUser(String email) {
 		return userrepo.findByContactNoOrEmail(null, email);
 	}
 
 	@Override
-	public User resetPassword(String email , String password) {
-	User user =userrepo.findByContactNoOrEmail(null , email);
-	user.setPassword(encode(password));
-	return userrepo.save(user);
+	public User resetPassword(String email, String password) {
+		User user = userrepo.findByContactNoOrEmail(null, email);
+		user.setPassword(encode(password));
+		return userrepo.save(user);
 	}
-	
+
 	public Student markAttendancepresent(String rollNo, String batchId) {
 
 		Batch batch = (batchrepo.findById(batchId)).get();
 		Student student = studentrepo.findByRollNoAndBatch(rollNo, batch);
-
 		if (student == null)
 			return null;
 		student.setAttendanceCount(student.getAttendanceCount() + 1);
 		studentrepo.save(student);
-
 		return student;
 	}
 

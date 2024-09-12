@@ -19,7 +19,12 @@ import jakarta.persistence.Table;
 
 public class Student {
 	
-	 @Id
+	 @Override
+	public String toString() {
+		return "Student [Id=" + Id + ", batch=" + batch + ", user=" + user + ", rollNo=" + rollNo + ", attendanceCount="
+				+ attendanceCount + ", marks=" + marks + ", absent=" + absent + "]";
+	}
+	@Id
 	 private Integer Id;
 	 
 	 @ManyToOne

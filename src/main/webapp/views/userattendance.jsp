@@ -11,67 +11,97 @@
 <body>
 	<%
 	List<Student> list = (List<Student>) request.getAttribute("studentlist");
+	
+	List<Student> absentlist = (List<Student>) request.getAttribute("absendstudentlist");
+	
+	List<Batch> activebatch = (List<Batch>) request.getAttribute("activebatch");
 	%>
 	<script>
-		function findActiveBatches() {
-			var url = "http://localhost:9090/valunteer/findActivebatches";
-			var xhttp = new XMLHttpRequest();
-			xhttp.onreadystatechange = function() {
-				if (this.readyState === 4 && this.status === 200) {
-					// Parse the JSON response (assuming the server sends JSON)
-					var response = JSON.parse(this.responseText);
-					console.log("Response: ", response);
-					updateBatchList(response);
+		//      function for  Active batch list 
+function findActiveBatches() {
+    var url = "http://localhost:9090/valunteer/findActivebatches";
+    var xhttp = new XMLHttpRequest();
 
-				} else if (this.readyState === 4) {
-					// Handle errors
-					console.error("Error: " + this.status + " "
-							+ this.statusText);
-				}
-			};
-			xhttp.open("POST", url, true);
-			xhttp.send();
-		}
-		function updateBatchList(batches1) {
-			var batchList = document.getElementById('batchList1');
+    xhttp.onreadystatechange = function() {
+        if (this.readyState === XMLHttpRequest.DONE) {
+            if (this.status === 200) {
+                try {
+                    // Attempt to parse the JSON response
+                    var response = JSON.parse(this.responseText);
+                    updateBatchList(response);
+                } catch (e) {
+                    // Handle JSON parsing error
+                    alert('Error: no Active batches..');
+                //    console.error('JSON parsing error:', e);
+                }
+            } else {
+                alert('Error: ' + this.statusText);
+            }
+        }
+    };
 
-			// Clear existing items
-			batchList.innerHTML = '';
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
 
-			// Iterate over the batches and create list items
-			batches1
-					.forEach(function(batch) {
-						var li = document.createElement('li');
-						var a = document.createElement('a');
 
-						// Set the text and href of the <a> tag
-						a.textContent = batch.batchTopic; // Assuming each batch object has a 'batchTopic' property
-						var url = "http://localhost:9090/valunteer/findallstudent?batchId=";
-						a.href = url + batch.batchId; // Assuming each batch object has a 'batchLink' property
+    // Function to update the batch list
+   function updateBatchList(batches1) {
+    var batchList = document.getElementById('batchList1');
 
-						// Append the <a> tag to the <li>
-						li.appendChild(a);
+    // Check if the batchList element exists
+    if (!batchList) {
+        console.error('Element with id "batchList1" not found.');
+        return;
+    }
 
-						// Append the <li> to the list
-						batchList.appendChild(li);
+    // Clear existing items
+    batchList.innerHTML = '';
 
-					});
-		}
+    // Log batches1 for debugging
+    console.log('Batches data:', batches1);
 
+    if (!Array.isArray(batches1) || batches1.length === 0) {
+        alert('No active batches found.');
+        return;
+    }
+
+    // Iterate over the batches and create list items
+    batches1.forEach(function(batch) {
+        if (!batch.batchId || !batch.batchTopic) {
+            console.warn('Batch object missing required properties:', batch);
+            return;
+        }
+
+        var li = document.createElement('li');
+        var a = document.createElement('a');
+        var url = "http://localhost:9090/valunteer/findallstudent?batchId=" + batch.batchId;
+
+        // Set the text and href of the <a> tag
+        a.textContent = batch.batchTopic; // Assuming each batch object has a 'batchTopic' property
+        a.href = url; // Set the URL to navigate to
+        a.id = 'batch-' + batch.batchId; // Set ID for potential use in other operations
+
+        // Append the <a> tag to the <li>
+        li.appendChild(a);
+
+        // Append the <li> to the list
+        batchList.appendChild(li);
+    });
+}
+
+		//      function for student  attendance for present
 		function studentpresent(rollNo) {
-			console.log("studentpresent cal");
-			url = "http://localhost:9090/valunteer/studentattendence/present?rollNo=";
-
+			url = "http://localhost:9090/valunteer/studentattendance/present?rollNo=";
 			markAttendence(rollNo, url);
 		}
+		//      function for student  attendance for absent
 		function studentabsent(rollNo) {
-			console.log("studentabsent call....");
-			url = "http://localhost:9090/valunteer/studentattendence/absent?rollNo=";
+			url = "http://localhost:9090/valunteer/studentattendance/absent?rollNo=";
 			markAttendence(rollNo, url);
 		}
 
 		function markAttendence(rollNo, url) {
-			console.log("ram ji...");
 	<%if (list != null) {%>
 		var batchId =
 	<%=list.get(0).getBatch().getBatchId()%>
@@ -90,7 +120,7 @@
 				console.log("susessfully....");
 				document.getElementById(rollNo).remove();
 			};
-			xhttp.open("POST", url + rollNo + "&batchId=" + batchId, true);
+			xhttp.open("GET", url + rollNo + "&batchId=" + batchId, true);
 			xhttp.send();
 
 		}
@@ -124,21 +154,6 @@
 				<div class="col-lg-6">
 					<div class="php-email-form">
 						<div class="row gy-4">
-							<%-- 		 <%
-							if (request.getParameter("error") != null) {
-							%>
-							<div class="col-lg-12">
-								<div class="alert alert-danger alert-dismissible fade show"
-									role="alert">
-									<%=request.getParameter("error")%>
-									<button type="button" class="btn-close" data-bs-dismiss="alert"
-										aria-label="Close"></button>
-								</div>
-							</div>
-							<%
-							}
-							%>  
- --%>
 
 							<div class="col-md-12">
 								<label for="email-field" class="pb-2">Enter Roll No.</label> <input
@@ -254,7 +269,7 @@
 																			<!-- <button type="button" class="btn btn-outline-success"
 																				onclick="">Allow</button> -->
 																			<button type="button" class="btn btn-outline-danger"
-																				onclick="">Remove</button>
+																				onclick="studentabsent('<%=list.get(i).getRollNo()%>')">Remove</button>
 																		</div>
 																	</td>
 																</tr>

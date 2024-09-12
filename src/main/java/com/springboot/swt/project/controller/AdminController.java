@@ -78,7 +78,7 @@ public class AdminController {
 		batch.setBatchTopic(name);
 		Batch temp = batchservicesimpl.newBatch(batch);
 		if (temp == null) {
-			System.out.println("admin c -81");
+ 
 			return new ResponseEntity<>("Something Went Wrong", HttpStatus.FORBIDDEN);
 		}
 		return new ResponseEntity<>("Batch Created SuccessFully ", HttpStatus.OK);
