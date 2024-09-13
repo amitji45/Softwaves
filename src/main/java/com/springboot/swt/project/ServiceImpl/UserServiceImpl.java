@@ -113,13 +113,10 @@ public class UserServiceImpl implements UserService {
 			student.setUser(user);
 			studentrepo.save(student);
 			return " enrollstudent done..";
-
 		} else {
 			return "you are already enroll for  => " + batch.getBatchTopic();
 		}
-
 	}
-
 	@Override
 	public List<Integer> getMarksList(String id) {
 //		User user = userrepo.findById(id).get();
@@ -157,7 +154,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public Student markAttendancepresent(String rollNo, String batchId) {
-
 		Batch batch = (batchrepo.findById(batchId)).get();
 		Student student = studentrepo.findByRollNoAndBatch(rollNo, batch);
 		if (student == null)
@@ -166,23 +162,39 @@ public class UserServiceImpl implements UserService {
 		studentrepo.save(student);
 		return student;
 	}
-
+static boolean d=true;
 	@Override
 	public Student markAttendanceAbsent(String rollNo, String batchId) {
 
 		Batch batch = (batchrepo.findById(batchId)).get();
 		Student student = studentrepo.findByRollNoAndBatch(rollNo, batch);
-		LocalDate local = LocalDate.now();
-		StringBuilder currenttime = new StringBuilder();
-		currenttime = currenttime.append(local.getDayOfMonth() + "/");
-		currenttime = currenttime.append(local.getMonthValue() + "/");
-		currenttime = currenttime.append(local.getYear());
 		if (student == null)
 			return null;
-
+		LocalDate local = LocalDate.now();
+		StringBuilder currenttime = new StringBuilder();
+		currenttime = currenttime.append(local.getYear()+"-");
+		
+		int month=local.getMonthValue();
+		if(month<=9)
+			currenttime = currenttime.append("0"+local.getMonthValue() + "-");
+		else
+			currenttime = currenttime.append(local.getMonthValue() + "-");
+		currenttime = currenttime.append(local.getDayOfMonth()  );
+		if(d)
+		{
+			student.absent.clear();
+			d=false;
+		}
+		student.absent.add(currenttime);
 		studentrepo.save(student);
-
 		return student;
+	}
+	
+	@Override
+	public List<Student> findStudentBatch(User user) {
+		System.out.println(user);
+	  List<Student> studentlist=studentrepo.findByUserId(user.getId());		
+		return studentlist;
 	}
 
 }

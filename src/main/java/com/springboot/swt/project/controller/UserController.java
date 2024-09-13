@@ -1,6 +1,5 @@
 package com.springboot.swt.project.controller;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.swt.project.ServiceImpl.BatchServiceImpl;
 import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.Batch;
+import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.entity.User;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,12 +51,9 @@ public class UserController {
 			if(temp.getRole().equalsIgnoreCase("Admin"))
 			{					
 				session.setAttribute("admin", temp);
-
 				modal.setViewName("redirect:/admin/dashboard");
 				return modal;
 			}
-			
-			
 		}
 
 		if (temp == null) {
@@ -70,7 +68,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/dashboard")
-	public String getDashBoard() {
+	public String getDashBoard(HttpServletRequest request) {
 		return "dashboard";
 	}
 
@@ -95,10 +93,15 @@ public class UserController {
 	}
 
 	@RequestMapping("/dashboard/attendance")
-	public String getAttendance() {
+	public  String getAttendance(@RequestParam("student") String encodedJson,Model model,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		 try {
+		 ObjectMapper objectMapper = new ObjectMapper();
+		 Student studentObject = objectMapper.readValue(encodedJson, Student.class);
+ 		model.addAttribute("studentdecodedobject", studentObject);    
+		 }catch(Exception e) {}
 		return "attendance";
 	}
-	
 //	finding user by email for otp verification 
 	@RequestMapping("/otp")
 	public ModelAndView demo(@ModelAttribute("user") User user, BindingResult bindingResult) {
@@ -166,5 +169,12 @@ public class UserController {
 		}
 		return new ResponseEntity<>(null ,HttpStatus.FORBIDDEN);
 	}
-
+	
+	@RequestMapping("/find/student/batch")
+	public ResponseEntity findStudentBatch(HttpServletRequest request, Model model ) {
+		HttpSession session = request.getSession();
+		User session1 = (User) session.getAttribute("user");
+		 List<Student> batches = userserviceimpl.findStudentBatch(session1);
+		return new ResponseEntity<>(batches, HttpStatus.OK);
+	}
 }

@@ -25,5 +25,7 @@ public interface UserService {
 	public String enrollstudent(String batchId, User user);
 	public Student markAttendancepresent(String rollNo,String batchId);
 	public Student markAttendanceAbsent(String rollNo,String batchId);
+	public List<Student> findStudentBatch(User user);
+	
 	
 }

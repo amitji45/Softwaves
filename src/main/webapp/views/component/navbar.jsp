@@ -6,7 +6,7 @@
 	<div
 		class="container-fluid container-xl position-relative d-flex align-items-center">
 
-		<a href="index.html" class="logo d-flex align-items-center me-auto">
+		<a href="#index" class="logo d-flex align-items-center me-auto">
 			<!-- Uncomment the line below if you also wish to use an image logo -->
 			<!-- <img src="assets/img/logo.png" alt=""> -->
 			<h1 class="sitename"><%=siteName%></h1>
@@ -91,17 +91,33 @@
 		<nav id="navmenu" class="navmenu">
 			<ul>
 
-				<li><a href="#hero" class="active">Home</a></li>
+				<%
+				if (user1 != null && user1.getRole().equalsIgnoreCase("volunteer")||user1 != null && user1.getRole().equalsIgnoreCase("Student")) {
+				%>
+				<li><a href="/user/dashboard" class="active">Home</a></li>
 				<li><a href="#about">About</a></li>
 				<li><a href="#rules">Rules</a></li>
 				<li><a href="#review">Review</a></li>
-				<%
-				if (user1 != null && user1.getRole().equalsIgnoreCase("volunteer")) {
-				%>
+				<% if (user1 != null && user1.getRole().equalsIgnoreCase("volunteer")){%>
 				<li><a href="/valunteer/userattendance">Attendenc</a></li>
+				<%} %>
 				<%
 				}
+				else if(user1 != null && user1.getRole().equalsIgnoreCase("Admin"))
+				{
 				%>
+				<li><a href="/admin/dashboard" class="active">Home</a></li>
+				<li><a href="#about">About</a></li>
+				<li><a href="#rules">Rules</a></li>
+				<li><a href="#review">Review</a></li>
+				<%	
+				}else {
+				%>
+				<li><a href="#home" class="active">Home</a></li>
+				<li><a href="#about">About</a></li>
+				<li><a href="#rules">Rules</a></li>
+				<li><a href="#review">Review</a></li>
+<%} %>				
 				<%
 				if (admin != null && admin.getRole().equalsIgnoreCase("Admin")) {
 				%>
