@@ -16,7 +16,6 @@
 		response.sendRedirect("/swt/login");
 	}
 	%>
-
 	<%@ include file="component/navbar.jsp"%>
 	<div class="py-4">
 		<div class="row">
@@ -93,10 +92,17 @@
 											<h5 class="font-weight-bolder">10</h5>
 											<p class="mb-0">
 												<span class="text-success text-sm font-weight-bolder">100%</span>
-												since Today <a
-													class="bg-gradient-primary btn text-light mt-1"
-													href="dashboard/attendance">View</a>
+												since Today
 											</p>
+											<nav id="navmenu" class="navmenu">
+												<li class="dropdown"><span
+													onclick="findStudentBatches()"
+													class="bg-gradient-primary btn text-light mt-0">view</span>
+													<ul id="batchList1">
+														<!-- List items will be appended here -->
+													</ul></li>
+											</nav>
+
 										</div>
 									</div>
 									<div class="col-4 text-end">
@@ -222,8 +228,78 @@
 	<script src="<%=assetspath%>js/main.js"></script>
 	<script src="<%=assetspath%>js/chartjs.min.js"></script>
 	<script>
-		var ctx1 = document.getElementById("chart-line").getContext("2d");
+		function findStudentBatches() {
+			var url = "http://localhost:9090/user/find/student/batch";
+			var xhttp = new XMLHttpRequest();
 
+			xhttp.onreadystatechange = function() {
+				if (this.readyState === XMLHttpRequest.DONE) {
+					if (this.status === 200) {
+						try {
+							// Attempt to parse the JSON response
+							const response = JSON.parse(this.responseText);
+							updateBatchList(response);
+						} catch (e) {
+							// Handle JSON parsing error
+							console.error('Error parsing JSON:', e);
+							alert('Error: Unable to parse the response.');
+						}
+					} else {
+						alert('Error: ' + this.statusText);
+						console.error('Request failed. Status:', this.status,
+								'Status text:', this.statusText);
+					}
+				}
+			};
+
+			xhttp.open("GET", url, true);
+			xhttp.send();
+		}
+
+		// Function to update the batch list
+
+		function updateBatchList(batches) {
+			var batchList = document.getElementById('batchList1');
+			// Check if the batchList element exists
+			if (!batchList) {
+				alert('No batches available or data ');
+				return;
+			}
+
+			// Clear existing items
+			batchList.innerHTML = '';
+			// Log batches for debugging
+			console.log('Batches data-:', batches);
+			// Check if batches is an array and has elements
+			if (!Array.isArray(batches) || batches.length === 0) {
+				alert('No batches available or data ');
+				return;
+			}
+			// Iterate over the batches and create list items
+			batches
+					.forEach(function(student) {
+						// Create <li> element
+						var li = document.createElement('li');
+						// Create <a> element
+						var a = document.createElement('a');
+
+						var studentJson = JSON.stringify(student);	
+					 	var stud=encodeURIComponent(studentJson)
+						console.log('stud',stud,student);
+						var url = 'http://localhost:9090/user/dashboard/attendance?student='+stud; // You may want to set this to the actual URL if available
+						// Set the text and href of the <a> tag
+						a.textContent = student.batch.batchTopic; // Assuming each batch object has a 'batchTopic' property
+						a.href = url; // Set the URL to navigate to
+						console.log('Creating link with text:', a.textContent,
+								'and URL:', a.href);
+						// Append the <a> tag to the <li>
+						li.appendChild(a);
+						// Append the <li> to the batchList
+						batchList.appendChild(li);
+						console.log(student.batch.batchTopic);
+					});
+		}
+		var ctx1 = document.getElementById("chart-line").getContext("2d");
 		var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
 
 		gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');

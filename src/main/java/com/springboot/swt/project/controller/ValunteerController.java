@@ -16,56 +16,50 @@ import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.Batch;
 import com.springboot.swt.project.entity.Student;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/valunteer")
 public class ValunteerController {
-
 	@Autowired
 	BatchServiceImpl batchservice;
 	@Autowired
 	UserServiceImpl userserviceimpl;
-
 	@Autowired
 	StudentAttendanceServiceImpl StudentAttendanceServiceImpl;
-
 	@RequestMapping("/findActivebatches")
-	public ResponseEntity findActivebatches(Model model) {
+	public ResponseEntity findActivebatches(Model model,HttpServletRequest  session) {
 		List<Batch> batchlist = batchservice.findByCurrentStatus("Active");
-		if(batchlist.size()==0)
-		{
-			model.addAttribute("activebatch",batchlist);
+		if (batchlist.size() == 0) {
+			model.addAttribute("activebatch", batchlist);
 			return null;
 		}
 		return new ResponseEntity(batchlist, HttpStatus.OK);
 	}
-
 	@RequestMapping("/findallstudent")
-	public String findallstudent(@RequestParam("batchId") String batchId, Model model) {
+	public String findallstudent(@RequestParam("batchId") String batchId, Model model,HttpServletRequest  session) {
 		List<Student> studentlist = StudentAttendanceServiceImpl.findByBatch(batchId);
 //		List<Student> absentlist = StudentAttendanceServiceImpl.findByBatch(batchId);
-		if(studentlist.size()!=0)
-		model.addAttribute("studentlist", studentlist);
-	//	model.addAttribute("absentlist", absentlist);
+		if (studentlist.size() != 0)
+			model.addAttribute("studentlist", studentlist);
+		// model.addAttribute("absentlist", absentlist);
 		return "userattendance";
-
 	}
-	
 	@RequestMapping("/userattendance")
-	public String userattendance() {
-		return "userattendance";
+	public String userattendance(HttpServletRequest  session) {
 		
+		return "userattendance";
 	}
-
 	@RequestMapping("/studentattendance/present")
-	public String markAttendancepresent(@RequestParam("rollNo") String rollNo,@RequestParam("batchId") String batchId) {
-			userserviceimpl.markAttendancepresent(rollNo, batchId);
-			 
+	public String markAttendancepresent(@RequestParam("rollNo") String rollNo,
+			@RequestParam("batchId") String batchId, HttpServletRequest  session) {
+		userserviceimpl.markAttendancepresent(rollNo, batchId);
 		return "userattendance";
 	}
 	@RequestMapping("/studentattendance/absent")
-	public String markAttendanceAbsent(@RequestParam("rollNo") String rollNo,@RequestParam("batchId") String batchId) {
-		userserviceimpl.markAttendanceAbsent(rollNo, batchId); 
-		
+	public String markAttendanceAbsent(@RequestParam("rollNo") String rollNo, @RequestParam("batchId") String batchId,HttpServletRequest  session) {
+		userserviceimpl.markAttendanceAbsent(rollNo, batchId);
 		return "userattendance";
 	}
 	
