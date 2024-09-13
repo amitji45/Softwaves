@@ -1,5 +1,6 @@
 <%@ page import="com.springboot.swt.project.entity.User"%>
 <%@page import="java.util.ArrayList" %>
+<%@page import="org.hibernate.collection.spi.PersistentBag" %>
 
 <!DOCTYPE html>
 <html>
@@ -20,8 +21,13 @@
 	if (user == null) {
 		response.sendRedirect("/swt/login");
 	}
-	ArrayList<Integer> marksList=(ArrayList<Integer>) request.getAttribute("marksList");
-	%>
+	PersistentBag persistentMarksList= (PersistentBag)session.getAttribute("marksList");
+	ArrayList<Integer> marksList=new ArrayList<>(10);
+	for(Object temporary : persistentMarksList)
+	{
+		marksList.add((Integer)temporary);
+	}
+%>
 	<div class="d-flex justify-content-center">
 	<div class="col-8 md-10 mb-lg-8 mb-4">
 				<div class="card">
@@ -39,7 +45,7 @@
 								<tr>
 									<td>
 										<div class="text-center">
-											<p class="text-xs font-weight-bold mb-0">Name:</p>
+											<p class="text-xs font-weight-bold mb-0">Test Name:</p>
 											<h6 class="text-sm mb-0">Test <%=(marksList.indexOf(marks))+1%></h6>
 										</div>
 									</td>

@@ -59,7 +59,7 @@
 			batchList.innerHTML = '';
 
 			// Log batches1 for debugging
-			console.log('Batches data:', batches1);
+		
 
 			if (!Array.isArray(batches1) || batches1.length === 0) {
 				alert('No active batches found.');
@@ -105,6 +105,7 @@
 			url = "http://localhost:9090/valunteer/studentattendance/absent?rollNo=";
 			markAttendence(rollNo, url);
 		}
+
 		function markAttendence(rollNo, url) {
 	<%if (list != null) {%>
 		var batchId =
@@ -118,11 +119,12 @@
 			if (!rollNo)
 				rollNo = document.getElementById('email-field').value;
 			if (!rollNo) {
-				alert("plz enter rollOo...");
+				alert("Please Enter Roll Number...");
 				return;
 			}
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
+
 				console.log("susessfully....");
 				document.getElementById(rollNo).remove();
 			};
@@ -211,6 +213,7 @@
 													<%
 													for (int i = 0; i < list.size(); i++) {
 													%>
+
 													<div class="table-responsive">
 														<table class="table align-items-center ">
 															<tbody>

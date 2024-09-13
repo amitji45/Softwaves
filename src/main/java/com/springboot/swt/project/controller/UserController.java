@@ -1,10 +1,12 @@
 package com.springboot.swt.project.controller;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -102,6 +104,7 @@ public class UserController {
 		 }catch(Exception e) {}
 		return "attendance";
 	}
+	
 //	finding user by email for otp verification 
 	@RequestMapping("/otp")
 	public ModelAndView demo(@ModelAttribute("user") User user, BindingResult bindingResult) {
@@ -146,13 +149,15 @@ public class UserController {
 	
 
 	@RequestMapping("/marks")
-	public ModelAndView getStudentMarks(@RequestParam String id) {
+	public String getStudentMarks(HttpServletRequest request,@RequestParam String id) {
 
 		List<Integer> marksList = userserviceimpl.getMarksList(id);
-	
-		return new ModelAndView("redirect:/views/studentmarks.jsp", "marksList", marksList);
-	}
+		HttpSession session=request.getSession();
+ 		session.setAttribute("marksList",marksList) ;
 
+		return "studentmarks";
+	}
+	
 	@RequestMapping("/allbatches")
 	public ResponseEntity createBatchPage(HttpServletRequest request, Model model) {
 		List<Batch> batches = batchservicesimpl.getAllBatches();
@@ -184,4 +189,5 @@ public class UserController {
 		 List<Student> batches = userserviceimpl.findStudentBatch(session1);
 		return new ResponseEntity<>(batches, HttpStatus.OK);
 	}
+
 }

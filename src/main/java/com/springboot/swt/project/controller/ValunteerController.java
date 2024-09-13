@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.swt.project.ServiceImpl.BatchServiceImpl;
 import com.springboot.swt.project.ServiceImpl.StudentAttendanceServiceImpl;
@@ -22,6 +23,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/valunteer")
 public class ValunteerController {
+
 	@Autowired
 	BatchServiceImpl batchservice;
 	@Autowired
@@ -62,5 +64,16 @@ public class ValunteerController {
 		userserviceimpl.markAttendanceAbsent(rollNo, batchId);
 		return "userattendance";
 	}
-	
+	@RequestMapping("/volunteerMarks")
+	public String volunteerMarks(HttpServletRequest request) {
+		List<Batch> activebatches=batchservice.findByCurrentStatus("Active");
+		HttpSession session=request.getSession();
+ 		session.setAttribute("activebatch",activebatches) ;
+		return "volunteerMarks";
+	}
+	@RequestMapping("/setmarks")
+	public void setStudentMarks(@RequestParam String rollNo, String batchId,  String marks)
+	{	
+		StudentAttendanceServiceImpl.setMarks(rollNo, batchId, Integer.parseInt( marks));
+	}
 }

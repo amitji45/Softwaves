@@ -109,21 +109,26 @@ public class UserServiceImpl implements UserService {
 		Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
 		if (oldbatch == null) {
 			Student student = new Student();
+			ArrayList<Integer> list=new ArrayList<Integer>(10);
 			student.setId(rand.nextInt(1000));
 			student.setBatch(batch);
 			student.setUser(user);
+			student.setMarks(list);
 			studentrepo.save(student);
 			return " enrollstudent done..";
+
 		} else {
 			return "you are already enroll for  => " + batch.getBatchTopic();
 		}
+
 	}
+
 	@Override
 	public List<Integer> getMarksList(String id) {
-//		User user = userrepo.findById(id).get();
-//		 Student  student = studentrepo.findByUserId(user);
-//		if (student != null)
-//			return student.getMarks();
+		User user = userrepo.findById(id).get();
+		 Student  student = studentrepo.findByUser(user);
+		 if (student != null)
+			return student.getMarks();
 		return null;
 	}
 
@@ -155,6 +160,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public Student markAttendancepresent(String rollNo, String batchId) {
+
 		Batch batch = (batchrepo.findById(batchId)).get();
 		Student student = studentrepo.findByRollNoAndBatch(rollNo, batch);
 		if (student == null)
@@ -164,6 +170,7 @@ public class UserServiceImpl implements UserService {
 		return student;
 	}
 static boolean d=true;
+
 	@Override
 	public Student markAttendanceAbsent(String rollNo, String batchId) {
 
@@ -218,5 +225,6 @@ static boolean d=true;
 		userrepo.save(user);
 		return allowed;
 	}
+	
 
 }
