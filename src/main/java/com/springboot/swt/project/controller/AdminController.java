@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springboot.swt.project.ServiceImpl.BatchServiceImpl;
-
-
 import com.springboot.swt.project.ServiceImpl.EmailSenderImpl;
-
+import com.springboot.swt.project.ServiceImpl.StudentAttendanceServiceImpl;
 import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.Batch;
 
@@ -23,7 +21,10 @@ public class AdminController {
 
 	@Autowired
 	private UserServiceImpl userserviceimpl;
-
+	
+	@Autowired
+	private StudentAttendanceServiceImpl studentAttendanceServiceImpl;
+	
 	@Autowired
 	private BatchServiceImpl batchservicesimpl;
 
@@ -89,6 +90,24 @@ public class AdminController {
 	public ResponseEntity<String> sendEmail(@RequestParam String to, @RequestParam String subject,
 			@RequestParam String massage) {
 		return new ResponseEntity<>(emailsenderimp.sendEmail(to, subject, massage), HttpStatus.OK);
+	}
+	
+	@RequestMapping("/VolunteerApproval")
+	public String VApproval (Model model) {
+//		model.addAttribute("data", studentAttendanceServiceImpl.findAllStudent());
+		return "VolunteerApproval";
+	}
+	@ResponseBody
+	@RequestMapping("/VolunteerApproval/allow")
+	public String approveVolunteerByID(@RequestParam("id") String id) {
+		userserviceimpl.allowOrBlockVolunteerByID(id, "Volunteer");
+		return "Volunteer";
+	}
+	@ResponseBody
+	@RequestMapping("/VolunteerApproval/block")
+	public String blockVolunteerByID(@RequestParam("id") String id) {
+		userserviceimpl.allowOrBlockVolunteerByID(id, "Student");
+		return "Student";
 	}
 
 }

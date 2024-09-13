@@ -26,4 +26,7 @@ public interface UserService {
 	public Student markAttendancepresent(String rollNo,String batchId);
 	public Student markAttendanceAbsent(String rollNo,String batchId);
 	
+	public List<Student> getAllStudent(String name);
+	String allowOrBlockVolunteerByID(String id, String allowed);
+	
 }

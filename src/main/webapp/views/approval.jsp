@@ -64,11 +64,13 @@
 	</section>
 	<script type="text/javascript">
 		function allowUser(id) {
-			url = "http://localhost:9098/admin/approval/allow?id=";
+			url = "http://localhost:9090/admin/approval/allow?id=";
+		alert(id);
 			allowOrBlockUser(id, url);
 		}
 		function blockUser(id) {
-			url = "http://localhost:9098/admin/approval/block?id=";
+			url = "http://localhost:9090/admin/approval/block?id=";
+			
 			allowOrBlockUser(id, url);
 		}
 

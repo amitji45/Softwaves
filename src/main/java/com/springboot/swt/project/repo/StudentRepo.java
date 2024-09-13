@@ -18,6 +18,8 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
 	 Student findByUserId(User user);
 
 	 List<Student> findByBatch(Batch batchId);
+//	 List<Student> findBy(Batch batchId);
+	 
 	  
 	
 }

@@ -46,5 +46,11 @@ public class StudentAttendanceServiceImpl implements StudentService{
 		}
  		return currentlist;
 	}
+
+	@Override
+	public List<Student> findAllStudent(String name) {
+		return studentRepo.findAll();
+		
+	}
  
 }

@@ -8,6 +8,6 @@ public interface StudentService {
 
 	Student markAttendance(String rollNo, String batchId);
 	List<Student> findByBatch(String batchId);
-	
+	List<Student> findAllStudent(String name);
 	
 }

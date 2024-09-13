@@ -1,6 +1,7 @@
 package com.springboot.swt.project.ServiceImpl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -183,6 +184,27 @@ public class UserServiceImpl implements UserService {
 		studentrepo.save(student);
 
 		return student;
+	}
+
+	@Override
+	public List<Student> getAllStudent(String name) {
+		List<Student> allStudentList  = (List<Student>) studentrepo.findAll();
+		List<Student> filter =new ArrayList<>();
+		for ( Student student :  allStudentList )
+		{
+			if(student.getUser().getName().startsWith(name))filter.add(student);
+		}
+	
+		return filter;
+	}
+
+	@Override
+	public String allowOrBlockVolunteerByID(String id, String allowed) {
+		Optional<User> optional = userrepo.findById(id);
+		User user = optional.get();
+		user.setRole(allowed);
+		userrepo.save(user);
+		return allowed;
 	}
 
 }

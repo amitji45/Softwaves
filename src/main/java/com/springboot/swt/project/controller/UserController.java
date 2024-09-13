@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.springboot.swt.project.ServiceImpl.BatchServiceImpl;
 import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.Batch;
+import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.entity.User;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -165,6 +166,12 @@ public class UserController {
 			return  new ResponseEntity<>(cuurentstatus, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(null ,HttpStatus.FORBIDDEN);
+	}
+	@RequestMapping("/findVolunteer")
+	public ResponseEntity findVolunteer (@RequestParam String name)
+	{
+		List<Student> list =(List<Student>)userserviceimpl.getAllStudent(name);
+		return  new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 }
