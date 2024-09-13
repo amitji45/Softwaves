@@ -193,7 +193,7 @@ static boolean d=true;
 	
 	@Override
 	public List<Student> findStudentBatch(User user) {
-		System.out.println(user);
+		
 	  List<Student> studentlist=studentrepo.findByUserId(user.getId());		
 		return studentlist;
 	}
