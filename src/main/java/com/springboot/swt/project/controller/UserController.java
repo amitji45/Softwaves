@@ -1,18 +1,26 @@
 package com.springboot.swt.project.controller;
 
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.springboot.swt.project.ServiceImpl.BatchServiceImpl;
 import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
+import com.springboot.swt.project.entity.Batch;
 import com.springboot.swt.project.entity.User;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +32,8 @@ public class UserController {
 
 	@Autowired
 	private UserServiceImpl userserviceimpl;
+	@Autowired
+	private BatchServiceImpl batchservicesimpl;
 
 	// Login Controller
 	@PostMapping("/login")
@@ -32,9 +42,22 @@ public class UserController {
 		User temp = userserviceimpl.login(email, password);
 		if (temp != null && temp.getAllowed().equals("Allowed")) {
 			HttpSession session = request.getSession();
-			session.setAttribute("user", temp);
-			modal.setViewName("redirect:dashboard");
-			return modal;
+			if(temp.getRole().equalsIgnoreCase("Student")||temp.getRole().equalsIgnoreCase("Volunteer"))
+			{				
+ 				session.setAttribute("user", temp) ;
+				modal.setViewName("redirect:dashboard");
+				return modal;
+			}
+			if(temp.getRole().equalsIgnoreCase("Admin"))
+			{					
+				session.setAttribute("admin", temp);
+
+				modal.setViewName("redirect:/admin/dashboard");
+				return modal;
+			}
+			
+			
+			
 		}
 
 		if (temp == null) {
@@ -77,12 +100,75 @@ public class UserController {
 	public String getAttendance() {
 		return "attendance";
 	}
-	@RequestMapping("/marks")
-	public ModelAndView getStudentMarks(@RequestParam String id) {
+	
+//	finding user by email for otp verification 
+	@RequestMapping("/otp")
+	public ModelAndView demo(@ModelAttribute("user") User user, BindingResult bindingResult) {
+		if(userserviceimpl.finder(user)) // if email is found then ok otherwise error will be presented 
+		{
+		userserviceimpl.otpSend(user.getEmail());
 
-		List<Integer> marksList=userserviceimpl.getMarksList(id);
-		System.out.println(marksList);
-		return new ModelAndView("redirect:/views/studentmarks.jsp","marksList",marksList);
+		return new ModelAndView("redirect:/views/Otp.jsp","email",user.getEmail()); // now it will redirect the page to otp.jsp 
+		}
+		
+	else return new ModelAndView("redirect:/views/forgetPassword.jsp" , "error" , "email is not registered");
+	}
+	@RequestMapping("/verify")
+	public ResponseEntity<Map<String, Object>> otpVerify(@RequestParam String otp, String email1) {
+	    User user = userserviceimpl.getUser(email1);
+
+	    if (user.getOtp().equals(otp)) { // if otp is matched 
+	        
+	        Map<String, Object> response = new HashMap<>();
+	        response.put("success", true);
+	        response.put("redirectUrl", "/views/PasswordReset.jsp?email="+email1+"");
+	        response.put("email", user.getEmail());
+	        return ResponseEntity.ok(response);
+	    } else {
+	      
+	        Map<String, Object> response = new HashMap<>();
+	        response.put("success", false);
+	        response.put("errorMessage", "OTP is wrong");
+	        response.put("email", email1);
+	        return ResponseEntity.badRequest().body(response);
+	    }
 	}
 	
+	@RequestMapping("/resetpass")
+	public ModelAndView resetPassword(@RequestParam("email") String email , String pass1 , String pass2)
+	{
+		
+		userserviceimpl.resetPassword(email , pass1);
+		return new ModelAndView("redirect:/swt/login" , "success" , "password successfully is changed ");
+	
+	}
+	
+
+	@RequestMapping("/marks")
+	public String getStudentMarks(HttpServletRequest request,@RequestParam String id) {
+
+		List<Integer> marksList = userserviceimpl.getMarksList(id);
+		HttpSession session=request.getSession();
+ 		session.setAttribute("marksList",marksList) ;
+
+		return "studentmarks";
+	}
+	
+	@RequestMapping("/allbatches")
+	public ResponseEntity createBatchPage(HttpServletRequest request, Model model) {
+		List<Batch> batches = batchservicesimpl.getAllBatches();
+		return new ResponseEntity<>(batches, HttpStatus.OK);
+	}
+	@RequestMapping("/enrollstudent")
+	public  ResponseEntity enrollstudent(@RequestParam String batchId, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User session1 = (User) session.getAttribute("user");
+ 		if (session1 != null)
+		{
+			String cuurentstatus=  userserviceimpl.enrollstudent(batchId, session1);
+			return  new ResponseEntity<>(cuurentstatus, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(null ,HttpStatus.FORBIDDEN);
+	}
+
 }

@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springboot.swt.project.ServiceImpl.BatchServiceImpl;
+
+
+import com.springboot.swt.project.ServiceImpl.EmailSenderImpl;
+
 import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.Batch;
 
@@ -23,6 +27,9 @@ public class AdminController {
 	@Autowired
 	private BatchServiceImpl batchservicesimpl;
 
+	@Autowired
+	EmailSenderImpl emailsenderimp;
+
 	@RequestMapping("/dashboard")
 	public String getAdminDashboard() {
 		return "admindashboard";
@@ -33,16 +40,16 @@ public class AdminController {
 		model.addAttribute("batches", batchservicesimpl.getAllBatches());
 		return "newbatch";
 	}
-	
+
 	@RequestMapping("/startbatch")
 	public String startbatch(@RequestParam("id") String batchId) {
-		 batchservicesimpl.startBatchByID(batchId);
+		batchservicesimpl.startBatchByID(batchId);
 		return "redirect:allBatches";
 	}
-	
+
 	@RequestMapping("/endbatch")
 	public String endbatch(@RequestParam("id") String batchId) {
-		 batchservicesimpl.endBatchByID(batchId);
+		batchservicesimpl.endBatchByID(batchId);
 		return "redirect:allBatches";
 	}
 
@@ -58,14 +65,12 @@ public class AdminController {
 		userserviceimpl.allowOrBlockUserByID(id, "Allowed");
 		return "Allowed";
 	}
-
 	@ResponseBody
 	@RequestMapping("/approval/block")
 	public String blockByID(@RequestParam("id") String id) {
 		userserviceimpl.allowOrBlockUserByID(id, "Blocked");
 		return "Blocked";
 	}
-
 	@ResponseBody
 	@RequestMapping("/newbatch")
 	public ResponseEntity<String> newBatch(@RequestParam String name) {
@@ -73,10 +78,17 @@ public class AdminController {
 		batch.setBatchTopic(name);
 		Batch temp = batchservicesimpl.newBatch(batch);
 		if (temp == null) {
-			return new ResponseEntity<>("Something Went Wrong",HttpStatus.FORBIDDEN);
+ 
+			return new ResponseEntity<>("Something Went Wrong", HttpStatus.FORBIDDEN);
 		}
 		return new ResponseEntity<>("Batch Created SuccessFully ", HttpStatus.OK);
 	}
 	
+	@ResponseBody
+	@RequestMapping("/sendemail")
+	public ResponseEntity<String> sendEmail(@RequestParam String to, @RequestParam String subject,
+			@RequestParam String massage) {
+		return new ResponseEntity<>(emailsenderimp.sendEmail(to, subject, massage), HttpStatus.OK);
+	}
 
 }

@@ -71,6 +71,22 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
+        
+        <!-- Use the JavaMail API -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version> <!-- Check for the latest compatible version -->
+        </dependency>
+
+        <!-- Use the activation framework -->
+        <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>javax.activation</artifactId>
+            <version>1.2.0</version> <!-- Ensure compatibility with javax.mail
+            version -->
+        </dependency>
+        
 	</dependencies>
 
 	<build>

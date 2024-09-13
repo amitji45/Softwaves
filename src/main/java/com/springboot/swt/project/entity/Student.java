@@ -1,7 +1,10 @@
 package com.springboot.swt.project.entity;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -14,7 +17,12 @@ import jakarta.persistence.Table;
 
 public class Student {
 	
-	 @Id
+	 @Override
+	public String toString() {
+		return "Student [Id=" + Id + ", batch=" + batch + ", user=" + user + ", rollNo=" + rollNo + ", attendanceCount="
+				+ attendanceCount + ", marks=" + marks + ", absent=" + absent + "]";
+	}
+	@Id
 	 private Integer Id;
 	 
 	 @ManyToOne
@@ -29,66 +37,64 @@ public class Student {
 	 @Column
 	 private int attendanceCount;
 
+	 @CollectionTable
 	 @ElementCollection
-	 private ArrayList<Integer> marks;
+	 private List<Integer> marks;
+	
+	 
+	 @Autowired
+	 @ElementCollection
+	 public  List<StringBuilder> absent;
+
+//	 @Autowired
+//	 @ElementCollection
+////student present    batchId       batchname           date
+//	 public List<Map<String, Map<String,LinkedHashSet<String>>>> present;
+//	 
 	public Integer getId() {
 		return Id;
 	}
-
-
 	public void setId(Integer id) {
 		Id = id;
 	}
-
-
 	public Batch getBatch() {
 		return batch;
 	}
-
-
 	public void setBatch(Batch batch) {
 		this.batch = batch;
 	}
-
-
 	public User getUser() {
 		return user;
 	}
-
-
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-
-	public int getAttendanceCount() {
-		return attendanceCount;
-	}
-
-
-	public void setAttendanceCount(int attendanceCount) {
-		this.attendanceCount = attendanceCount;
-	}
-
-
 	public String getRollNo() {
 		return rollNo;
 	}
-
-
 	public void setRollNo(String rollNo) {
 		this.rollNo = rollNo;
 	}
-
-
-	public ArrayList<Integer> getMarks() {
+	public int getAttendanceCount() {
+		return attendanceCount;
+	}
+	public void setAttendanceCount(int attendanceCount) {
+		this.attendanceCount = attendanceCount;
+	}
+	public List<Integer> getMarks() {
 		return marks;
 	}
-
-
-	public void setMarks(ArrayList<Integer> marks) {
+	public void setMarks(List<Integer> marks) {
 		this.marks = marks;
-	} 
-	 
 	}
+	public List<StringBuilder> getAbsent() {
+		return absent;
+	}
+	public void setAbsent(List<StringBuilder> absent) {
+		this.absent = absent;
+	}
+	
+	  
+}
+ 
 

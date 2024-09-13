@@ -1,4 +1,7 @@
 <%@ page import="com.springboot.swt.project.entity.User"%>
+
+<%@ page
+	import="com.springboot.swt.project.entity.User,java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -8,7 +11,7 @@
 </head>
 <body>
 	<%
-	User user = (User)session.getAttribute("user");
+	User user = (User) session.getAttribute("user");
 	if (user == null) {
 		response.sendRedirect("/swt/login");
 	}
@@ -28,10 +31,9 @@
 								<img src="https://bootdey.com/img/Content/avatar/avatar7.png"
 									alt="Admin" class="rounded-circle" width="150">
 								<div class="mt-3">
-									<h4><%=(user != null)? user.getName():null%></h4>
-									<p class="text-secondary mb-1"><%=(user != null)? user.getBatch():null%></p>
-									<p class="text-muted font-size-sm"><%=(user != null)? user.getEmail():null%></p>
-									<button class="btn btn-primary">Profile</button>
+									<h4><%=(user != null) ? user.getName() : null%></h4>
+									<p class="text-secondary mb-1"><%=(user != null) ? user.getBatch() : null%></p>
+									<p class="text-muted font-size-sm"><%=(user != null) ? user.getEmail() : null%></p>
 									<button type="button" class="btn btn-outline-primary"
 										data-bs-toggle="modal" data-bs-target="#exampleModal">Edit
 										Profile</button>
@@ -56,13 +58,15 @@
 										<img src="https://bootdey.com/img/Content/avatar/avatar7.png"
 											alt="Admin" class="rounded-circle" width="150">
 										<div class="mt-3">
-											<h4><%=(user != null)? user.getName():null%></h4>
-											<p class="text-secondary mb-1"><%=(user != null)? user.getBatch():null%></p>
-											<p class="text-muted font-size-sm"><%=(user != null)? user.getEmail():null%></p>
-											<button class="btn btn-primary">Profile</button>
-											<button type="button" class="btn btn-outline-primary"
-												data-bs-toggle="modal" data-bs-target="#exampleModal">Edit
-												Profile</button>
+											<h4><%=(user != null) ? user.getName() : null%></h4>
+											<p class="text-secondary mb-1"><%=(user != null) ? user.getBatch() : null%></p>
+											<div class="col-md-12">
+												<label for="email-field" class="pb-2">Your Email</label> <input
+													type="email"
+													value="<%=(user != null) ? user.getEmail() : null%>"
+													class="form-control" name="email" id="email-field" required>
+											</div>
+
 										</div>
 									</div>
 								</div>
@@ -118,7 +122,7 @@
 												<span class="text-success text-sm font-weight-bolder">100%</span>
 												since Today <a
 													class="bg-gradient-warning btn text-light mt-1"
-													href="/user/marks?id=<%=(user != null)? user.getId():null%>">View</a>
+													href="/user/marks?id=<%=(user != null) ? user.getId() : null%>">View</a>
 											</p>
 										</div>
 									</div>
