@@ -73,18 +73,24 @@ public class UserController {
 	}
 
 	@RequestMapping("/regis")
-	public ModelAndView registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
-		user.setRole("Student");
-		User temp = userserviceimpl.register(user);
-		ModelAndView modal = new ModelAndView();
-		if (temp == null) {
-			modal.addObject("error", "Something Went Wrong try Again Later");
-			modal.setViewName("redirect:/swt/regis");
-			return modal;
-		}
-		modal.setViewName("redirect:/swt/login");
-		return modal;
-	}
+public ModelAndView registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
+    user.setRole("Student");
+
+    Map<String, Object> result = userserviceimpl.register(user);  // Using the map returned from the service
+    ModelAndView modal = new ModelAndView();
+    
+    String message = (String) result.get("message");
+    User temp = (User) result.get("user");
+
+    if (temp == null) {
+        modal.addObject("error", message);  // Using the message from the map
+        modal.setViewName("redirect:/swt/regis");
+        return modal;
+    }
+	modal.addObject("success", message);
+    modal.setViewName("redirect:/swt/login");
+    return modal;
+}
 
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request) {

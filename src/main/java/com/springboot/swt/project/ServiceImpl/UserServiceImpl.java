@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import java.util.Map;
+
+import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,18 +36,27 @@ public class UserServiceImpl implements UserService {
 	private BatchRepo batchrepo;
 
 	@Override
-	public User register(User user) {
-		user.setId(generateUserId(user));
-		user.setPassword(encode(user.getPassword()));
-		user.setContactNo(encode(user.getContactNo()));
+public Map<String, Object> register(User user) {
+    Map<String, Object> response = new HashMap<>();
+    
+    user.setId(generateUserId(user));
+    user.setPassword(encode(user.getPassword()));
+    user.setContactNo(encode(user.getContactNo()));
 
-		if (finder(user))
-			return null;
-		userrepo.save(user);
-		user.setContactNo(decode(user.getContactNo()));
-		user.setPassword(decode(user.getPassword()));
-		return user;
-	}
+    if (finder(user)) {
+        response.put("message", "email or contact no already registered");
+        response.put("user", null);
+        return response;
+    }
+
+    userrepo.save(user);
+    user.setContactNo(decode(user.getContactNo()));
+    user.setPassword(decode(user.getPassword()));
+
+    response.put("message", "User registered successfully");
+    response.put("user", user);
+    return response;
+}
 
 	private String generateUserId(User user) {
 		StringBuilder id = new StringBuilder();
