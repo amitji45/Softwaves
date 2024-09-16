@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import java.util.Map;
-
+import java.util.stream.Collectors;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -211,15 +211,11 @@ static boolean d=true;
 	}
 
 	@Override
-	public List<Student> getAllStudent(String name) {
-		List<Student> allStudentList  = (List<Student>) studentrepo.findAll();
-		List<Student> filter =new ArrayList<>();
-		for ( Student student :  allStudentList )
-		{
-			if(student.getUser().getName().startsWith(name))filter.add(student);
-		}
-	
-		return filter;
+	public List getAllStudent(String name) {
+		List<User> allStudentList = userrepo.findAll().stream()
+        .filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase()))
+        .collect(Collectors.toList());
+		return allStudentList;
 	}
 
 	@Override
