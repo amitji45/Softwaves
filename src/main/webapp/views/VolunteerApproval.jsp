@@ -49,7 +49,6 @@ function allowOrBlockVolunteer(id, url , name) {
 		                    $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="blockVolunteer(\''+user.id+'\' , \''+name +'\')" >remove</button>')
 		                   
 		                );
-
 		                // Append the new row to the table
 		                $('#tableid').append(newRow);
 		            });

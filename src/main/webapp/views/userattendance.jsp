@@ -39,11 +39,9 @@
 					}
 				}
 			};
-
 			xhttp.open("GET", url, true);
 			xhttp.send();
 		}
-
 		// Function to update the batch list
 		function updateBatchList(batches1) {
 			var batchList = document.getElementById('batchList1');
@@ -59,7 +57,7 @@
 			batchList.innerHTML = '';
 
 			// Log batches1 for debugging
-			console.log('Batches data:', batches1);
+		
 
 			if (!Array.isArray(batches1) || batches1.length === 0) {
 				alert('No active batches found.');
@@ -105,6 +103,7 @@
 			url = "http://localhost:9090/valunteer/studentattendance/absent?rollNo=";
 			markAttendence(rollNo, url);
 		}
+
 		function markAttendence(rollNo, url) {
 	<%if (list != null) {%>
 		var batchId =
@@ -112,18 +111,19 @@
 		
 	<%} else {%>
 	
-				alert('Not aveleable student ');
+				alert('Not Available Student ');
 	<%}%>
 		// Get the roll number input value
 			if (!rollNo)
 				rollNo = document.getElementById('email-field').value;
 			if (!rollNo) {
-				alert("plz enter rollOo...");
+				alert("Please Enter Roll Number");
 				return;
 			}
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
-				console.log("susessfully....");
+
+
 				document.getElementById(rollNo).remove();
 			};
 			xhttp.open("GET", url + rollNo + "&batchId=" + batchId, true);
@@ -211,6 +211,7 @@
 													<%
 													for (int i = 0; i < list.size(); i++) {
 													%>
+
 													<div class="table-responsive">
 														<table class="table align-items-center ">
 															<tbody>

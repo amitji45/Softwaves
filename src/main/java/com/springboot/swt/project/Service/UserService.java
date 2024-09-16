@@ -2,12 +2,12 @@ package com.springboot.swt.project.Service;
 
 import java.util.List;
 import java.util.Map;
+
 import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.entity.User;
 
 public interface UserService {
-	Map<String , Object> register(User user);
-	User login(String email , String password);
+	Map<String , Object> register(User user);	User login(String email , String password);
 	String encode(String s);
 
 	String decode(String s);

@@ -80,7 +80,7 @@
 						<div class="container">
 							<div class="row justify-content-center text-center">
 								<div class="col-lg-6">
-									<h1>you are not available any day Coaching..</h1>
+									<h1>No Attendance Record Available</h1>
 								</div>
 							</div>
 						</div>
@@ -94,7 +94,7 @@
 						<div class="container">
 							<div class="row justify-content-center text-center">
 								<div class="col-lg-6">
-									<h1>batch is not start start date not found..</h1>
+									<h1>Batch is Not Started Yet</h1>
 								</div>
 							</div>
 						</div>

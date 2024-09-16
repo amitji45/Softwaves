@@ -12,7 +12,7 @@ import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.repo.BatchRepo;
 import com.springboot.swt.project.repo.StudentRepo;
 @Service
-public class StudentAttendanceServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService{
 	
 	@Autowired
 	StudentRepo studentRepo;
@@ -50,7 +50,20 @@ public class StudentAttendanceServiceImpl implements StudentService{
 	@Override
 	public List<Student> findAllStudent(String name) {
 		return studentRepo.findAll();
+	}
+	@Override 
+	public Student setMarks(String rollNo , String batchId , Integer marks)
+	{
+		Batch batch=(batchRepo.findById(batchId)).get();
+		Student student= studentRepo.findByRollNoAndBatch(rollNo,batch);
 		
+		if(student==null)return null;
+		ArrayList<Integer> tempList=new ArrayList<>(student.getMarks());
+		
+		tempList.add(marks);
+		student.setMarks(tempList);
+		studentRepo.save(student);
+		return student;
 	}
  
 }

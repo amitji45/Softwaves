@@ -73,10 +73,10 @@
 							xhr.onreadystatechange = function() {
 								if (xhr.readyState === XMLHttpRequest.DONE) {
 									if (this.status === 200) {
-										alert('response: '+ xhr.responseText);
+										alert(xhr.responseText);
 	
 									} else {
-										alert('response: '+ xhr.statusText);
+										alert(xhr.statusText);
 									}
 								}
 							};
@@ -95,11 +95,12 @@
 				if (user1 != null && user1.getRole().equalsIgnoreCase("volunteer")||user1 != null && user1.getRole().equalsIgnoreCase("Student")) {
 				%>
 				<li><a href="/user/dashboard" class="active">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#rules">Rules</a></li>
-				<li><a href="#review">Review</a></li>
+				<li><a href="/swt/index#about">About</a></li>
+				<li><a href="/swt/index#rules">Rules</a></li>
+				<li><a href="/swt/index#review">Review</a></li>
 				<% if (user1 != null && user1.getRole().equalsIgnoreCase("volunteer")){%>
-				<li><a href="/valunteer/userattendance">Attendenc</a></li>
+				<li><a href="/valunteer/userattendance">Attendance</a></li>
+				<li><a href="/valunteer/volunteerMarks">Marking</a></li>
 				<%} %>
 				<%
 				}
@@ -107,16 +108,16 @@
 				{
 				%>
 				<li><a href="/admin/dashboard" class="active">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#rules">Rules</a></li>
-				<li><a href="#review">Review</a></li>
+				<li><a href="/swt/index#about">About</a></li>
+				<li><a href="/swt/index#rules">Rules</a></li>
+				<li><a href="/swt/index#review">Review</a></li>
 				<%	
 				}else {
 				%>
 				<li><a href="#home" class="active">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#rules">Rules</a></li>
-				<li><a href="#review">Review</a></li>
+				<li><a href="/swt/index#about">About</a></li>
+				<li><a href="/swt/index#rules">Rules</a></li>
+				<li><a href="/swt/index#review">Review</a></li>
 <%} %>				
 				<%
 				if (admin != null && admin.getRole().equalsIgnoreCase("Admin")) {
@@ -137,6 +138,7 @@
 
 						<li><a href="#">All Students</a></li>
 						<li><a href="/admin/VolunteerApproval">Volunteer approval</a></li>
+
 						<li class="dropdown"><a href="#"><span>New Batch</span><i
 								class="bi bi-chevron-down toggle-dropdown"></i></a>
 							<ul>
@@ -154,7 +156,7 @@
 				}
 				%>
 				<%
-				if (user1 != null || admin != null) {
+				if (user1 != null) {
 				%>
 
 				<li class="dropdown"><a href="#" onclick="findEnrollBatche()"><span>Enroll</span>

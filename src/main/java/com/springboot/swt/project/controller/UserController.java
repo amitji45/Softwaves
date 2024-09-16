@@ -1,10 +1,12 @@
 package com.springboot.swt.project.controller;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -69,28 +71,29 @@ public class UserController {
 
 	@RequestMapping("/dashboard")
 	public String getDashBoard(HttpServletRequest request) {
+		if(request.getSession().getAttribute("user")==null) return "redirect:/swt/login";
 		return "dashboard";
 	}
 
 	@RequestMapping("/regis")
-public ModelAndView registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
-    user.setRole("Student");
+	public ModelAndView registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
+	    user.setRole("Student");
 
-    Map<String, Object> result = userserviceimpl.register(user);  // Using the map returned from the service
-    ModelAndView modal = new ModelAndView();
-    
-    String message = (String) result.get("message");
-    User temp = (User) result.get("user");
+	    Map<String, Object> result = userserviceimpl.register(user);  // Using the map returned from the service
+	    ModelAndView modal = new ModelAndView();
+	    
+	    String message = (String) result.get("message");
+	    User temp = (User) result.get("user");
 
-    if (temp == null) {
-        modal.addObject("error", message);  // Using the message from the map
-        modal.setViewName("redirect:/swt/regis");
-        return modal;
-    }
-	modal.addObject("success", message);
-    modal.setViewName("redirect:/swt/login");
-    return modal;
-}
+	    if (temp == null) {
+	        modal.addObject("error", message);  // Using the message from the map
+	        modal.setViewName("redirect:/swt/regis");
+	        return modal;
+	    }
+		modal.addObject("success", message);
+	    modal.setViewName("redirect:/swt/login");
+	    return modal;
+	}
 
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request) {
@@ -100,6 +103,7 @@ public ModelAndView registration(@ModelAttribute("user") User user, BindingResul
 
 	@RequestMapping("/dashboard/attendance")
 	public  String getAttendance(@RequestParam("student") String encodedJson,Model model,HttpServletRequest request) {
+		if(request.getSession().getAttribute("user")==null) return "redirect:/swt/login";
 		HttpSession session = request.getSession();
 		 try {
 		 ObjectMapper objectMapper = new ObjectMapper();
@@ -108,6 +112,7 @@ public ModelAndView registration(@ModelAttribute("user") User user, BindingResul
 		 }catch(Exception e) {}
 		return "attendance";
 	}
+	
 //	finding user by email for otp verification 
 	@RequestMapping("/otp")
 	public ModelAndView demo(@ModelAttribute("user") User user, BindingResult bindingResult) {
@@ -152,15 +157,18 @@ public ModelAndView registration(@ModelAttribute("user") User user, BindingResul
 	
 
 	@RequestMapping("/marks")
-	public ModelAndView getStudentMarks(@RequestParam String id) {
-
+	public String getStudentMarks(HttpServletRequest request,@RequestParam String id) {
+		if(request.getSession().getAttribute("user")==null) return "redirect:/swt/login";
 		List<Integer> marksList = userserviceimpl.getMarksList(id);
-	
-		return new ModelAndView("redirect:/views/studentmarks.jsp", "marksList", marksList);
-	}
+		HttpSession session=request.getSession();
+ 		session.setAttribute("marksList",marksList) ;
 
+		return "studentmarks";
+	}
+	
 	@RequestMapping("/allbatches")
 	public ResponseEntity createBatchPage(HttpServletRequest request, Model model) {
+		
 		List<Batch> batches = batchservicesimpl.getAllBatches();
 		return new ResponseEntity<>(batches, HttpStatus.OK);
 	}
@@ -176,7 +184,7 @@ public ModelAndView registration(@ModelAttribute("user") User user, BindingResul
 		return new ResponseEntity<>(null ,HttpStatus.FORBIDDEN);
 	}
 	@RequestMapping("/findVolunteer")
-	public ResponseEntity findVolunteer (@RequestParam String name)
+	public ResponseEntity findVolunteer (@RequestParam String name,HttpServletRequest request)
 	{
 		List<Student> list =(List<Student>)userserviceimpl.getAllStudent(name);
 		return  new ResponseEntity<>(list, HttpStatus.OK);
@@ -190,4 +198,5 @@ public ModelAndView registration(@ModelAttribute("user") User user, BindingResul
 		 List<Student> batches = userserviceimpl.findStudentBatch(session1);
 		return new ResponseEntity<>(batches, HttpStatus.OK);
 	}
+
 }

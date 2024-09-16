@@ -3,13 +3,13 @@ package com.springboot.swt.project.ServiceImpl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-
-import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,28 +36,27 @@ public class UserServiceImpl implements UserService {
 	private BatchRepo batchrepo;
 
 	@Override
-public Map<String, Object> register(User user) {
-    Map<String, Object> response = new HashMap<>();
-    
-    user.setId(generateUserId(user));
-    user.setPassword(encode(user.getPassword()));
-    user.setContactNo(encode(user.getContactNo()));
+	public Map<String, Object> register(User user) {
+	    Map<String, Object> response = new HashMap<>();
+	    
+	    user.setId(generateUserId(user));
+	    user.setPassword(encode(user.getPassword()));
+	    user.setContactNo(encode(user.getContactNo()));
 
-    if (finder(user)) {
-        response.put("message", "email or contact no already registered");
-        response.put("user", null);
-        return response;
-    }
+	    if (finder(user)) {
+	        response.put("message", "email or contact no already registered");
+	        response.put("user", null);
+	        return response;
+	    }
 
-    userrepo.save(user);
-    user.setContactNo(decode(user.getContactNo()));
-    user.setPassword(decode(user.getPassword()));
+	    userrepo.save(user);
+	    user.setContactNo(decode(user.getContactNo()));
+	    user.setPassword(decode(user.getPassword()));
 
-    response.put("message", "User registered successfully");
-    response.put("user", user);
-    return response;
-}
-
+	    response.put("message", "User registered successfully");
+	    response.put("user", user);
+	    return response;
+	}
 	private String generateUserId(User user) {
 		StringBuilder id = new StringBuilder();
 		LocalDate local = LocalDate.now();
@@ -121,21 +120,26 @@ public Map<String, Object> register(User user) {
 		Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
 		if (oldbatch == null) {
 			Student student = new Student();
+			ArrayList<Integer> list=new ArrayList<Integer>(10);
 			student.setId(rand.nextInt(1000));
 			student.setBatch(batch);
 			student.setUser(user);
+			student.setMarks(list);
 			studentrepo.save(student);
-			return " enrollstudent done..";
+			return " Student Enrolled Successfully";
+
 		} else {
-			return "you are already enroll for  => " + batch.getBatchTopic();
+			return " Student is Already Enrolled for " + batch.getBatchTopic();
 		}
+
 	}
+
 	@Override
 	public List<Integer> getMarksList(String id) {
-//		User user = userrepo.findById(id).get();
-//		 Student  student = studentrepo.findByUserId(user);
-//		if (student != null)
-//			return student.getMarks();
+		User user = userrepo.findById(id).get();
+		 Student  student = studentrepo.findByUser(user);
+		 if (student != null)
+			return student.getMarks();
 		return null;
 	}
 
@@ -167,6 +171,7 @@ public Map<String, Object> register(User user) {
 	}
 
 	public Student markAttendancepresent(String rollNo, String batchId) {
+
 		Batch batch = (batchrepo.findById(batchId)).get();
 		Student student = studentrepo.findByRollNoAndBatch(rollNo, batch);
 		if (student == null)
@@ -176,6 +181,7 @@ public Map<String, Object> register(User user) {
 		return student;
 	}
 static boolean d=true;
+
 	@Override
 	public Student markAttendanceAbsent(String rollNo, String batchId) {
 
@@ -226,5 +232,6 @@ static boolean d=true;
 		userrepo.save(user);
 		return allowed;
 	}
+	
 
 }

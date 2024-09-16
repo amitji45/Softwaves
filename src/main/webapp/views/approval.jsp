@@ -8,13 +8,17 @@
 	<%@ include file="component/navbar.jsp"%>
 	<%
  	List<User> users = (List<User>) request.getAttribute("data");
+	
 	%>
 	<section id="contact" class="section">
 
 		<div class="container section-title">
 			<h2>Approve Students</h2>
 		</div>
-
+	<%
+		if(!users.isEmpty())
+		{
+		%>
 		<div class="row">
 			<div class="col-lg-12 mb-lg-0 mb-4">
 				<div class="card ">
@@ -23,10 +27,12 @@
 							<h6 class="mb-2">Approve Registered Students</h6>
 						</div>
 					</div>
+					
 					<div class="table-responsive">
 						<table class="table align-items-center ">
 							<tbody>
 								<%
+								 
 								for (User user : users) {
 								%>
 								<tr id="<%=user.getId()%>">
@@ -54,6 +60,7 @@
 
 								<%
 								}
+								
 								%>
 							</tbody>
 						</table>
@@ -61,11 +68,18 @@
 				</div>
 			</div>
 		</div>
+		<% }else {%>
+		
+		
+		 <div class="d-flex justify-content-center">
+							<h2 class="mb-2"> No User Available For Approval</h2>
+						</div>
+		<%} %>
 	</section>
 	<script type="text/javascript">
 		function allowUser(id) {
 			url = "http://localhost:9090/admin/approval/allow?id=";
-		alert(id);
+		alert("User Approved With Id: "+id);
 			allowOrBlockUser(id, url);
 		}
 		function blockUser(id) {
