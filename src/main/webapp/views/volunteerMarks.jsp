@@ -21,9 +21,13 @@
 						<select class="justify-content-center col-xl-9 col-md-6 col-sm-7 py-9 " id="batchId">
 						<%
 					    List<Batch> activebatches = (List<Batch>) session.getAttribute("activebatch");
+						
+						
+						
 						for(Batch batch : activebatches){
 						%>
 							<option value="<%=batch.getBatchId()%>" class="dropdown"><%=batch.getBatchTopic()%></option>
+						
 						<%}%>
 						</select>
 					</ul>
@@ -64,7 +68,7 @@
 	<%@ include file="component/script.jsp"%>
 	<script>
 	
-		function uploadMarks(){
+		/* function uploadMarks(){
 			marks=""+ document.getElementById("marks").value;
 			rollNo=""+ document.getElementById("rollNo").value;
 			batchId=""+document.getElementById("batchId").value;
@@ -74,9 +78,55 @@
 			
 			xhttp.open("GET", url + rollNo + "&batchId=" + batchId + "&marks=" + marks, true);
 			xhttp.send();
+			if(!response)
+				{
+					alert('my name is aman..');
+					console.log('mana....');
+					return ;
+				}
 				document.getElementById("rollNo").value="";
 				document.getElementById("marks").value="";
+		} */
+		function uploadMarks() {
+		    // Get values from input fields
+		    var marks = "" + document.getElementById("marks").value;
+		    var rollNo = "" + document.getElementById("rollNo").value;
+		    var batchId = "" + document.getElementById("batchId").value;
+		    var url = "http://localhost:9090/valunteer/setmarks?rollNo=";
+		    
+		    // Create XMLHttpRequest object
+		    var xhttp = new XMLHttpRequest();
+		    
+		    // Define the onreadystatechange callback
+		    xhttp.onreadystatechange = function() {
+		        if (this.readyState == 4) { // Check if request is complete
+		            if (this.status == 200) { // Check if request was successful
+		                var response = this.responseText;
+		                if (response === null || response.trim() === "") {
+		                    // Handle the case where response is null or empty
+		                    alert('Response is null or empty. Please try again.');
+		                    console.log('Response is null or empty.');
+		                } else {
+		                    // Handle a valid response
+		                    alert('Marks uploaded successfully!');
+		                }
+		                
+		                // Clear the input fields
+		                document.getElementById("rollNo").value = "";
+		                document.getElementById("marks").value = "";
+		            } else {
+		                // Handle HTTP errors
+		                alert('Failed to upload marks. Status: ' + this.status);
+		                console.log('HTTP Error: ' + this.status);
+		            }
+		        }
+		    };
+		    
+		    // Open and send the request
+		    xhttp.open("GET", url + rollNo + "&batchId=" + batchId + "&marks=" + marks, true);
+		    xhttp.send();
 		}
+
 	
 	
 	</script>

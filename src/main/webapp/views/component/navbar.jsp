@@ -69,28 +69,22 @@
 							var a = document.createElement('a');
 							a.textContent = batch.batchTopic;
 							a.href = "#";
-							a
-									.addEventListener(
-											'click',
-											function(event) { // Prevent the default link behavior
-												var url = "http://localhost:9090/user/enrollstudent?batchId="
-														+ batch.batchId;
-												var xhr = new XMLHttpRequest();
-												xhr.onreadystatechange = function() {
-													if (xhr.readyState === XMLHttpRequest.DONE) {
-														if (this.status === 200) {
-															alert('response: '
-																	+ xhr.responseText);
-
-														} else {
-															alert('response: '
-																	+ xhr.statusText);
-														}
-													}
-												};
-												xhr.open('GET', url, true);
-												xhr.send();
-											});
+							a.addEventListener('click',function(event) {												// Prevent the default link behavior
+							var url = "http://localhost:9090/user/enrollstudent?batchId="+ batch.batchId;
+							var xhr = new XMLHttpRequest();
+							xhr.onreadystatechange = function() {
+								if (xhr.readyState === XMLHttpRequest.DONE) {
+									if (this.status === 200) {
+										alert(xhr.responseText);
+	
+									} else {
+										alert(xhr.statusText);
+									}
+								}
+							};
+							xhr.open('GET', url, true);
+							xhr.send();
+						});
 							li.appendChild(a);
 							batchList.appendChild(li);
 						});

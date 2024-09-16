@@ -23,9 +23,11 @@
 	}
 	PersistentBag persistentMarksList= (PersistentBag)session.getAttribute("marksList");
 	ArrayList<Integer> marksList=new ArrayList<>(10);
+	if(persistentMarksList!=null){
 	for(Object temporary : persistentMarksList)
 	{
 		marksList.add((Integer)temporary);
+	}
 	}
 %>
 	<div class="d-flex justify-content-center">
@@ -39,7 +41,7 @@
 					<div class="table-responsive">
 						<table class="table align-items-center ">
 							<tbody>
-								<%if(marksList!=null){
+								<%if(!marksList.isEmpty()){
 									for(Integer marks : marksList){ %>
 								
 								<tr>
@@ -53,7 +55,7 @@
 									<td class="align-middle text-sm">
 										<div class="col text-center">
 											<p class="text-xs font-weight-bold mb-0">Obtained Marks:</p>
-											<h6 class="text-sm mb-0"><%=marks%>></h6>
+											<h6 class="text-sm mb-0"><%=marks%></h6>
 										</div>
 									</td>
 								</tr>

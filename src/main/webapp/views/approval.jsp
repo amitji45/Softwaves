@@ -79,7 +79,7 @@
 	<script type="text/javascript">
 		function allowUser(id) {
 			url = "http://localhost:9090/admin/approval/allow?id=";
-		alert(id);
+		alert("User Approved With Id: "+id);
 			allowOrBlockUser(id, url);
 		}
 		function blockUser(id) {

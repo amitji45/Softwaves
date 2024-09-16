@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springboot.swt.project.ServiceImpl.BatchServiceImpl;
 import com.springboot.swt.project.ServiceImpl.EmailSenderImpl;
-import com.springboot.swt.project.ServiceImpl.StudentAttendanceServiceImpl;
+import com.springboot.swt.project.ServiceImpl.StudentServiceImpl;
 import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.Batch;
 
@@ -25,7 +25,7 @@ public class AdminController {
 	private UserServiceImpl userserviceimpl;
 	
 	@Autowired
-	private StudentAttendanceServiceImpl studentAttendanceServiceImpl;
+	private StudentServiceImpl studentServiceImpl;
 	
 	@Autowired
 	private BatchServiceImpl batchservicesimpl;

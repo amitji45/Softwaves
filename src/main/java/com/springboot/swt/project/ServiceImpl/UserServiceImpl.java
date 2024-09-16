@@ -3,9 +3,12 @@ package com.springboot.swt.project.ServiceImpl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,16 +36,26 @@ public class UserServiceImpl implements UserService {
 	private BatchRepo batchrepo;
 
 	@Override
-	public User register(User user) {
-		user.setId(generateUserId(user));
-		user.setPassword(encode(user.getPassword()));
-		user.setContactNo(encode(user.getContactNo()));
-		if (finder(user))
-			return null;
-		userrepo.save(user);
-		user.setContactNo(decode(user.getContactNo()));
-		user.setPassword(decode(user.getPassword()));
-		return user;
+	public Map<String, Object> register(User user) {
+	    Map<String, Object> response = new HashMap<>();
+	    
+	    user.setId(generateUserId(user));
+	    user.setPassword(encode(user.getPassword()));
+	    user.setContactNo(encode(user.getContactNo()));
+
+	    if (finder(user)) {
+	        response.put("message", "email or contact no already registered");
+	        response.put("user", null);
+	        return response;
+	    }
+
+	    userrepo.save(user);
+	    user.setContactNo(decode(user.getContactNo()));
+	    user.setPassword(decode(user.getPassword()));
+
+	    response.put("message", "User registered successfully");
+	    response.put("user", user);
+	    return response;
 	}
 	private String generateUserId(User user) {
 		StringBuilder id = new StringBuilder();
@@ -113,10 +126,10 @@ public class UserServiceImpl implements UserService {
 			student.setUser(user);
 			student.setMarks(list);
 			studentrepo.save(student);
-			return " enrollstudent done..";
+			return " Student Enrolled Successfully";
 
 		} else {
-			return "you are already enroll for  => " + batch.getBatchTopic();
+			return " Student is Already Enrolled for " + batch.getBatchTopic();
 		}
 
 	}
@@ -204,15 +217,11 @@ static boolean d=true;
 	}
 
 	@Override
-	public List<Student> getAllStudent(String name) {
-		List<Student> allStudentList  = (List<Student>) studentrepo.findAll();
-		List<Student> filter =new ArrayList<>();
-		for ( Student student :  allStudentList )
-		{
-			if(student.getUser().getName().startsWith(name))filter.add(student);
-		}
-	
-		return filter;
+	public List getAllStudent(String name) {
+		List<User> allStudentList = userrepo.findAll().stream()
+        .filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase()))
+        .collect(Collectors.toList());
+		return allStudentList;
 	}
 
 	@Override

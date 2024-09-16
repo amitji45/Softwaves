@@ -12,7 +12,7 @@ import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.repo.BatchRepo;
 import com.springboot.swt.project.repo.StudentRepo;
 @Service
-public class StudentAttendanceServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService{
 	
 	@Autowired
 	StudentRepo studentRepo;

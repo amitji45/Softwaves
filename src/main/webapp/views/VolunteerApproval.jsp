@@ -8,19 +8,19 @@
 <head>
 <%@ include file="component/head.jsp"%>
 <script>
-function allowVolunteer(id) {
+function allowVolunteer(id , name) {
 	url = "http://localhost:9090/admin/VolunteerApproval/allow?id=";
-	allowOrBlockVolunteer(id, url);
+	allowOrBlockVolunteer(id, url , name );
  }
-function blockVolunteer(id) {
+function blockVolunteer(id , name) {
 	url = "http://localhost:9090/admin/VolunteerApproval/block?id=";
-	allowOrBlockVolunteer(id, url);
+	allowOrBlockVolunteer(id, url , name);
 }
 
-function allowOrBlockVolunteer(id, url) {
+function allowOrBlockVolunteer(id, url , name) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
-		document.getElementById(id).remove();
+		findAllVolunteer(name);
 	};
 	xhttp.open("GET", url + id + "", true);
 	xhttp.send();
@@ -38,18 +38,17 @@ function allowOrBlockVolunteer(id, url) {
 		            $('#tableid').empty();
 
 		            // Iterate over the response and append rows
-		            response.forEach(student => {
-		                const newRow = $('<tr>').attr('id', student.user.id);
+		            response.forEach(user => {
+		                const newRow = $('<tr>').attr('id', user.id);
 		                newRow.append(
-		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Current Role</p><h6 class="text-sm mb-0">' + student.user.role+ '</h6>'),
-		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">batch</p><h6 class="text-sm mb-0">' + student.user.batch + '</h6>'),
-		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
-		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">User Id:</p><h6 class="text-sm mb-0">' + student.user.id + '</h6>'),
-		                    $('<td>').html('<button type="button" class="btn btn-outline-success " onclick="allowVolunteer(\''+student.user.id +'\')" >Approve</button>'),
-		                    $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="blockVolunteer(\''+student.user.id+'\')" >remove</button>')
+		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Current Role</p><h6 class="text-sm mb-0">' + user.role+ '</h6>'),
+		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">batch</p><h6 class="text-sm mb-0">' + user.batch + '</h6>'),
+		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + user.name + '</h6>'),
+		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">User Id:</p><h6 class="text-sm mb-0">' + user.id + '</h6>'),
+		                    $('<td>').html('<button type="button" class="btn btn-outline-success " onclick="allowVolunteer(\''+user.id +'\' , \''+name+'\')" >Approve</button>'),
+		                    $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="blockVolunteer(\''+user.id+'\' , \''+name +'\')" >remove</button>')
 		                   
 		                );
-
 		                // Append the new row to the table
 		                $('#tableid').append(newRow);
 		            });

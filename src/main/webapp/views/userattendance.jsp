@@ -120,7 +120,7 @@
 				rollNo = document.getElementById('email-field').value;
 			}
 			if (!rollNo) {
-				alert("Please Enter Roll Number...");
+				alert("Please Enter Roll Number");
 				return;
 			}
 

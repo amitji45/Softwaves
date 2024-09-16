@@ -264,17 +264,16 @@
 			var batchList = document.getElementById('batchList1');
 			// Check if the batchList element exists
 			if (!batchList) {
-				alert('No batches available or data ');
+				alert('No batches available');
 				return;
 			}
 
 			// Clear existing items
 			batchList.innerHTML = '';
 			// Log batches for debugging
-			console.log('Batches data-:', batches);
 			// Check if batches is an array and has elements
 			if (!Array.isArray(batches) || batches.length === 0) {
-				alert('No batches available or data ');
+				alert('No batches available');
 				return;
 			}
 			// Iterate over the batches and create list items
@@ -285,21 +284,16 @@
 						// Create <a> element
 						var a = document.createElement('a');
 
-						var studentJson = JSON.stringify(student);
-						var stud = encodeURIComponent(studentJson)
-						console.log('stud', stud, student);
-						var url = 'http://localhost:9090/user/dashboard/attendance?student='
-								+ stud; // You may want to set this to the actual URL if available
+						var studentJson = JSON.stringify(student);	
+					 	var stud=encodeURIComponent(studentJson)
+						var url = 'http://localhost:9090/user/dashboard/attendance?student='+stud; // You may want to set this to the actual URL if available
 						// Set the text and href of the <a> tag
 						a.textContent = student.batch.batchTopic; // Assuming each batch object has a 'batchTopic' property
 						a.href = url; // Set the URL to navigate to
-						console.log('Creating link with text:', a.textContent,
-								'and URL:', a.href);
 						// Append the <a> tag to the <li>
 						li.appendChild(a);
 						// Append the <li> to the batchList
 						batchList.appendChild(li);
-						console.log(student.batch.batchTopic);
 					});
 		}
 
