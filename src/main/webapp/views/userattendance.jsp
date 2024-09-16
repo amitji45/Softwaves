@@ -39,11 +39,9 @@
 					}
 				}
 			};
-
 			xhttp.open("GET", url, true);
 			xhttp.send();
 		}
-
 		// Function to update the batch list
 		function updateBatchList(batches1) {
 			var batchList = document.getElementById('batchList1');

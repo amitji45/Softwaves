@@ -95,11 +95,11 @@
 				if (user1 != null && user1.getRole().equalsIgnoreCase("volunteer")||user1 != null && user1.getRole().equalsIgnoreCase("Student")) {
 				%>
 				<li><a href="/user/dashboard" class="active">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#rules">Rules</a></li>
-				<li><a href="#review">Review</a></li>
+				<li><a href="/swt/index#about">About</a></li>
+				<li><a href="/swt/index#rules">Rules</a></li>
+				<li><a href="/swt/index#review">Review</a></li>
 				<% if (user1 != null && user1.getRole().equalsIgnoreCase("volunteer")){%>
-				<li><a href="/valunteer/userattendance">Attendenc</a></li>
+				<li><a href="/valunteer/userattendance">Attendance</a></li>
 				<li><a href="/valunteer/volunteerMarks">Marking</a></li>
 				<%} %>
 				<%
@@ -108,16 +108,16 @@
 				{
 				%>
 				<li><a href="/admin/dashboard" class="active">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#rules">Rules</a></li>
-				<li><a href="#review">Review</a></li>
+				<li><a href="/swt/index#about">About</a></li>
+				<li><a href="/swt/index#rules">Rules</a></li>
+				<li><a href="/swt/index#review">Review</a></li>
 				<%	
 				}else {
 				%>
 				<li><a href="#home" class="active">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#rules">Rules</a></li>
-				<li><a href="#review">Review</a></li>
+				<li><a href="/swt/index#about">About</a></li>
+				<li><a href="/swt/index#rules">Rules</a></li>
+				<li><a href="/swt/index#review">Review</a></li>
 <%} %>				
 				<%
 				if (admin != null && admin.getRole().equalsIgnoreCase("Admin")) {
@@ -156,7 +156,7 @@
 				}
 				%>
 				<%
-				if (user1 != null || admin != null) {
+				if (user1 != null) {
 				%>
 
 				<li class="dropdown"><a href="#" onclick="findEnrollBatche()"><span>Enroll</span>

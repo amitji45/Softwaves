@@ -72,7 +72,7 @@ public class ValunteerController {
 		return "volunteerMarks";
 	}
 	@RequestMapping("/setmarks")
-	public void setStudentMarks(@RequestParam String rollNo, String batchId,  String marks)
+	public void setStudentMarks(@RequestParam String rollNo, String batchId,  String marks,HttpServletRequest request)
 	{	
 		StudentAttendanceServiceImpl.setMarks(rollNo, batchId, Integer.parseInt( marks));
 	}

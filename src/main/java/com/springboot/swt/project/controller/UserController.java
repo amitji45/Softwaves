@@ -71,6 +71,7 @@ public class UserController {
 
 	@RequestMapping("/dashboard")
 	public String getDashBoard(HttpServletRequest request) {
+		if(request.getSession().getAttribute("user")==null) return "redirect:/swt/login";
 		return "dashboard";
 	}
 
@@ -96,6 +97,7 @@ public class UserController {
 
 	@RequestMapping("/dashboard/attendance")
 	public  String getAttendance(@RequestParam("student") String encodedJson,Model model,HttpServletRequest request) {
+		if(request.getSession().getAttribute("user")==null) return "redirect:/swt/login";
 		HttpSession session = request.getSession();
 		 try {
 		 ObjectMapper objectMapper = new ObjectMapper();
@@ -150,7 +152,7 @@ public class UserController {
 
 	@RequestMapping("/marks")
 	public String getStudentMarks(HttpServletRequest request,@RequestParam String id) {
-
+		if(request.getSession().getAttribute("user")==null) return "redirect:/swt/login";
 		List<Integer> marksList = userserviceimpl.getMarksList(id);
 		HttpSession session=request.getSession();
  		session.setAttribute("marksList",marksList) ;
@@ -160,6 +162,7 @@ public class UserController {
 	
 	@RequestMapping("/allbatches")
 	public ResponseEntity createBatchPage(HttpServletRequest request, Model model) {
+		
 		List<Batch> batches = batchservicesimpl.getAllBatches();
 		return new ResponseEntity<>(batches, HttpStatus.OK);
 	}
@@ -175,7 +178,7 @@ public class UserController {
 		return new ResponseEntity<>(null ,HttpStatus.FORBIDDEN);
 	}
 	@RequestMapping("/findVolunteer")
-	public ResponseEntity findVolunteer (@RequestParam String name)
+	public ResponseEntity findVolunteer (@RequestParam String name,HttpServletRequest request)
 	{
 		List<Student> list =(List<Student>)userserviceimpl.getAllStudent(name);
 		return  new ResponseEntity<>(list, HttpStatus.OK);

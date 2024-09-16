@@ -15,13 +15,12 @@
 				<h2>Marking</h2>
 			</div>
 			<!-- End Section Title -->
-			
 			<nav id="navmenu" class="navmenu">
 				<ul class="justify-content-center col-xl-9 col-md-6 col-sm-7 py-9 ">
 					<li class="dropdown">
 						<select class="justify-content-center col-xl-9 col-md-6 col-sm-7 py-9 " id="batchId">
 						<%
-						List<Batch> activebatches = (List<Batch>) session.getAttribute("activebatch");
+					    List<Batch> activebatches = (List<Batch>) session.getAttribute("activebatch");
 						for(Batch batch : activebatches){
 						%>
 							<option value="<%=batch.getBatchId()%>" class="dropdown"><%=batch.getBatchTopic()%></option>
@@ -29,7 +28,6 @@
 						</select>
 					</ul>
 			</nav>
-			
 			<div class="container d-flex justify-content-center">
 				<div class="col-lg-6">
 					<form method="post" class="php-email-form">

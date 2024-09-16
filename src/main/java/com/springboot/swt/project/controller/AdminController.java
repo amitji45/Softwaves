@@ -15,6 +15,8 @@ import com.springboot.swt.project.ServiceImpl.StudentAttendanceServiceImpl;
 import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.Batch;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RequestMapping("/admin")
 @Controller
 public class AdminController {
@@ -32,49 +34,57 @@ public class AdminController {
 	EmailSenderImpl emailsenderimp;
 
 	@RequestMapping("/dashboard")
-	public String getAdminDashboard() {
+	public String getAdminDashboard(HttpServletRequest request) {
+		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
 		return "admindashboard";
 	}
 
 	@RequestMapping("/allBatches")
-	public String createBatchPage(Model model) {
+	public String createBatchPage(Model model ,HttpServletRequest request) {
+		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
 		model.addAttribute("batches", batchservicesimpl.getAllBatches());
 		return "newbatch";
 	}
 
 	@RequestMapping("/startbatch")
-	public String startbatch(@RequestParam("id") String batchId) {
+	public String startbatch(@RequestParam("id") String batchId,HttpServletRequest request) {
+		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
 		batchservicesimpl.startBatchByID(batchId);
 		return "redirect:allBatches";
 	}
 
 	@RequestMapping("/endbatch")
-	public String endbatch(@RequestParam("id") String batchId) {
+	public String endbatch(@RequestParam("id") String batchId,HttpServletRequest request) {
+		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
 		batchservicesimpl.endBatchByID(batchId);
 		return "redirect:allBatches";
 	}
 
 	@RequestMapping("/approval")
-	public String getNotAllowedUsers(Model model) {
+	public String getNotAllowedUsers(Model model,HttpServletRequest request) {
+		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
 		model.addAttribute("data", userserviceimpl.getNotAllowedUsers());
 		return "approval";
 	}
 
 	@ResponseBody
 	@RequestMapping("/approval/allow")
-	public String allowByID(@RequestParam("id") String id) {
+	public String allowByID(@RequestParam("id") String id,HttpServletRequest request) {
+		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
 		userserviceimpl.allowOrBlockUserByID(id, "Allowed");
 		return "Allowed";
 	}
 	@ResponseBody
 	@RequestMapping("/approval/block")
-	public String blockByID(@RequestParam("id") String id) {
+	public String blockByID(@RequestParam("id") String id,HttpServletRequest request) {
+		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
 		userserviceimpl.allowOrBlockUserByID(id, "Blocked");
 		return "Blocked";
 	}
 	@ResponseBody
 	@RequestMapping("/newbatch")
-	public ResponseEntity<String> newBatch(@RequestParam String name) {
+	public ResponseEntity<String> newBatch(@RequestParam String name,HttpServletRequest request) {
+		
 		Batch batch = new Batch();
 		batch.setBatchTopic(name);
 		Batch temp = batchservicesimpl.newBatch(batch);
@@ -93,19 +103,22 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/VolunteerApproval")
-	public String VApproval (Model model) {
+	public String VApproval (Model model,HttpServletRequest request) {
+		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
 //		model.addAttribute("data", studentAttendanceServiceImpl.findAllStudent());
 		return "VolunteerApproval";
 	}
 	@ResponseBody
 	@RequestMapping("/VolunteerApproval/allow")
-	public String approveVolunteerByID(@RequestParam("id") String id) {
+	public String approveVolunteerByID(@RequestParam("id") String id,HttpServletRequest request) {
+		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
 		userserviceimpl.allowOrBlockVolunteerByID(id, "Volunteer");
 		return "Volunteer";
 	}
 	@ResponseBody
 	@RequestMapping("/VolunteerApproval/block")
-	public String blockVolunteerByID(@RequestParam("id") String id) {
+	public String blockVolunteerByID(@RequestParam("id") String id,HttpServletRequest request) {
+		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
 		userserviceimpl.allowOrBlockVolunteerByID(id, "Student");
 		return "Student";
 	}

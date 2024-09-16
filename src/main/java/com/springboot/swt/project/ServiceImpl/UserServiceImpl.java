@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
 		user.setId(generateUserId(user));
 		user.setPassword(encode(user.getPassword()));
 		user.setContactNo(encode(user.getContactNo()));
-
 		if (finder(user))
 			return null;
 		userrepo.save(user);
@@ -45,7 +44,6 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(decode(user.getPassword()));
 		return user;
 	}
-
 	private String generateUserId(User user) {
 		StringBuilder id = new StringBuilder();
 		LocalDate local = LocalDate.now();
