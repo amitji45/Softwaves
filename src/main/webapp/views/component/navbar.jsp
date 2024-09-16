@@ -4,10 +4,9 @@
 <%@ page import="com.springboot.swt.project.entity.User,java.util.List"%>
 <header id="header" class="header d-flex align-items-center sticky-top">
 	<div
-		class="container-fluid container-xl position-relative d-flex align-items-center">
+		class="container-fluid container-xl position-relative d-flex align-items-center" >
 
-		<a href="#index" class="logo d-flex align-items-center me-auto">
-			<!-- Uncomment the line below if you also wish to use an image logo -->
+		<a href="#index" class="logo d-flex align-items-center me-auto"> <!-- Uncomment the line below if you also wish to use an image logo -->
 			<!-- <img src="assets/img/logo.png" alt=""> -->
 			<h1 class="sitename"><%=siteName%></h1>
 		</a>
@@ -20,7 +19,10 @@
 		%>
 
 
-		<script type="text/javascript">
+		<script type="text/javascript" >
+		document.addEventListener('DOMContentLoaded', function() {
+		    findEnrollBatche();
+		});
 			function createBatch(batch_name) {
 				url = "http://localhost:9090/admin/newbatch?name=";
 				var xhttp = new XMLHttpRequest();
@@ -67,58 +69,65 @@
 							var a = document.createElement('a');
 							a.textContent = batch.batchTopic;
 							a.href = "#";
-							a.addEventListener('click',function(event) {												// Prevent the default link behavior
-							var url = "http://localhost:9090/user/enrollstudent?batchId="+ batch.batchId;
-							var xhr = new XMLHttpRequest();
-							xhr.onreadystatechange = function() {
-								if (xhr.readyState === XMLHttpRequest.DONE) {
-									if (this.status === 200) {
-										alert('response: '+ xhr.responseText);
-	
-									} else {
-										alert('response: '+ xhr.statusText);
-									}
-								}
-							};
-							xhr.open('GET', url, true);
-							xhr.send();
-						});
+							a
+									.addEventListener(
+											'click',
+											function(event) { // Prevent the default link behavior
+												var url = "http://localhost:9090/user/enrollstudent?batchId="
+														+ batch.batchId;
+												var xhr = new XMLHttpRequest();
+												xhr.onreadystatechange = function() {
+													if (xhr.readyState === XMLHttpRequest.DONE) {
+														if (this.status === 200) {
+															alert('response: '
+																	+ xhr.responseText);
+
+														} else {
+															alert('response: '
+																	+ xhr.statusText);
+														}
+													}
+												};
+												xhr.open('GET', url, true);
+												xhr.send();
+											});
 							li.appendChild(a);
 							batchList.appendChild(li);
 						});
 			}
+			
 		</script>
 		<nav id="navmenu" class="navmenu">
 			<ul>
 
 				<%
-				if (user1 != null && user1.getRole().equalsIgnoreCase("volunteer")||user1 != null && user1.getRole().equalsIgnoreCase("Student")) {
+				if (user1 != null && user1.getRole().equalsIgnoreCase("volunteer")
+						|| user1 != null && user1.getRole().equalsIgnoreCase("Student")) {
 				%>
 				<li><a href="/user/dashboard" class="active">Home</a></li>
-				<li><a href="/swt/index#about">About</a></li>
-				<li><a href="/swt/index#rules">Rules</a></li>
-				<li><a href="/swt/index#review">Review</a></li>
-				<% if (user1 != null && user1.getRole().equalsIgnoreCase("volunteer")){%>
+
+				<%
+				if (user1 != null && user1.getRole().equalsIgnoreCase("volunteer")) {
+				%>
 				<li><a href="/valunteer/userattendance">Attendance</a></li>
 				<li><a href="/valunteer/volunteerMarks">Marking</a></li>
-				<%} %>
 				<%
 				}
-				else if(user1 != null && user1.getRole().equalsIgnoreCase("Admin"))
-				{
+				%>
+				<%
+				} else if (admin != null && admin.getRole().equalsIgnoreCase("Admin")) {
 				%>
 				<li><a href="/admin/dashboard" class="active">Home</a></li>
-				<li><a href="/swt/index#about">About</a></li>
-				<li><a href="/swt/index#rules">Rules</a></li>
-				<li><a href="/swt/index#review">Review</a></li>
-				<%	
-				}else {
+				<%
+				} else {
 				%>
 				<li><a href="#home" class="active">Home</a></li>
-				<li><a href="/swt/index#about">About</a></li>
-				<li><a href="/swt/index#rules">Rules</a></li>
-				<li><a href="/swt/index#review">Review</a></li>
-<%} %>				
+				<li><a href="#about">About</a></li>
+				<li><a href="#rules">Rules</a></li>
+				<li><a href="#review">Review</a></li>
+				<%
+				}
+				%>
 				<%
 				if (admin != null && admin.getRole().equalsIgnoreCase("Admin")) {
 				%>

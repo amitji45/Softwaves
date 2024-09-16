@@ -54,15 +54,21 @@ public class ValunteerController {
 		return "userattendance";
 	}
 	@RequestMapping("/studentattendance/present")
-	public String markAttendancepresent(@RequestParam("rollNo") String rollNo,
+	public ResponseEntity markAttendancepresent(@RequestParam("rollNo") String rollNo,
 			@RequestParam("batchId") String batchId, HttpServletRequest  session) {
-		userserviceimpl.markAttendancepresent(rollNo, batchId);
-		return "userattendance";
+		Student student=userserviceimpl.markAttendancepresent(rollNo, batchId);
+		if(student!=null)
+		return new ResponseEntity<>(student, HttpStatus.OK);
+		return new ResponseEntity<>(student ,HttpStatus.FORBIDDEN);
+		
 	}
 	@RequestMapping("/studentattendance/absent")
-	public String markAttendanceAbsent(@RequestParam("rollNo") String rollNo, @RequestParam("batchId") String batchId,HttpServletRequest  session) {
-		userserviceimpl.markAttendanceAbsent(rollNo, batchId);
-		return "userattendance";
+	public  ResponseEntity markAttendanceAbsent(@RequestParam("rollNo") String rollNo, @RequestParam("batchId") String batchId,HttpServletRequest  session) {
+		Student student=userserviceimpl.markAttendanceAbsent(rollNo, batchId);
+		if(student!=null)
+			return new ResponseEntity<>(student, HttpStatus.OK);
+			return new ResponseEntity<>(student ,HttpStatus.FORBIDDEN);
+	 
 	}
 	@RequestMapping("/volunteerMarks")
 	public String volunteerMarks(HttpServletRequest request) {

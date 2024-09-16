@@ -17,6 +17,9 @@
 	List<Batch> activebatch = (List<Batch>) request.getAttribute("activebatch");
 	%>
 	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			findActiveBatches();
+		});
 		//      function for  Active batch list 
 		function findActiveBatches() {
 			var url = "http://localhost:9090/valunteer/findActivebatches";
@@ -57,7 +60,6 @@
 			batchList.innerHTML = '';
 
 			// Log batches1 for debugging
-		
 
 			if (!Array.isArray(batches1) || batches1.length === 0) {
 				alert('No active batches found.');
@@ -108,27 +110,40 @@
 	<%if (list != null) {%>
 		var batchId =
 	<%=list.get(0).getBatch().getBatchId()%>
-		
+		;
 	<%} else {%>
-	
-				alert('Not aveleable student ');
+		alert('No available student');
+			return; // Exit the function if no batchId is available
 	<%}%>
 		// Get the roll number input value
-			if (!rollNo)
+			if (!rollNo) {
 				rollNo = document.getElementById('email-field').value;
+			}
 			if (!rollNo) {
 				alert("Please Enter Roll Number...");
 				return;
 			}
+
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
-
-				console.log("susessfully....");
-				document.getElementById(rollNo).remove();
+				if (xhttp.readyState === XMLHttpRequest.DONE) {
+					if (xhttp.status === 200) {
+						// Check the response from the server
+						var response = xhttp.responseText;
+						if (response === null || response.trim() === "") {
+							alert("Response from server is null or empty.");
+						} else {
+							alert("Successfully marked attendance.");
+							document.getElementById(rollNo).remove();
+						}
+					} else {
+						alert("Error occurred while marking attendance. Status: "
+								+ xhttp.status);
+					}
+				}
 			};
 			xhttp.open("GET", url + rollNo + "&batchId=" + batchId, true);
 			xhttp.send();
-
 		}
 	</script>
 
@@ -146,6 +161,10 @@
 				<h3>
 					Batch :-
 					<%=list.get(0).getBatch().getBatchTopic()%></h3>
+				<%
+				} else {
+				%>
+				<h3>Please Select Batch Available Student</h3>
 				<%
 				}
 				%>
@@ -184,15 +203,13 @@
 
 					</div>
 				</div>
-
-				<!-- End Contact Form -->
+ 
 			</div>
-			<!-- 
-//-------------------------------------------------------------------------------------------- -->
+			
+<!------------------------------------------------------------------------------------------------------------------------------------------->
 			<div class="py-4">
 				<div class="row">
 					<%
-					System.out.println("userattendence...page =>  line. no. 234.." + list);
 					if (list != null) {
 					%>
 					<section class="col py-4 px-2 ">
@@ -264,9 +281,8 @@
 					<%
 					} else {
 					%>
-					<!-- <script>
-						alert('not aveleble student..');
-					</script> -->
+					<h3 class="container section-title">Not Available Student in
+						This Batch!</h3>
 					<%
 					}
 					%>

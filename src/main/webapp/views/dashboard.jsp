@@ -228,10 +228,12 @@
 	<script src="<%=assetspath%>js/main.js"></script>
 	<script src="<%=assetspath%>js/chartjs.min.js"></script>
 	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			findStudentBatches();
+		});
 		function findStudentBatches() {
 			var url = "http://localhost:9090/user/find/student/batch";
 			var xhttp = new XMLHttpRequest();
-
 			xhttp.onreadystatechange = function() {
 				if (this.readyState === XMLHttpRequest.DONE) {
 					if (this.status === 200) {
@@ -283,10 +285,11 @@
 						// Create <a> element
 						var a = document.createElement('a');
 
-						var studentJson = JSON.stringify(student);	
-					 	var stud=encodeURIComponent(studentJson)
-						console.log('stud',stud,student);
-						var url = 'http://localhost:9090/user/dashboard/attendance?student='+stud; // You may want to set this to the actual URL if available
+						var studentJson = JSON.stringify(student);
+						var stud = encodeURIComponent(studentJson)
+						console.log('stud', stud, student);
+						var url = 'http://localhost:9090/user/dashboard/attendance?student='
+								+ stud; // You may want to set this to the actual URL if available
 						// Set the text and href of the <a> tag
 						a.textContent = student.batch.batchTopic; // Assuming each batch object has a 'batchTopic' property
 						a.href = url; // Set the URL to navigate to
@@ -299,6 +302,7 @@
 						console.log(student.batch.batchTopic);
 					});
 		}
+
 		var ctx1 = document.getElementById("chart-line").getContext("2d");
 		var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
 

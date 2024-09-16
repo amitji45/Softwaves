@@ -33,6 +33,8 @@ public class AdminController {
 	@Autowired
 	EmailSenderImpl emailsenderimp;
 
+	
+	
 	@RequestMapping("/dashboard")
 	public String getAdminDashboard(HttpServletRequest request) {
 		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
