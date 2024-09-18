@@ -26,7 +26,6 @@ function allowOrBlockVolunteer(id, url , name) {
 	xhttp.send();
 }
 	function findAllVolunteer(name){
-		console.log(name);
 		
 		$.ajax({
 			  url: 'http://localhost:9090/user/findVolunteer?name='+name,
@@ -34,7 +33,6 @@ function allowOrBlockVolunteer(id, url , name) {
 			  dataType: 'json', // No need to parse the response manually
 		        success: function(response) {
 		            // Clear the existing table body to prevent duplicates
-		            console.log(response);
 		            $('#tableid').empty();
 
 		            // Iterate over the response and append rows

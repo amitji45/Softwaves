@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.swt.project.Service.BatchService;
 import com.springboot.swt.project.entity.Batch;
+import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.repo.BatchRepo;
+import com.springboot.swt.project.repo.StudentRepo;
 
 @Service
 public class BatchServiceImpl implements BatchService {
 	@Autowired
 	private BatchRepo batchrepo;
-
+	@Autowired
+	private StudentRepo studentrepo;
 	private String generateUserId(Batch batch) {
 		StringBuilder id = new StringBuilder();
 		LocalDate local = LocalDate.now();
@@ -33,11 +36,11 @@ public class BatchServiceImpl implements BatchService {
 		batch.setBatchId(generateUserId(batch));
 		return batchrepo.save(batch);
 	}
-
+	@Override
 	public List<Batch> getAllBatches() {
 		return batchrepo.findByCurrentStatus("Enroll");
 	}
-
+	@Override
 	public void startBatchByID(String batchId) {
 		Optional<Batch> optional = batchrepo.findById(batchId);
 		if (!optional.isEmpty()){
@@ -45,6 +48,12 @@ public class BatchServiceImpl implements BatchService {
 			batch.setCurrentStatus("Active");
 			batch.setStartDate(Date.valueOf(LocalDate.now()));
 			batchrepo.save(batch);
+			Integer rollNo=0;
+			List<Student> studentList=studentrepo.findByBatch(batch);
+			for(Student student:studentList) {
+				student.setRollNo(""+(++rollNo));
+				studentrepo.save(student);
+			}
 		}
 	}
 	
@@ -62,6 +71,16 @@ public class BatchServiceImpl implements BatchService {
 	public List<Batch> findByCurrentStatus(String currentstatus) {
 		
 		return batchrepo.findByCurrentStatus(currentstatus);
+	}
+	
+	@Override
+	public List<Batch> sendAllBatches(){
+		return batchrepo.findAll();
+	}
+
+	@Override
+	public void deleteBatchByID(String batchId) {
+		batchrepo.delete(batchrepo.findById(batchId).get());
 	}
 
 }
