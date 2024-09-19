@@ -41,7 +41,8 @@
 									placeholder="Enter your Email" name="email" required>
 							</div>
 						</div>
-
+						<input type="hidden" name="purpose"  value="otp">
+						
 						<div class="col-md-12 text-center">
 							<button type="submit" id="findbutton">Generate OTP</button><!-- when we click on this button it will hit user/otp api  -->
 						</div>

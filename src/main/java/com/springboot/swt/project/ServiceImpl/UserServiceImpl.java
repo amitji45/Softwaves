@@ -16,13 +16,18 @@ import org.springframework.stereotype.Service;
 import com.springboot.swt.project.Service.UserService;
 import com.springboot.swt.project.entity.Batch;
 import com.springboot.swt.project.entity.Student;
+import com.springboot.swt.project.entity.TempUser;
 import com.springboot.swt.project.entity.User;
 import com.springboot.swt.project.repo.BatchRepo;
 import com.springboot.swt.project.repo.StudentRepo;
+import com.springboot.swt.project.repo.TempUserRepo;
 import com.springboot.swt.project.repo.UserRepo;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+	@Autowired
+	private TempUserRepo tempUserRepo;
 
 	@Autowired
 	private UserRepo userrepo;
@@ -38,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Map<String, Object> register(User user) {
 	    Map<String, Object> response = new HashMap<>();
-	    
+	    user.setRole("Student");
 	    user.setId(generateUserId(user));
 	    user.setPassword(encode(user.getPassword()));
 	    user.setContactNo(encode(user.getContactNo()));
@@ -48,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	        response.put("user", null);
 	        return response;
 	    }
-
+		
 	    userrepo.save(user);
 	    user.setContactNo(decode(user.getContactNo()));
 	    user.setPassword(decode(user.getPassword()));
@@ -144,22 +149,32 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void otpSend(String email) {
+	public void otpSend(String email , String purpose) {
 		// it will generate 6 digit no and we will find the user by the email to set the
 		// otp in the attribute
-		User user = userrepo.findByContactNoOrEmail(null, email);
 		int min = 100000; // Minimum 6-digit number
 		int max = 999999; // Maximum 6-digit number
 
 		Random random = new Random();
 		int randomNumber = random.nextInt(max - min + 1) + min;
+
+		if(purpose.equals("regis")){
+			TempUser tempUser = tempUserRepo.findByEmail(email);
+			tempUser.setOtp("" + randomNumber);
+		tempUserRepo.save(tempUser); // we will update the otp in the database
+		emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber);
+		}
+		else{
+		User user = userrepo.findByContactNoOrEmail(null, email);
 		user.setOtp("" + randomNumber);
 		userrepo.save(user); // we will update the otp in the database
 		emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber); // this will send email
-																								// to the user
+		}																					// to the user
 	}
 
-	public User getUser(String email) {
+	public Object getUser(String email , String purpose) {
+		if(purpose.equals("regis"))
+		return tempUserRepo.findByEmail( email);
 		return userrepo.findByContactNoOrEmail(null, email);
 	}
 
@@ -231,6 +246,21 @@ static boolean d=true;
 		user.setRole(allowed);
 		userrepo.save(user);
 		return allowed;
+	}
+	@Override
+	public Map<String, Object> tempRegister(User user) {
+		Map<String, Object> response = new HashMap<>();
+	    if (finder(user)) {
+	        response.put("message", "email or contact no already registered");
+	        response.put("user", null);
+	        return response;
+	    }
+
+	    tempUserRepo.save(new TempUser(user.getEmail() , null));
+
+	    response.put("message", "User registered successfully");
+	    response.put("user", user);
+	    return response;
 	}
 	
 

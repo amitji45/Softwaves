@@ -17,7 +17,7 @@
 
 				<div class="col-lg-7">
 
-					<form action="../user/regis" method="post" class="php-email-form">
+					<form action="../user/tempregis" method="post" class="php-email-form">
 						<%
 						if (request.getParameter("error") != null) {
 						%>

@@ -13,7 +13,7 @@ public interface UserService {
 	String decode(String s);
 
 	boolean finder(User user);
-	public void otpSend(String email);
+	public void otpSend(String email , String purpose);
 	public User resetPassword(String email , String password);
 
 	String allowOrBlockUserByID(String id, String allowed);
@@ -30,5 +30,6 @@ public interface UserService {
 	
 	public List<Student> getAllStudent(String name);
 	String allowOrBlockVolunteerByID(String id, String allowed);
-	
+	Map<String , Object> tempRegister(User user);
+	Object getUser(String email , String purpose);
 }
