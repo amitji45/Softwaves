@@ -123,50 +123,49 @@ public class UserController {
 
 	// finding user by email for otp verification
 	@RequestMapping("/otp")
-public ModelAndView demo(@ModelAttribute("user") User user, String purpose) {
-    ModelAndView modal = new ModelAndView();
+	public ModelAndView demo(@ModelAttribute("user") User user, String purpose) { // purpose string is added for otp and regis 
+		ModelAndView modal = new ModelAndView();
 
-    if (purpose.equals("regis") || userserviceimpl.finder(user)) {
-        userserviceimpl.otpSend(user.getEmail(), purpose);
-        modal.addObject("user69", user);
-        modal.addObject("purpose", purpose);
-        modal.setViewName("forward:/views/Otp.jsp");
-    } else {
-        modal.setViewName("redirect:/views/forgetPassword.jsp");
-        modal.addObject("error", "email is not registered");
-    }
+		if (purpose.equals("regis") || userserviceimpl.finder(user)) {			
+			userserviceimpl.otpSend(user.getEmail(), purpose);			// otp sending according to purpose
+			modal.addObject("user69", user);
+			modal.addObject("purpose", purpose);
+			modal.setViewName("forward:/views/Otp.jsp");
+		} else {
+			modal.setViewName("redirect:/views/forgetPassword.jsp");
+			modal.addObject("error", "email is not registered");
+		}
 
-    return modal;
-}
+		return modal;
+	}
 
+	@RequestMapping("/verify")
+	public ResponseEntity<Map<String, Object>> otpVerify(@ModelAttribute("user") User user1,
+			@RequestParam String otp, String purpose) {
 
-@RequestMapping("/verify")
-public ResponseEntity<Map<String, Object>> otpVerify(@ModelAttribute("user") User user1,
-                                                     @RequestParam String otp, String purpose) {
+		Map<String, Object> response = new HashMap<>();
+		Object user = userserviceimpl.getUser(user1.getEmail(), purpose); // retriving user for otp check using purpose 
+		String userOtp = (user instanceof TempUser) ? ((TempUser) user).getOtp() : ((User) user).getOtp(); // getting the otp from corresponding user weather it is tempuser of User
 
-    Map<String, Object> response = new HashMap<>();
-    Object user = userserviceimpl.getUser(user1.getEmail(), purpose);
-    String userOtp = (user instanceof TempUser) ? ((TempUser) user).getOtp() : ((User) user).getOtp();
-    
-    if (userOtp.equals(otp)) {
-        if (purpose.equals("regis")) {
-            userserviceimpl.register(user1);
-            response.put("success", "successfully registered");
-            response.put("redirectUrl", "/views/login.jsp");
-        } else {
-            response.put("success", true);
-            response.put("redirectUrl", "/views/PasswordReset.jsp?email=" + user1.getEmail());
-        }
-        response.put("email", user1.getEmail());
-        return ResponseEntity.ok(response);
-    } else {
-        response.put("success", false);
-        response.put("errorMessage", "OTP is wrong");
-        response.put("email", user1.getEmail());
-        return ResponseEntity.badRequest().body(response);
-    }
-}
-
+		if (userOtp.equals(otp)) {
+			if (purpose.equals("regis")) {
+				userserviceimpl.register(user1);
+				response.put("success", "successfully registered");
+				response.put("redirectUrl", "/swt/login?success=Email is registered");
+			} else {
+				
+				response.put("success", true);
+				response.put("redirectUrl", "/views/PasswordReset.jsp?email=" + user1.getEmail());
+			}
+			response.put("email", user1.getEmail());
+			return ResponseEntity.ok(response);
+		} else {
+			response.put("success", false);
+			response.put("errorMessage", "OTP is wrong");
+			response.put("email", user1.getEmail());
+			return ResponseEntity.badRequest().body(response);
+		}
+	}
 
 	@RequestMapping("/resetpass")
 	public ModelAndView resetPassword(@RequestParam("email") String email, String pass1, String pass2) {
@@ -222,21 +221,21 @@ public ResponseEntity<Map<String, Object>> otpVerify(@ModelAttribute("user") Use
 	@RequestMapping("/tempregis")
 	public ModelAndView tempRegistration(@ModelAttribute("user") User user,
 			RedirectAttributes redirectAttributes) {
-		Map<String, Object> result = userserviceimpl.tempRegister(user); // Using the map returned from the service
+		Map<String, Object> result = userserviceimpl.tempRegister(user);  	// saves the data in temprory table 
 		ModelAndView modal = new ModelAndView();
 
 		String message = (String) result.get("message");
 		User temp = (User) result.get("user");
 		if (temp == null) {
-			modal.addObject("error", message); // Using the message from the map
+			modal.addObject("error", message);
 			modal.setViewName("redirect:/swt/regis");
 			return modal;
 		}
 		modal.addObject("user", user);
-		modal.addObject("success", message);
+		modal.addObject("success", message); 
 
-		redirectAttributes.addFlashAttribute("user", user);
+		redirectAttributes.addFlashAttribute("user", user);	 	 	// used flash attributes to transfer the data from one controller to other 
 		redirectAttributes.addFlashAttribute("success", message);
-		return demo(user,  "regis");
+		return demo(user, "regis");				// another controller is called 
 	}
 }

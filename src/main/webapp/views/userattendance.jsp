@@ -108,12 +108,10 @@
 
 		function markAttendence(rollNo, url) {
 	<%if (list != null) {%>
-		var batchId =
-	<%=list.get(0).getBatch().getBatchId()%>
-		;
+		var batchId ='<%=list.get(0).getBatch().getBatchId()%>';
 	<%} else {%>
-		alert('No available student');
-			return; // Exit the function if no batchId is available
+				alert('No available student');
+				return; // Exit the function if no batchId is available
 	<%}%>
 		// Get the roll number input value
 			if (!rollNo) {

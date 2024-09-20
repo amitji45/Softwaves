@@ -101,7 +101,6 @@
 										success: function (response) {
 
 											if (response.success && response.redirectUrl) {
-
 												window.location.href = response.redirectUrl;
 											} else {
 

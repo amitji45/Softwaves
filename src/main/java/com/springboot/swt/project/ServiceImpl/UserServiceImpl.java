@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService {
 		Random random = new Random();
 		int randomNumber = random.nextInt(max - min + 1) + min;
 
-		if(purpose.equals("regis")){
+		if(purpose.equals("regis")){			//if the request is from regis it wil save otp in temprory table other wise in primary table 
 			TempUser tempUser = tempUserRepo.findByEmail(email);
 			tempUser.setOtp("" + randomNumber);
 		tempUserRepo.save(tempUser); // we will update the otp in the database
@@ -168,14 +168,14 @@ public class UserServiceImpl implements UserService {
 		User user = userrepo.findByContactNoOrEmail(null, email);
 		user.setOtp("" + randomNumber);
 		userrepo.save(user); // we will update the otp in the database
-		emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber); // this will send email
-		}																					// to the user
+		emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber); 
+		}																					
 	}
 
 	public Object getUser(String email , String purpose) {
 		if(purpose.equals("regis"))
-		return tempUserRepo.findByEmail( email);
-		return userrepo.findByContactNoOrEmail(null, email);
+		return tempUserRepo.findByEmail( email);			// if the purpose is regis then we will find the user in temprory table 
+		return userrepo.findByContactNoOrEmail(null, email); // otherwise in primary table 
 	}
 
 	@Override

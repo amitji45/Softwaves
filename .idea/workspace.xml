@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7f29ba6-1492-402b-a8f2-934a5133d7de" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/com.springboot.swt/com.springboot.swt/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/com.springboot.swt/com.springboot.swt/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/Service/BatchService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/Service/BatchService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/Service/EmailSender.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/Service/EmailSender.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/Service/StudentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/Service/StudentService.class" afterDir="false" />
@@ -25,9 +24,11 @@
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/entity/Attendance.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/entity/Attendance.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/entity/Batch.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/entity/Batch.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/entity/Student.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/entity/Student.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/entity/TempUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/entity/TempUser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/entity/User.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/repo/BatchRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/repo/BatchRepo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/repo/StudentRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/repo/StudentRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/repo/TempUserRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/repo/TempUserRepo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/repo/UserRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/repo/UserRepo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/utilities/Permision.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/utilities/Permision.class" afterDir="false" />
     </list>
@@ -42,9 +43,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2mBl3rUa0LQtNF8MxuISX9bczjt" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -57,7 +58,11 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "neeraj-dev",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Abc/OneDrive/Desktop/New folder (3)"
+    "last_opened_file_path": "C:/Users/Abc/OneDrive/Desktop/New folder (3)",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "advanced.settings"
   }
 }]]></component>
   <component name="RunManager">
@@ -92,5 +97,69 @@
       <updated>1726557654773</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="*" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="date">
+                    <value>
+                      <list>
+                        <option value="1726230005922" />
+                        <option value="" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="user">
+                    <value>
+                      <list>
+                        <option value="*" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
