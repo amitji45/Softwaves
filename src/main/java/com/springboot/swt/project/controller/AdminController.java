@@ -1,5 +1,7 @@
 package com.springboot.swt.project.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,10 @@ import com.springboot.swt.project.ServiceImpl.EmailSenderImpl;
 import com.springboot.swt.project.ServiceImpl.StudentServiceImpl;
 import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.Batch;
+import com.springboot.swt.project.entity.Student;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @RequestMapping("/admin")
 @Controller
@@ -49,18 +53,16 @@ public class AdminController {
 	}
 
 	@RequestMapping("/startbatch")
-	public String startbatch(@RequestParam("id") String batchId,HttpServletRequest request) {
-		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
-		batchservicesimpl.startBatchByID(batchId);
-		return "redirect:allBatches";
-	}
+    public ResponseEntity startbatch(@RequestParam("id") String batchId, HttpServletRequest request, Model model) {
+        batchservicesimpl.startBatchByID(batchId);
+         return new ResponseEntity(getAllBatches(request),HttpStatus.OK);
+         }
 
-	@RequestMapping("/endbatch")
-	public String endbatch(@RequestParam("id") String batchId,HttpServletRequest request) {
-		if(request.getSession().getAttribute("admin")==null) return "redirect:/swt/login";
-		batchservicesimpl.endBatchByID(batchId);
-		return "redirect:allBatches";
-	}
+    @RequestMapping("/endbatch")
+    public ResponseEntity endbatch(@RequestParam("id") String batchId, HttpServletRequest request, Model model) {
+        batchservicesimpl.endBatchByID(batchId);
+         return new ResponseEntity(getAllBatches(request),HttpStatus.OK);
+    }
 
 	@RequestMapping("/approval")
 	public String getNotAllowedUsers(Model model,HttpServletRequest request) {
@@ -110,6 +112,13 @@ public class AdminController {
 //		model.addAttribute("data", studentAttendanceServiceImpl.findAllStudent());
 		return "VolunteerApproval";
 	}
+
+	@RequestMapping("/ManageBatches")
+	public String ManageBatches (HttpServletRequest request,Model model) {
+		
+		model.addAttribute("batchList",getAllBatches(request));
+		return "manageBatches";
+	}
 	@ResponseBody
 	@RequestMapping("/VolunteerApproval/allow")
 	public String approveVolunteerByID(@RequestParam("id") String id,HttpServletRequest request) {
@@ -124,5 +133,25 @@ public class AdminController {
 		userserviceimpl.allowOrBlockVolunteerByID(id, "Student");
 		return "Student";
 	}
+	public List<Batch> getAllBatches(HttpServletRequest request) {
+		List<Batch> batchList= batchservicesimpl.sendAllBatches();
+		//request.getSession().setAttribute("batchList",batchList);
+		return batchList;
+	}
+	
+	
+	@RequestMapping("/getBatchDetails")
+	public String getBatchDetails (@RequestParam("id")String batchId,HttpServletRequest request) {
+		
+		List<Student> studentList=studentServiceImpl.findByBatch(batchId);
+		HttpSession session=request.getSession();
+ 		session.setAttribute("studentList",studentList) ;
 
+		return "batchDetails";
+	}
+	@RequestMapping("/deletebatch")
+	public void deletebatch(@RequestParam("id") String batchId,HttpServletRequest request) {
+		batchservicesimpl.deleteBatchByID(batchId);
+		getAllBatches(request);
+	}
 }

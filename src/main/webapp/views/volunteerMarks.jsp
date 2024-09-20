@@ -105,7 +105,6 @@
 		                if (response === null || response.trim() === "") {
 		                    // Handle the case where response is null or empty
 		                    alert('Response is null or empty. Please try again.');
-		                    console.log('Response is null or empty.');
 		                } else {
 		                    // Handle a valid response
 		                    alert('Marks uploaded successfully!');
@@ -117,7 +116,6 @@
 		            } else {
 		                // Handle HTTP errors
 		                alert('Failed to upload marks. Status: ' + this.status);
-		                console.log('HTTP Error: ' + this.status);
 		            }
 		        }
 		    };

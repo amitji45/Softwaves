@@ -7,7 +7,7 @@
 					<h4>Join Our Newsletter</h4>
 					<p>Subscribe to our newsletter and receive the latest news
 						about our products and services!</p>
-					<form action="forms/newsletter.php" method="post"
+					<form action="#" method="post"
 						class="php-email-form">
 						<div class="newsletter-form">
 							<input type="email" name="email"><input type="submit"
