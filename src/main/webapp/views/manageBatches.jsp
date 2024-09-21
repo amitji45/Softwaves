@@ -1,144 +1,113 @@
-<%@ page import="com.springboot.swt.project.entity.Batch,java.util.List"%>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<%@ include file="component/head.jsp"%>
-</head>
-<body>
-	<%@ include file="component/navbar.jsp"%>
-	<section id="contact" class="section">
+<%@ page import="com.springboot.swt.project.entity.Batch,java.util.List" %>
+	<!DOCTYPE html>
+	<html lang="en">
 
-		<%
-		List<Batch> batchList = (List<Batch>) request.getAttribute("batchList");
-		%>
+	<head>
+		<%@ include file="component/head.jsp" %>
+	</head>
 
+	<body>
+		<%@ include file="component/navbar.jsp" %>
+			<section id="contact" class="section">
 
-		<div class="container section-title">
-			<h2>All Batches</h2>
-		</div>
-
-		<div class="row">
-			<div class="col-lg-12 mb-lg-0 mb-4">
-				<div class="card ">
-					<div class="card-header pb-0 p-3">
-						<div class="d-flex justify-content-between">
-							<h6 class="mb-2">Batches</h6>
+						<div class="container section-title">
+							<h2>All Batches</h2>
 						</div>
-					</div>
-					<div class="table-responsive">
-						<table class="table align-items-center " >
-							<tbody>
-								<%
-								if (batchList == null) {
-								%>
-								<p class="d-flex justify-content-center">NO BATCHES
-									AVAILABLE</p>
-								<%
-								} else {
-								for (Batch batch : batchList) {
-								%>
-								<tr id="<%=batch.getBatchId()%>">
-									<td>
-										<div class="text-center">
-											<p class="text-xs font-weight-bold mb-0">Name:</p>
-											<h6 class="text-sm mb-0"><%=batch.getBatchTopic()%></h6>
-										</div>
-									</td>
-									<td class="align-middle text-sm">
-										<div class="col text-center">
-											<p class="text-xs font-weight-bold mb-0">Status</p>
-											<h6 class="text-sm mb-0"><%=batch.getCurrentStatus()%></h6>
-										</div>
-									</td>
-									<td class="align-middle text-sm">
-										<div class="col text-center">
-											<p class="text-xs font-weight-bold mb-0">Start Date</p>
-											<h6 class="text-sm mb-0"><%=batch.getStartDate()%></h6>
-										</div>
-									</td>
-									<%
-									if (batch.getCurrentStatus().equals("Enroll")) {
-									%>
-									<td>
-										<div class="text-center">
-											<button type="button" class="btn btn-outline-success"
-												onclick="startbatch('<%=batch.getBatchId()%>')">Start</button>
-											<button type="button" class="btn btn-outline-danger"
-												onclick="deletebatch('<%=batch.getBatchId()%>')">Delete</button>
-										</div>
-									</td>
-									<%
-									} else if (batch.getCurrentStatus().equals("Active")) {
-									%>
-									<td>
-										<div class="text-center">
-											<button type="button" class="btn btn-outline-danger"
-												onclick="endbatch('<%=batch.getBatchId()%>')">End</button>
 
+						<div class="row">
+							<div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
+								<div class="card ">
+									<div class="card-header pb-0 p-3">
+										<div class="d-flex justify-content-between">
+											<h6 class="mb-2">Batches</h6>
 										</div>
-									</td>
-									<%
-									} else {
-									%>
-									<td></td>
-									<%
-									}
-									%>
+									</div>
+									<div class="table-responsive">
+										<table class="table align-items-center " id="tableid">
+											<tbody>
 
-									<td>
-										<div class="text-center">
-											<a class="btn btn-outline-info"
-												href="/admin/getBatchDetails?id=<%=batch.getBatchId()%>">Details</a>
-										</div>
-									</td>
-								</tr>
-								<%
-								}
-								}
-								%>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<script type="text/javascript">
-		function endbatch(batchId) {
-			url = "http://localhost:9090/admin/endbatch?id=" + batchId;
-			updatebatch(url);
-		}
-		function startbatch(batchId) {
-			url = "http://localhost:9090/admin/startbatch?id=" + batchId;
-			updatebatch(url);
+											</tbody>
+										</table>
 
-		}
-		function deletebatch(batchId) {
-			url = "http://localhost:9090/admin/deletebatch?id=" + batchId;
-			updatebatch(url);
-		}
-		function updatebatch(url) {
-			var xhttp = new XMLHttpRequest();
-			xhttp.open("GET", url, true);
-
-			xhttp.onreadystatechange = function() {
-				if (this.readyState === 4) {
-					if (this.status === 200) {
-						var updatedBatch = JSON.parse(this.responseText);
-						alert('Content updated successfully.');
-
-						location.reload();
-
-					} else {
-						console.log("Error: " + this.status); // Log any error
-					}
+									</div>
+								</div>
+							</div>
+						</div>
+			</section>
+			<script type="text/javascript">
+				function endbatch(batchId) {
+					url = "http://localhost:9090/admin/endbatch?id=" + batchId;
+					updatebatch(url);
 				}
-			};
+				function startbatch(batchId) {
+					url = "http://localhost:9090/admin/startbatch?id=" + batchId;
+					updatebatch(url);
 
-			xhttp.send();
-		}
-	</script>
-	<%@ include file="component/footer.jsp"%>
-	<%@ include file="component/script.jsp"%>
-</body>
-</html>
+				}
+				function deletebatch(batchId) {
+					url = "http://localhost:9090/admin/deletebatch?id=" + batchId;
+					updatebatch(url);
+				}
+				function updatebatch(url) {
+					var xhttp = new XMLHttpRequest();
+					xhttp.open("GET", url, true);
+
+					xhttp.onreadystatechange = function () {
+						if (this.readyState === 4) {
+							if (this.status === 200) {
+								var updatedBatch = JSON.parse(this.responseText);
+								loadBatch();
+							} else {
+								console.log("Error: " + this.status); // Log any error
+							}
+						}
+					};
+
+					xhttp.send();
+				}
+				// -----------------
+				window.onload = function () {
+					loadBatch();
+				}
+				function loadBatch() {
+
+					$.ajax({
+						url: 'http://localhost:9090/admin/getBatch',
+						type: 'GET',
+						dataType: 'json', // No need to parse the response manually
+						success: function (response) {
+							// Clear the existing table body to prevent duplicates
+							$('#tableid').empty();
+
+							// Iterate over the response and append rows
+							response.forEach(batch => {
+								const newRow = $('<tr>').attr('id', batch.batchid);
+								newRow.append(
+									$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + batch.batchTopic + '</h6>'),
+									$('<td>').html('<p class="text-xs font-weight-bold mb-0">batch status </p><h6 class="text-sm mb-0">' + batch.currentStatus + '</h6>'),
+									$('<td>').html('<p class="text-xs font-weight-bold mb-0">start date  </p><h6 class="text-sm mb-0">' + batch.startDate + '</h6>'),
+									batch.currentStatus === "Enroll" ? $('<td>').html('<button type="button" class="btn btn-outline-success" onclick="startbatch(\'' + batch.batchId + '\')">Start</button>') : null,
+									batch.currentStatus === "Enroll" ? $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="deletebatch(\'' + batch.batchId + '\')">delete</button>') : null,
+									batch.currentStatus === "Active" ? $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="endbatch(\'' + batch.batchId + '\')">end</button>') : null,
+									$('<td>').html('<a class="btn btn-outline-info" href="/admin/getBatchDetails?id=' + batch.batchid + '">Details</a>')
+								);
+								// Append the new row to the table
+								$('#tableid').append(newRow);
+							});
+						},
+						error: function (error) {
+							console.error('Error:', error);
+						}
+					});
+
+				}
+
+				//-----
+
+
+			</script>
+			<%@ include file="component/footer.jsp" %>
+				<%@ include file="component/script.jsp" %>
+	</body>
+
+	</html>

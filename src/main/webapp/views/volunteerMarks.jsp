@@ -21,15 +21,13 @@
 						<select class="justify-content-center col-xl-9 col-md-6 col-sm-7 py-9 " id="batchId">
 						<%
 					    List<Batch> activebatches = (List<Batch>) session.getAttribute("activebatch");
-						
-						
-						
 						for(Batch batch : activebatches){
 						%>
 							<option value="<%=batch.getBatchId()%>" class="dropdown"><%=batch.getBatchTopic()%></option>
-						
 						<%}%>
+						
 						</select>
+					</li>
 					</ul>
 			</nav>
 			<div class="container d-flex justify-content-center">

@@ -8,6 +8,10 @@
 <head>
 <%@ include file="component/head.jsp"%>
 <script>
+	window.onload = function() {
+  // Call findAllVolunteer with the desired name (if applicable)
+  findAllVolunteer(""); // Replace with the actual name
+};
 function allowVolunteer(id , name) {
 	url = "http://localhost:9090/admin/VolunteerApproval/allow?id=";
 	allowOrBlockVolunteer(id, url , name );
@@ -25,13 +29,14 @@ function allowOrBlockVolunteer(id, url , name) {
 	xhttp.open("GET", url + id + "", true);
 	xhttp.send();
 }
-	function findAllVolunteer(name){
+function findAllVolunteer(name){
 		
 		$.ajax({
 			  url: 'http://localhost:9090/user/findVolunteer?name='+name,
 			  type: 'GET',
 			  dataType: 'json', // No need to parse the response manually
 		        success: function(response) {
+				
 		            // Clear the existing table body to prevent duplicates
 		            $('#tableid').empty();
 
@@ -61,11 +66,6 @@ function allowOrBlockVolunteer(id, url , name) {
 	</script>
 </head>
 <body>
-	<%
-	List<Student> list = (List<Student>) request.getAttribute("data");
-	
-	
-	%>
 	
 
 	<%@ include file="component/navbar.jsp"%>
@@ -85,17 +85,12 @@ function allowOrBlockVolunteer(id, url , name) {
 						<div class="row gy-4">
 
 							<div class="col-md-12">
-								<label for="email-field" class="pb-2">Enter Roll No.</label> <input
+								<label for="email-field" class="pb-2">Enter Student Name</label> <input
 									type="text" class="form-control" name="text" id="email-field" onkeyup="findAllVolunteer(this.value)"
 									required>
 
 							</div>
-							<div class="col-md-12 text-center">
-								<button type="button" class="btn btn-secondary"
-									onclick="">Enter</button>
-								<button type="button" class="btn btn-secondary"
-									>delete</button>
-							</div>
+							
 						</div>
 
 					</div>

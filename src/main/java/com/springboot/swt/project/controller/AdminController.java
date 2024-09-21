@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,13 +56,13 @@ public class AdminController {
 	@RequestMapping("/startbatch")
     public ResponseEntity startbatch(@RequestParam("id") String batchId, HttpServletRequest request, Model model) {
         batchservicesimpl.startBatchByID(batchId);
-         return new ResponseEntity(getAllBatches(request),HttpStatus.OK);
+         return new ResponseEntity(batchservicesimpl.sendAllBatches(),HttpStatus.OK);
          }
 
     @RequestMapping("/endbatch")
     public ResponseEntity endbatch(@RequestParam("id") String batchId, HttpServletRequest request, Model model) {
         batchservicesimpl.endBatchByID(batchId);
-         return new ResponseEntity(getAllBatches(request),HttpStatus.OK);
+         return new ResponseEntity(batchservicesimpl.sendAllBatches(),HttpStatus.OK);
     }
 
 	@RequestMapping("/approval")
@@ -115,8 +116,6 @@ public class AdminController {
 
 	@RequestMapping("/ManageBatches")
 	public String ManageBatches (HttpServletRequest request,Model model) {
-		
-		model.addAttribute("batchList",getAllBatches(request));
 		return "manageBatches";
 	}
 	@ResponseBody
@@ -133,11 +132,7 @@ public class AdminController {
 		userserviceimpl.allowOrBlockVolunteerByID(id, "Student");
 		return "Student";
 	}
-	public List<Batch> getAllBatches(HttpServletRequest request) {
-		List<Batch> batchList= batchservicesimpl.sendAllBatches();
-		//request.getSession().setAttribute("batchList",batchList);
-		return batchList;
-	}
+	
 	
 	
 	@RequestMapping("/getBatchDetails")
@@ -152,6 +147,10 @@ public class AdminController {
 	@RequestMapping("/deletebatch")
 	public void deletebatch(@RequestParam("id") String batchId,HttpServletRequest request) {
 		batchservicesimpl.deleteBatchByID(batchId);
-		getAllBatches(request);
+		
+	}
+	@RequestMapping("/getBatch")
+	public ResponseEntity getBatch(Model model,HttpServletRequest request) {
+		return new ResponseEntity<>(batchservicesimpl.sendAllBatches(),HttpStatus.OK );
 	}
 }
