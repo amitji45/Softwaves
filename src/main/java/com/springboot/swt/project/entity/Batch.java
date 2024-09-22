@@ -46,6 +46,7 @@ public class Batch {
 	}
 
 	public Date getStartDate() {
+		 
 		return startDate;
 	}
 
@@ -79,8 +80,7 @@ public class Batch {
 
 	@Override
 	public String toString() {
-		return "Batch [batchId=" + batchId + ", batchTopic=" + batchTopic + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", currentStatus=" + currentStatus + ", numberOfStudents=" + numberOfStudents + "]";
+		return "Batch [batchId=" + batchId + ", batchTopic=" + batchTopic + "]";
 	}
 
 }

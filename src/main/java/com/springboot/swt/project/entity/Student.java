@@ -1,12 +1,10 @@
 package com.springboot.swt.project.entity;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -19,7 +17,12 @@ import jakarta.persistence.Table;
 
 public class Student {
 	
-	 @Id
+	 @Override
+	public String toString() {
+		return "Student [Id=" + Id + ", batch=" + batch + ", user=" + user + ", rollNo=" + rollNo + ", attendanceCount="
+				+ attendanceCount + ", marks=" + marks + ", absent=" + absent + "]";
+	}
+	@Id
 	 private Integer Id;
 	 
 	 @ManyToOne
@@ -34,6 +37,7 @@ public class Student {
 	 @Column
 	 private int attendanceCount;
 
+	 @CollectionTable
 	 @ElementCollection
 	 private List<Integer> marks;
 	
@@ -41,12 +45,7 @@ public class Student {
 	 @Autowired
 	 @ElementCollection
 	 public  List<StringBuilder> absent;
-
-//	 @Autowired
-//	 @ElementCollection
-////student present    batchId       batchname           date
-//	 public List<Map<String, Map<String,LinkedHashSet<String>>>> present;
-//	 
+	 
 	public Integer getId() {
 		return Id;
 	}
@@ -77,13 +76,19 @@ public class Student {
 	public void setAttendanceCount(int attendanceCount) {
 		this.attendanceCount = attendanceCount;
 	}
+	public List<Integer> getMarks() {
+		return marks;
+	}
+	public void setMarks(List<Integer> marks) {
+		this.marks = marks;
+	}
+	public List<StringBuilder> getAbsent() {
+		return absent;
+	}
+	public void setAbsent(List<StringBuilder> absent) {
+		this.absent = absent;
+	}
 	
-	  public List<Integer> getMarks() { return marks; }
-	   public void setMarks(List<Integer> marks) { this.marks = marks; } 
-	 public List<StringBuilder> getAbsent() { return absent; }
-	  public void setAbsent(List<StringBuilder> absent) { this.absent = absent; }
-	 
-	 
 	  
 }
  

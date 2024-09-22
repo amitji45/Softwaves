@@ -2,12 +2,15 @@ package com.springboot.swt.project.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.swt.project.entity.User;
 
 @Controller
-@RequestMapping("/swt")
+@RequestMapping("/")
 public class ViewController {
 
 	@RequestMapping( {"", "/" , "/home" , "/index"} )
@@ -37,5 +40,10 @@ public class ViewController {
 	{
 		model.addAttribute("user", new User());
 		return "PasswordReset";
+	}
+	@RequestMapping("/otp")
+	public String Otp(Model model)
+	{
+		return "Otp";
 	}
 }
