@@ -57,7 +57,7 @@ public class AdminController {
     public ResponseEntity startbatch(@RequestParam("id") String batchId, HttpServletRequest request, Model model) {
         batchservicesimpl.startBatchByID(batchId);
          return new ResponseEntity(batchservicesimpl.sendAllBatches(),HttpStatus.OK);
-         }
+    }
 
     @RequestMapping("/endbatch")
     public ResponseEntity endbatch(@RequestParam("id") String batchId, HttpServletRequest request, Model model) {
@@ -79,6 +79,7 @@ public class AdminController {
 		userserviceimpl.allowOrBlockUserByID(id, "Allowed");
 		return "Allowed";
 	}
+
 	@ResponseBody
 	@RequestMapping("/approval/block")
 	public String blockByID(@RequestParam("id") String id,HttpServletRequest request) {
@@ -86,6 +87,7 @@ public class AdminController {
 		userserviceimpl.allowOrBlockUserByID(id, "Blocked");
 		return "Blocked";
 	}
+
 	@ResponseBody
 	@RequestMapping("/newbatch")
 	public ResponseEntity<String> newBatch(@RequestParam String name,HttpServletRequest request) {
@@ -118,6 +120,7 @@ public class AdminController {
 	public String ManageBatches (HttpServletRequest request,Model model) {
 		return "manageBatches";
 	}
+	
 	@ResponseBody
 	@RequestMapping("/VolunteerApproval/allow")
 	public String approveVolunteerByID(@RequestParam("id") String id,HttpServletRequest request) {
@@ -125,6 +128,7 @@ public class AdminController {
 		userserviceimpl.allowOrBlockVolunteerByID(id, "Volunteer");
 		return "Volunteer";
 	}
+
 	@ResponseBody
 	@RequestMapping("/VolunteerApproval/block")
 	public String blockVolunteerByID(@RequestParam("id") String id,HttpServletRequest request) {
@@ -132,9 +136,7 @@ public class AdminController {
 		userserviceimpl.allowOrBlockVolunteerByID(id, "Student");
 		return "Student";
 	}
-	
-	
-	
+
 	@RequestMapping("/getBatchDetails")
 	public String getBatchDetails (@RequestParam("id")String batchId,HttpServletRequest request) {
 		
@@ -144,13 +146,16 @@ public class AdminController {
 
 		return "batchDetails";
 	}
+
 	@RequestMapping("/deletebatch")
 	public void deletebatch(@RequestParam("id") String batchId,HttpServletRequest request) {
 		batchservicesimpl.deleteBatchByID(batchId);
 		
 	}
+
 	@RequestMapping("/getBatch")
 	public ResponseEntity getBatch(Model model,HttpServletRequest request) {
-		return new ResponseEntity<>(batchservicesimpl.sendAllBatches(),HttpStatus.OK );
+		return new ResponseEntity<>(batchservicesimpl.sendAllBatches(),HttpStatus.OK  );
 	}
+
 }
