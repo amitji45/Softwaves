@@ -139,7 +139,7 @@
 							</ul></li>
 
 
-						<li><a href="#">All Students</a></li>
+						<li><a href="/admin/AllStudentDetails">All Students</a></li>
 						<li><a href="/admin/VolunteerApproval">Volunteer approval</a></li>
 						<li><a href="/admin/ManageBatches">Manage Batches</a></li>
 
