@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.springboot.swt.project.entity.User;
 
 @Controller
-@RequestMapping("/swt")
+@RequestMapping("/")
 public class ViewController {
 
 	@RequestMapping( {"", "/" , "/home" , "/index"} )
