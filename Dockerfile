@@ -5,7 +5,7 @@ WORKDIR /app
 # Copy the pom.xml and the project files to the container
 COPY pom.xml .
 
-COPY src/main/webapp/WEB-INF /app/WEB-INF/
+COPY src/main/webapp/views /app/views
 
 COPY src ./src
 # Build the application using Maven
