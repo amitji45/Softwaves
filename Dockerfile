@@ -10,6 +10,8 @@ RUN mvn clean package -DskipTests
 # Use an official OpenJDK image as the base image
 FROM openjdk:17-jdk-alpine
 # Copy the built JAR file from the previous stage to the container
+COPY src/main/webapp/WEB-INF /app/WEB-INF/
+
 COPY target/*.jar app.jar
 # Set the command to run the application
 CMD ["java", "-jar", "app.jar"]
