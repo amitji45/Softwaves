@@ -5,6 +5,9 @@ WORKDIR /app
 # Copy the pom.xml and the project files to the container
 COPY pom.xml .
 COPY src ./src
+
+COPY src/main/webapp/WEB-INF /app/WEB-INF/
+
 # Build the application using Maven
 RUN mvn clean package -DskipTests
 # Use an official OpenJDK image as the base image
