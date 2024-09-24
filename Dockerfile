@@ -15,7 +15,7 @@ FROM openjdk:17-jdk-alpine
 # Copy the built JAR file from the previous stage to the container
 COPY target/*.jar app.jar
 # Set the command to run the application
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "app.jar" , "spring-boot:run"]
 
 EXPOSE 9090
 # -------------------------------
