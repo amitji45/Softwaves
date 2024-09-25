@@ -214,6 +214,17 @@ public class UserServiceImpl implements UserService {
 		else
 			currenttime = currenttime.append(local.getMonthValue() + "-");
 		currenttime = currenttime.append(local.getDayOfMonth());
+		Date date = student.getBatch().getStartDate();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		// Correctly create LocalDate using month and day
+		LocalDate sqllocalDate = LocalDate.of(calendar.get(Calendar.YEAR),
+				calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
+				calendar.get(Calendar.DAY_OF_MONTH));
+		long totalday = ChronoUnit.DAYS.between(sqllocalDate, local) + 1;
+		if (totalday == student.absent.size() + student.getAttendanceCount()) {
+			return student;
+		}
 		if (student.absent.contains(currenttime.toString()))// by chanc galti se agar absent lag to ye sahi kr dega
 			student.absent.remove(currenttime.toString());
 		student.setAttendanceCount(student.getAttendanceCount() + 1);
