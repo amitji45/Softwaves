@@ -131,9 +131,9 @@
 																		</li>
 
 
-																				<li><a href="/admin/AllStudentDetails">All Students</a></li>
+																				<li><a href="/admin/AllStudentDetails">Completed Batch</a></li>
 																				<li><a href="/admin/VolunteerApproval">Volunteer approval</a></li>
-																				<li><a href="/admin/allStudent">all student (neeraj)</a></li>
+																				<li><a href="/admin/allStudent">All Student</a></li>
 																				<li><a href="/admin/ManageBatches">Manage Batches</a></li>
 
 																		<li class="dropdown"><a href="#"><span>New
@@ -175,6 +175,7 @@
 																		</li>
 																		<% } %>
 								</ul>
+								<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 							</nav>
 							<% if (user1==null && admin==null) { %>
 								<a class="btn-getstarted" href="/swt/login">Sign In</a>

@@ -18,7 +18,7 @@
 							<div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
 								<div class="card ">
 									<div class="card-header pb-0 p-3">
-										<div class="d-flex justify-content-between">
+										<div class="d-flex justify-content-center">
 											<h6 class="mb-2">Batches</h6>
 										</div>
 									</div>

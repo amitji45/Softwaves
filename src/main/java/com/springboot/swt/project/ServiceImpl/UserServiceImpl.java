@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
 		for (Student stud : studybatch) {
 			if (stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())
 					&& stud.getBatch().getCurrentStatus().equals("Completed")) {
-				return "your are all study " + batch.getBatchTopic() + " batch";
+				return "Already studied that-:" + batch.getBatchTopic() + " batch";
 			}
 		}
 		int oldbatchstatus = 0;

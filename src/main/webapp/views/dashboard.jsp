@@ -31,13 +31,7 @@
 	
 	
 	%><%@ include file="component/navbar.jsp"%>
-<%if(studentUser == null)
-{
-	%>
-	<h4>PLEASE ENROLL IN A BATCH, No Data Available</h4>
-	<%
-}
-else{
+<%
 	Integer average=null;
 	if(!marksList.isEmpty())
 			average = (int)marksList.stream()
@@ -116,10 +110,10 @@ else{
 										<div class="col-8">
 											<div class="numbers">
 												<p class="text-sm mb-0 text-uppercase font-weight-bold">Attendance</p>
-												<h5 class="font-weight-bolder"><%=studentUser.getAttendanceCount() %></h5>
+												<h5 class="font-weight-bolder"><%=(studentUser != null) ?studentUser.getAttendanceCount() : "No Data"%></h5>
 												<p class="mb-0">
 													<span class="text-success text-sm font-weight-bolder"></span>
-													Presents till Today
+													<%=(studentUser != null) ?"Presents Till Today" : ""%>
 												</p>
 												<nav id="navmenu" class="navmenu">
 													<li class="dropdown"><span
@@ -250,7 +244,6 @@ else{
 			</section>
 		</div>
 	</div>
-	<%} %>
 	<%@ include file="component/footer.jsp"%>
 	<%@ include file="component/script.jsp"%>
 	<script src="<%=assetspath%>js/main.js"></script>
