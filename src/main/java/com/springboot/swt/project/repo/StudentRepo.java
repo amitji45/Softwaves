@@ -9,14 +9,18 @@ import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.entity.User;
 
 public interface StudentRepo extends JpaRepository<Student, Integer> {
-	Student findByUserAndBatch(User user,Batch batch);
-	Student findByRollNoAndBatch(String rollNo,Batch batch);
- 	Student findByUser(User user);
- 	  Student findByUserId(User user);
-	 List<Student> findByBatch(Batch batchId);
-	 List<Student> findByUserId(String userId);
-	
+	Student findByUserAndBatch(User user, Batch batch);
 
-	  
-	
+	Student findByRollNoAndBatch(String rollNo, Batch batch);
+
+	Student findByUser(User user);
+
+	Student findByUserId(User user);
+
+	List<Student> findByBatch(Batch batchId);
+
+	List<Student> findByUserId(String userId);
+
+	List<Student> findByuser(User user);
+
 }

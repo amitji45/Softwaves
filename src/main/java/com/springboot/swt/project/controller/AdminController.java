@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -171,7 +170,7 @@ public class AdminController {
 
 	@RequestMapping("/getAllStudentByBatchId")
 	public ResponseEntity getAllStudent(@RequestParam("batchId") String batchId) {
-		System.out.println(studentServiceImpl.findByBatch(batchId));
+
 		return new ResponseEntity<>(studentServiceImpl.findByBatch(batchId), HttpStatus.OK);
 	}
 

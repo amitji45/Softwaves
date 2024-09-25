@@ -27,10 +27,10 @@
                                 </div>
                                 
                                 <div id="batchesContainer" class="row"></div>
-                                <div class="row mt-4">
+                                <div class="row mt-4" id="card..">
                                     <div class="col-lg-12  mb-lg-0 mb-4">
                                         <div class="card z-index-2 h-100">
-                                            <div class="card-header pb-0 pt-3 bg-transparent">
+                                            <div class="card-header pb-0 pt-3 bg-transparent" >
                                                 <h6 class="text-capitalize">completed Batches:-</h6>
 
                                             </div>
@@ -144,6 +144,7 @@
                                 
 
                                 function viewloadBatch() {
+                                  
                                     $.ajax({
                                         url: 'http://localhost:9090/admin/findActivebatches',
                                         type: 'GET',
@@ -202,13 +203,14 @@
 
                                 function loadBatch(element) {
                                     changeColor(element);
-
+                                   // document.getElementById('card..').innerHTML='';
                                     $('#backtable').empty();
                                     $.ajax({
                                         url: 'http://localhost:9090/admin/getBatch',
                                         type: 'GET',
                                         dataType: 'json', // No need to parse the response manually
                                         success: function (response) {
+                                            
                                             // Clear the existing table body to prevent duplicates
                                             $('#tableid').empty();
                                             // Iterate over the response and append rows
@@ -216,8 +218,8 @@
                                                 const newRow = $('<tr>').attr('id', batch.batchid);
                                                 newRow.append(
                                                     batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + batch.batchTopic + '</h6>') : null,
-                                                    batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">batch status </p><h6 class="text-sm mb-0">' + batch.currentStatus + '</h6>') : null,
-                                                    batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">batchId</p><h6 class="text-sm mb-0">' + batch.batchId + '</h6>') : null,
+                                                        batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">batch status </p><h6 class="text-sm mb-0">' + batch.currentStatus + '</h6>') : null,
+                                                            batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">batchId</p><h6 class="text-sm mb-0">' + batch.batchId + '</h6>') : null,
                                                     batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">start date  </p><h6 class="text-sm mb-0">' + batch.startDate + '</h6>') : null,
                                                     batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">end date  </p><h6 class="text-sm mb-0">' + batch.endDate + '</h6>') : null,
                                                     batch.currentStatus === "Completed" ? $('<td>').html('<a class="btn btn-outline-info"  onclick="batchDetails(\'' + batch.batchId + '\')">Details</a>') : null
@@ -232,10 +234,10 @@
                                         },
                                         error: function (error) {
                                             console.error('Error:', error);
+                                            document.getElementById('tableid').innerHTML='';
                                         }
                                     });
-
-                                }
+                }
 
                                 function batchDetails(batchId) {
                                     console.log("batchid=>" + batchId);
@@ -264,9 +266,7 @@
                                                 newRow.append(
                                                     $('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + batch.rollNo + '</h6>'),
                                                     $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + batch.user.name + '</h6>'),
-                                                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Id:</p><h6 class="text-sm mb-0">' + batch.user.id + '</h6>'),
-                                                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">ContactNo:</p><h6 class="text-sm mb-0">' + batch.user.contactNo + '</h6>'),
-                                                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">attendanceCount Present:</p><h6 class="text-sm mb-0">' + batch.attendanceCount + '</h6>'),
+                                                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Present Count:</p><h6 class="text-sm mb-0">' + batch.attendanceCount + '</h6>'),
                                                     $('<td>').html('<a class="btn btn-outline-info" href="#' + batch.batchid + '">Details</a>')
                                                 );
                                                 // Append the new row to the table
