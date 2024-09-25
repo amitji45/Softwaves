@@ -7,7 +7,7 @@
     <list default="true" id="f7f29ba6-1492-402b-a8f2-934a5133d7de" name="Changes" comment="docker file updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/ViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/ViewController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +58,7 @@
   &quot;keyToString&quot;: {
     &quot;Application.SoftwavesApplication.executor&quot;: &quot;Run&quot;,
     &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
     &quot;Maven.com.springboot.swt [clean,pring-boot:run].executor&quot;: &quot;Run&quot;,
     &quot;Maven.com.springboot.swt [clean...].executor&quot;: &quot;Run&quot;,
     &quot;Maven.com.springboot.swt [clean].executor&quot;: &quot;Run&quot;,
@@ -66,7 +67,8 @@
     &quot;Maven.com.springboot.swt [spring-boot:run].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;neeraj-dev&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging neeraj-dev&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Abc/OneDrive/Desktop/New folder (3)&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
@@ -75,7 +77,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;
   }
 }</component>
-  <component name="RunManager" selected="Maven.com.springboot.swt [spring-boot:run]">
+  <component name="RunManager" selected="Docker.Dockerfile">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.springboot.swt.project.SoftwavesApplication" />
       <module name="com.springboot.swt" />
@@ -187,12 +189,32 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.Unnamed" />
+      <item itemvalue="Docker.Dockerfile" />
       <item itemvalue="Maven.com.springboot.swt [spring-boot:run]" />
       <item itemvalue="Maven.com.springboot.swt [install]" />
       <item itemvalue="Maven.com.springboot.swt [clean]" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.Dockerfile" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
