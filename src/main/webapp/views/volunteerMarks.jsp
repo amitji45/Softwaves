@@ -34,11 +34,13 @@
 				<div class="col-lg-6">
 					<form method="post" class="php-email-form">
 						<div class="row gy-4">
+						
+						
 						<div class="row mb-4">
 							<div class="input-group mb-3">
 								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
 									Roll No.</span> <input type="text" class="form-control"
-									placeholder="Enter Roll No." name="rollNo" id ="rollNo"required>
+									placeholder="Enter Roll No." name="rollNo" id ="rollNo" required>
 							</div>
 						</div>
 							
@@ -46,7 +48,7 @@
 							<div class="input-group mb-3">
 								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
 									Marks</span> <input type="text" class="form-control"
-									placeholder="Enter Marks" name="marks"  id="marks"required>
+									placeholder="Enter Marks" name="marks"  id="marks" required>
 							</div>
 						</div>
 							<div class="col-md-12 text-center">
@@ -92,7 +94,12 @@
 		    var batchId = "" + document.getElementById("batchId").value;
 		    var url = "http://localhost:9090/valunteer/setmarks?rollNo=";
 		    
+		    if(marks === "" || rollNo === "" || batchId === "")
+		    {
+		    	alert('Please Enter Valid Data');
+		    }
 		    // Create XMLHttpRequest object
+		    else{
 		    var xhttp = new XMLHttpRequest();
 		    
 		    // Define the onreadystatechange callback
@@ -117,7 +124,7 @@
 		            }
 		        }
 		    };
-		    
+		    }
 		    // Open and send the request
 		    xhttp.open("GET", url + rollNo + "&batchId=" + batchId + "&marks=" + marks, true);
 		    xhttp.send();

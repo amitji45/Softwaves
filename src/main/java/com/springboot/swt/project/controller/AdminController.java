@@ -149,7 +149,6 @@ public class AdminController {
 
 	@RequestMapping("/getBatchDetails")
 	public String getBatchDetails(@RequestParam("id") String batchId, HttpServletRequest request) {
-
 		List<Student> studentList = studentServiceImpl.findByBatch(batchId);
 		HttpSession session = request.getSession();
 		session.setAttribute("studentList", studentList);

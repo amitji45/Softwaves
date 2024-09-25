@@ -2,6 +2,7 @@ package com.springboot.swt.project.ServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.springboot.swt.project.Service.StudentService;
 import com.springboot.swt.project.entity.Batch;
 import com.springboot.swt.project.entity.Student;
+import com.springboot.swt.project.entity.User;
 import com.springboot.swt.project.repo.BatchRepo;
 import com.springboot.swt.project.repo.StudentRepo;
 
@@ -35,14 +37,9 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public List<Student> findByBatch(String batchId) {
-		List<Student> list = studentRepo.findAll();
-		List<Student> currentlist = new ArrayList<>();
-		for (Student s : list) {
-			if (batchId.equals(s.getBatch().getBatchId()))
-				currentlist.add(s);
-
-		}
-		return currentlist;
+		Batch batch=batchRepo.findByBatchId(batchId);
+		List<Student> list = studentRepo.findByBatch(batch);
+		return list;
 	}
 
 	@Override
@@ -63,6 +60,17 @@ public class StudentServiceImpl implements StudentService {
 		student.setMarks(tempList);
 		studentRepo.save(student);
 		return student;
+	}
+	@Override
+	public Student getActiveStudent(User temp) {		
+		List<Student> studentList=studentRepo.findByuser(temp);
+		for(Student student : studentList) 
+		{
+			Batch batch = student.getBatch();
+			if(batch.getCurrentStatus().equals("Active"))return student;
+		}
+		
+		return null;
 	}
 
 }

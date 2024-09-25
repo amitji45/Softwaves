@@ -119,42 +119,61 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String enrollstudent(String batchId, User user) {
+    public String enrollstudent(String batchId, User user) {
 
-		Random rand = new Random();
-		Optional<Batch> optional = batchrepo.findById(batchId);
-		Batch batch = optional.get();
+        Random rand = new Random();
+        Optional<Batch> optional = batchrepo.findById(batchId);
+        Batch batch = optional.get();
 
-		Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
-		List<Student> studybatch = studentrepo.findByuser(user);
+        Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
+        List<Student> studybatch = studentrepo.findByuser(user);
 
-		for (Student stud : studybatch) {
-			if (stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())) {
-				return "your are all study " + batch.getBatchTopic() + " batch";
-			}
+        for (Student stud : studybatch) {
+            if (stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())
+                    && stud.getBatch().getCurrentStatus().equals("Completed")) {
+                return "your are all study " + batch.getBatchTopic() + " batch";
+            }
 
-		}
+        }
+        boolean oldbatchstatus = false;
+        String old = "";
+        for (Student stud : studybatch) {
+            if (stud.getBatch().getCurrentStatus().equals("Enroll")) {
+                old = stud.getBatch().getBatchTopic();
+                studentrepo.removeByUserAndBatch(user, batch);
+                break;
+            }
+        }
+        if (oldbatch == null) {
+            Student student = new Student();
+            ArrayList<Integer> list = new ArrayList<Integer>(10);
+            student.setId(rand.nextInt(1000));
+            student.setBatch(batch);
+            student.setUser(user);
+            student.setMarks(list);
+            studentrepo.save(student);
+            if (oldbatchstatus && old != null)
+                return "remove " + old + " batch And Enroll batch" + batch.getBatchTopic();
+            else
+                return "your are successfully Enroll " + batch.getBatchTopic() + " batch";
+        } else {
+            return " Student is Already Enrolled for " + batch.getBatchTopic();
+        }
 
-		if (oldbatch == null) {
-			Student student = new Student();
-			ArrayList<Integer> list = new ArrayList<Integer>(10);
-			student.setId(rand.nextInt(1000));
-			student.setBatch(batch);
-			student.setUser(user);
-			student.setMarks(list);
-			studentrepo.save(student);
-			return " Student Enrolled Successfully";
-
-		} else {
-			return " Student is Already Enrolled for " + batch.getBatchTopic();
-		}
-
-	}
+    }
 
 	@Override
 	public List<Integer> getMarksList(String id) {
-		User user = userrepo.findById(id).get();
-		Student student = studentrepo.findByUser(user);
+		List<Student> studentList=studentrepo.findByuser(userrepo.findById(id).get());
+		Student student=null;
+		for(Student studentTemp : studentList)
+		{
+			if(studentTemp.getBatch().getCurrentStatus().equals("Active"))
+			{
+				student=studentTemp;
+				break;
+			}
+		}
 		if (student != null)
 			return student.getMarks();
 		return null;

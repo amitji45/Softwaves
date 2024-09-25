@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.springboot.swt.project.ServiceImpl.BatchServiceImpl;
+import com.springboot.swt.project.ServiceImpl.StudentServiceImpl;
 import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
 import com.springboot.swt.project.entity.Batch;
 import com.springboot.swt.project.entity.Student;
@@ -44,7 +45,9 @@ public class UserController {
 	private UserServiceImpl userserviceimpl;
 	@Autowired
 	private BatchServiceImpl batchservicesimpl;
-
+	
+	@Autowired
+	private StudentServiceImpl studentServiceImpl;
 	// Login Controller
 	@PostMapping("/login")
 	public ModelAndView login(HttpServletRequest request, @RequestParam String email, String password) {
@@ -54,7 +57,14 @@ public class UserController {
 			HttpSession session = request.getSession();
 			if (temp.getRole().equalsIgnoreCase("Student") || temp.getRole().equalsIgnoreCase("Volunteer")) {
 				session.setAttribute("user", temp);
+				Student student=studentServiceImpl.getActiveStudent(temp);
+				session.setAttribute("activeStudentUser", student);
 				modal.setViewName("redirect:dashboard");
+				
+				List<Integer> studentMarks=userserviceimpl.getMarksList(temp.getId());
+				session.setAttribute("studentMarks", studentMarks);
+
+				
 				return modal;
 			}
 			if (temp.getRole().equalsIgnoreCase("Admin")) {
@@ -247,5 +257,12 @@ public class UserController {
 															// controller to other
 		redirectAttributes.addFlashAttribute("success", message);
 		return demo(user, "regis"); // another controller is called
+	}
+	@RequestMapping("/getmarks")
+	public ResponseEntity getMarks(@RequestParam String id) {
+		
+		List<Integer> marksList = userserviceimpl.getMarksList(id);
+		
+		return new ResponseEntity(marksList,HttpStatus.OK);
 	}
 }
