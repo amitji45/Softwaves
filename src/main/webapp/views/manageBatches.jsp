@@ -56,7 +56,7 @@
 					xhttp.onreadystatechange = function () {
 						if (this.readyState === 4) {
 							if (this.status === 200) {
-								var updatedBatch = JSON.parse(this.responseText);
+								//var updatedBatch = JSON.parse(this.responseText);
 
 							} else {
 								console.log("Error: " + this.status); // Log any error

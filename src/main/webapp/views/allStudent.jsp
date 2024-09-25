@@ -12,23 +12,10 @@
   // Call findAllVolunteer with the desired name (if applicable)
   findAllVolunteer(""); // Replace with the actual name
 };
-function allowVolunteer(id , name) {
-	url = "http://localhost:9090/admin/VolunteerApproval/allow?id=";
-	allowOrBlockVolunteer(id, url , name );
- }
-function blockVolunteer(id , name) {
-	url = "http://localhost:9090/admin/VolunteerApproval/block?id=";
-	allowOrBlockVolunteer(id, url , name);
-}
+function details(id , name) {
 
-function allowOrBlockVolunteer(id, url , name) {
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		findAllVolunteer(name);
-	};
-	xhttp.open("GET", url + id + "", true);
-	xhttp.send();
-}
+ }
+
 function findAllVolunteer(name){
 
 		$.ajax({
@@ -47,7 +34,7 @@ function findAllVolunteer(name){
 		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name :</p><h6 class="text-sm mb-0">' + user.name+ '</h6>'),
 		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">batch</p><h6 class="text-sm mb-0">' + user.batch + '</h6>'),
 		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">User id </p><h6 class="text-sm mb-0">' + user.id + '</h6>'),
-		                    $('<td>').html('<button type="button" class="btn btn-outline-info " onclick="allowVolunteer(\''+user.id +'\' , \''+name+'\')" >detail</button>'),
+		                    $('<td>').html('<button type="button" class="btn btn-outline-info " onclick="details(\''+user.id +'\' , \''+name+'\')" >detail</button>'),
 		                );
 		                // Append the new row to the table
 		                $('#tableid').append(newRow);
