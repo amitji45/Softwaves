@@ -3,6 +3,7 @@ package com.springboot.swt.project.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -158,9 +159,9 @@ public class AdminController {
 	}
 
 	@RequestMapping("/deletebatch")
-	public void deletebatch(@RequestParam("id") String batchId, HttpServletRequest request) {
+	public ResponseEntity  deletebatch(@RequestParam("id") String batchId, HttpServletRequest request) {
 		batchservicesimpl.deleteBatchByID(batchId);
-
+		return new ResponseEntity(HttpStatus.OK);
 	}
 
 	@RequestMapping("/getBatch")
@@ -180,5 +181,9 @@ public class AdminController {
 
 		return new ResponseEntity(batchlist, HttpStatus.OK);
 	}
-
+	@RequestMapping("/allStudent")
+	public String allStudent(Model model)
+	{
+		return "allStudent";
+	}
 }

@@ -42,4 +42,6 @@ public class ViewController {
 	public String Otp(Model model) {
 		return "Otp";
 	}
+
+
 }

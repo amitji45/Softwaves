@@ -12,7 +12,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -277,10 +279,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List getAllStudent(String name) {
 		List<User> allStudentList = userrepo.findAll().stream()
-				.filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase()))
+				.filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase() )&& !"Admin".equals(user.getRole()))
+				.sorted(Comparator.comparing(User::getName)) // Sort by name
 				.collect(Collectors.toList());
+
 		return allStudentList;
 	}
+
 
 	@Override
 	public String allowOrBlockVolunteerByID(String id, String allowed) {

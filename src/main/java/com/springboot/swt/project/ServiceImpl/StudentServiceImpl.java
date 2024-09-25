@@ -2,7 +2,8 @@ package com.springboot.swt.project.ServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
+import java.util.Comparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,15 +36,12 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public List<Student> findByBatch(String batchId) {
-		List<Student> list = studentRepo.findAll();
-		List<Student> currentlist = new ArrayList<>();
-		for (Student s : list) {
-			if (batchId.equals(s.getBatch().getBatchId()))
-				currentlist.add(s);
-
-		}
-		return currentlist;
+		return studentRepo.findAll().stream()
+				.filter(s -> batchId.equals(s.getBatch().getBatchId())) // Filter by batchId
+				.sorted(Comparator.comparing(Student::getRollNo)) // Sort by roll number
+				.collect(Collectors.toList()); // Collect the filtered and sorted students into a list
 	}
+
 
 	@Override
 	public List<Student> findAllStudent(String name) {
