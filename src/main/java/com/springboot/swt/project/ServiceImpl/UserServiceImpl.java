@@ -1,8 +1,11 @@
 package com.springboot.swt.project.ServiceImpl;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Calendar;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,26 +45,26 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Map<String, Object> register(User user) {
-	    Map<String, Object> response = new HashMap<>();
-	    user.setRole("Student");
-	    user.setId(generateUserId(user));
-	    user.setPassword(encode(user.getPassword()));
-	    user.setContactNo(encode(user.getContactNo()));
+		Map<String, Object> response = new HashMap<>();
+		user.setRole("Student");
+		user.setId(generateUserId(user));
+		user.setPassword(encode(user.getPassword()));
+		user.setContactNo(encode(user.getContactNo()));
 
-	    if (finder(user)) {
-	        response.put("message", "email or contact no already registered");
-	        response.put("user", null);
-	        return response;
-	    }
-		
-	    userrepo.save(user);
-	    user.setContactNo(decode(user.getContactNo()));
-	    user.setPassword(decode(user.getPassword()));
+		if (finder(user)) {
+			response.put("message", "email or contact no already registered");
+			response.put("user", null);
+			return response;
+		}
+		userrepo.save(user);
+		user.setContactNo(decode(user.getContactNo()));
+		user.setPassword(decode(user.getPassword()));
 
-	    response.put("message", "User registered successfully");
-	    response.put("user", user);
-	    return response;
+		response.put("message", "User registered successfully");
+		response.put("user", user);
+		return response;
 	}
+
 	private String generateUserId(User user) {
 		StringBuilder id = new StringBuilder();
 		LocalDate local = LocalDate.now();
@@ -123,9 +126,18 @@ public class UserServiceImpl implements UserService {
 		Batch batch = optional.get();
 
 		Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
+		List<Student> studybatch = studentrepo.findByuser(user);
+
+		for (Student stud : studybatch) {
+			if (stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())) {
+				return "your are all study " + batch.getBatchTopic() + " batch";
+			}
+
+		}
+
 		if (oldbatch == null) {
 			Student student = new Student();
-			ArrayList<Integer> list=new ArrayList<Integer>(10);
+			ArrayList<Integer> list = new ArrayList<Integer>(10);
 			student.setId(rand.nextInt(1000));
 			student.setBatch(batch);
 			student.setUser(user);
@@ -142,14 +154,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<Integer> getMarksList(String id) {
 		User user = userrepo.findById(id).get();
-		 Student  student = studentrepo.findByUser(user);
-		 if (student != null)
+		Student student = studentrepo.findByUser(user);
+		if (student != null)
 			return student.getMarks();
 		return null;
 	}
 
 	@Override
-	public void otpSend(String email , String purpose) {
+	public void otpSend(String email, String purpose) {
 		// it will generate 6 digit no and we will find the user by the email to set the
 		// otp in the attribute
 		int min = 100000; // Minimum 6-digit number
@@ -158,28 +170,30 @@ public class UserServiceImpl implements UserService {
 		Random random = new Random();
 		int randomNumber = random.nextInt(max - min + 1) + min;
 
-		if(purpose.equals("regis")){			//if the request is from regis it wil save otp in temprory table other wise in primary table 
+		if (purpose.equals("regis")) { // if the request is from regis it wil save otp in temprory table other wise in
+										// primary table
 			TempUser tempUser = tempUserRepo.findByEmail(email);
 			tempUser.setOtp("" + randomNumber);
-		tempUserRepo.save(tempUser); // we will update the otp in the database
-		emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber);
+			tempUserRepo.save(tempUser); // we will update the otp in the database
+			emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber);
+		} else {
+			User user = userrepo.findByContactNoOrEmail(null, email);
+			user.setOtp("" + randomNumber);
+			userrepo.save(user); // we will update the otp in the database
+			emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber);
 		}
-		else{
-		User user = userrepo.findByContactNoOrEmail(null, email);
-		user.setOtp("" + randomNumber);
-		userrepo.save(user); // we will update the otp in the database
-		emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber); 
-		}																					
 	}
 
-	public Object getUser(String email , String purpose) {
-		if(purpose.equals("regis"))
-		return tempUserRepo.findByEmail( email);			// if the purpose is regis then we will find the user in temprory table 
-		return userrepo.findByContactNoOrEmail(null, email); // otherwise in primary table 
+	public Object getUser(String email, String purpose) {
+		if (purpose.equals("regis"))
+			return tempUserRepo.findByEmail(email); // if the purpose is regis then we will find the user in temprory
+													// table
+		return userrepo.findByContactNoOrEmail(null, email); // otherwise in primary table
 	}
 
 	@Override
 	public User resetPassword(String email, String password) {
+
 		User user = userrepo.findByContactNoOrEmail(null, email);
 		user.setPassword(encode(password));
 		return userrepo.save(user);
@@ -191,51 +205,80 @@ public class UserServiceImpl implements UserService {
 		Student student = studentrepo.findByRollNoAndBatch(rollNo, batch);
 		if (student == null)
 			return null;
+		LocalDate local = LocalDate.now();
+		StringBuilder currenttime = new StringBuilder();
+		currenttime = currenttime.append(local.getYear() + "-");
+		int month = local.getMonthValue();
+		if (month <= 9)
+			currenttime = currenttime.append("0" + local.getMonthValue() + "-");
+		else
+			currenttime = currenttime.append(local.getMonthValue() + "-");
+		currenttime = currenttime.append(local.getDayOfMonth());
+		Date date = student.getBatch().getStartDate();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		// Correctly create LocalDate using month and day
+		LocalDate sqllocalDate = LocalDate.of(calendar.get(Calendar.YEAR),
+				calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
+				calendar.get(Calendar.DAY_OF_MONTH));
+		long totalday = ChronoUnit.DAYS.between(sqllocalDate, local) + 1;
+		if (student.absent.contains(currenttime.toString()))// by chanc galti se agar absent lag to ye sahi kr dega
+			student.absent.remove(currenttime.toString());
+		if (totalday == student.absent.size() + student.getAttendanceCount()) {
+			studentrepo.save(student);
+			return student;
+		}
 		student.setAttendanceCount(student.getAttendanceCount() + 1);
 		studentrepo.save(student);
 		return student;
 	}
-static boolean d=true;
 
 	@Override
 	public Student markAttendanceAbsent(String rollNo, String batchId) {
-
 		Batch batch = (batchrepo.findById(batchId)).get();
 		Student student = studentrepo.findByRollNoAndBatch(rollNo, batch);
 		if (student == null)
 			return null;
 		LocalDate local = LocalDate.now();
 		StringBuilder currenttime = new StringBuilder();
-		currenttime = currenttime.append(local.getYear()+"-");
-		
-		int month=local.getMonthValue();
-		if(month<=9)
-			currenttime = currenttime.append("0"+local.getMonthValue() + "-");
+		currenttime = currenttime.append(local.getYear() + "-");
+		int month = local.getMonthValue();
+		if (month <= 9)
+			currenttime = currenttime.append("0" + local.getMonthValue() + "-");
 		else
 			currenttime = currenttime.append(local.getMonthValue() + "-");
-		currenttime = currenttime.append(local.getDayOfMonth()  );
-		if(d)
-		{
-			student.absent.clear();
-			d=false;
+		currenttime = currenttime.append(local.getDayOfMonth());
+		if (student.absent.contains(currenttime.toString()))// mana galti se pehle pesent lag gai to
+			return student;
+		Date date = student.getBatch().getStartDate();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		// Correctly create LocalDate using month and day
+		LocalDate sqllocalDate = LocalDate.of(calendar.get(Calendar.YEAR),
+				calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
+				calendar.get(Calendar.DAY_OF_MONTH));
+		long totalday = ChronoUnit.DAYS.between(sqllocalDate, local) + 1;
+		if (totalday == student.absent.size() + student.getAttendanceCount() && student.getAttendanceCount() >= 1) {
+			student.setAttendanceCount(student.getAttendanceCount() - 1);
 		}
-		student.absent.add(currenttime);
+		student.absent.add(currenttime.toString());
 		studentrepo.save(student);
+
 		return student;
 	}
-	
+
 	@Override
 	public List<Student> findStudentBatch(User user) {
-		
-	  List<Student> studentlist=studentrepo.findByUserId(user.getId());		
+
+		List<Student> studentlist = studentrepo.findByUserId(user.getId());
 		return studentlist;
 	}
 
 	@Override
 	public List getAllStudent(String name) {
 		List<User> allStudentList = userrepo.findAll().stream()
-        .filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase()))
-        .collect(Collectors.toList());
+				.filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase()))
+				.collect(Collectors.toList());
 		return allStudentList;
 	}
 
@@ -247,21 +290,21 @@ static boolean d=true;
 		userrepo.save(user);
 		return allowed;
 	}
+
 	@Override
 	public Map<String, Object> tempRegister(User user) {
 		Map<String, Object> response = new HashMap<>();
-	    if (finder(user)) {
-	        response.put("message", "email or contact no already registered");
-	        response.put("user", null);
-	        return response;
-	    }
+		if (finder(user)) {
+			response.put("message", "email or contact no already registered");
+			response.put("user", null);
+			return response;
+		}
 
-	    tempUserRepo.save(new TempUser(user.getEmail() , null));
+		tempUserRepo.save(new TempUser(user.getEmail(), null));
 
-	    response.put("message", "User registered successfully");
-	    response.put("user", user);
-	    return response;
+		response.put("message", "User registered successfully");
+		response.put("user", user);
+		return response;
 	}
-	
 
 }

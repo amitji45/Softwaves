@@ -36,47 +36,59 @@
 				</thead> -->
 				<tbody>
 					<%
-					if (student != null && student.getBatch().getStartDate() != null) {
+						if (student != null && student.getBatch().getStartDate() != null)
+					 {
+						
 						Date date = student.getBatch().getStartDate();
 						Calendar calendar = Calendar.getInstance();
 						calendar.setTime(date);
-						LocalDate localDate = LocalDate.of(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1,
-						calendar.get(Calendar.DAY_OF_MONTH)); // Month is 1-based in LocalDate
-
-						if (student.getAttendanceCount() + student.absent.size() >= 1) {
-							for (int i = 1; i <= student.getAttendanceCount() + student.absent.size(); i++) {
-						localDate = localDate.plusDays(1);
-						DayOfWeek dayOfWeek = localDate.getDayOfWeek();
-						String dayName = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault());
+						// Correctly create LocalDate using month and day
+						LocalDate localDate = LocalDate.of(calendar.get(Calendar.YEAR), 
+															calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
+															calendar.get(Calendar.DAY_OF_MONTH));
+						
 						boolean isAbsent = false;
-						for (StringBuilder l : student.absent) {
-							if (localDate.toString().equals(l.toString())) {
-								isAbsent = true;
-								break;
+						int totalDays = student.getAttendanceCount() + student.absent.size();
+						if (totalDays >= 1) {
+						 
+							for (int i = 1; i <= totalDays; i++) {
+								DayOfWeek dayOfWeek = localDate.getDayOfWeek();
+								String dayName = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault());
+								isAbsent = false;
+					
+								for (String  l : student.absent) {
+									 
+									if (localDate.toString().equals(l)) {
+										isAbsent = true;
+										break;
+									}
+								}
+								%>
+								<!-- HTML and JSP code -->
+								<td>
+									<div class="card <%=isAbsent ? "bg-danger" : "bg-success"%>">
+										<div class="card-body p-3">
+											<p class="font-weight-bolder text-sm mb-0">
+												<%=localDate.getDayOfMonth()%>
+												<%=dayName%>
+											</p>
+											<h5 class="font-weight-bolder text-light">
+												<%=isAbsent ? "A" : "P"%>
+											</h5>
+										</div>
+										
+									</div>
+								</td>
+								<%
+								// Move to the next day
+								localDate = localDate.plusDays(1);
 							}
 						}
-					%>
-					<!-- HTML and JSP code -->
-					<td>
-						<div class="card <%=isAbsent ? "bg-danger" : "bg-success"%>">
-							<div class="card-body p-3">
-								<p class="font-weight-bolder text-sm mb-0">
-									<%=localDate.getDayOfMonth()%>
-									<%=dayName%>
-								</p>
-								<h5 class="font-weight-bolder text-light">
-									<%=isAbsent ? "A" : "P"%>
-								</h5>
-							</div>
+					
+					 	else {
+						%>
 
-						</div>
-					</td>
-					<%
-					}
-					} else {
-					%>
-
-					<div class="footer-newsletter">
+						<div class="footer-newsletter">
 						<div class="container">
 							<div class="row justify-content-center text-center">
 								<div class="col-lg-6">
@@ -84,9 +96,9 @@
 								</div>
 							</div>
 						</div>
-					</div>
-					<%
-					}
+						</div>
+						<%
+						}
 
 					} else {
 					%>

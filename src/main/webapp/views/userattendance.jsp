@@ -1,4 +1,5 @@
 <%@page import="java.util.Map" %>
+<%@page import="java.util.LinkedHashSet" %>
 	<%@ page import="com.springboot.swt.project.entity.Student" %>
 		<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 			<!DOCTYPE html>
@@ -111,7 +112,7 @@
 	<%} else {%>
 													alert('No available student');
 													return; // Exit the function if no batchId is available
-	<%}%>
+<%}%>
 		// Get the roll number input value
 			if (!rollNo) {
 													rollNo = document.getElementById('email-field').value;
