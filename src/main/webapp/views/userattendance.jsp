@@ -289,10 +289,8 @@
 																												</tr>
 																										</table>
 																									</div>
-
 																									<% } %>
 																							</div>
-
 																							</tbody>
 																						</table>
 

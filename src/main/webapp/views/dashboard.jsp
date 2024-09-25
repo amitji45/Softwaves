@@ -228,6 +228,7 @@
 	<script src="<%=assetspath%>js/main.js"></script>
 	<script src="<%=assetspath%>js/chartjs.min.js"></script>
 	<script>
+		
 		document.addEventListener('DOMContentLoaded', function() {
 			findStudentBatches();
 		});
@@ -291,10 +292,11 @@
 						a.textContent = student.batch.batchTopic; // Assuming each batch object has a 'batchTopic' property
 						a.href = url; // Set the URL to navigate to
 						// Append the <a> tag to the <li>
-						li.appendChild(a);
+						 li.appendChild(a);
 						// Append the <li> to the batchList
-						batchList.appendChild(li);
+							student.batch.currentStatus !="Enroll"?batchList.appendChild(li):null;
 					});
+					 
 		}
 
 		var ctx1 = document.getElementById("chart-line").getContext("2d");
