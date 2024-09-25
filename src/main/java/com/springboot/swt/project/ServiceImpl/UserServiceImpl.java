@@ -235,8 +235,12 @@ public class UserServiceImpl implements UserService {
 				calendar.get(Calendar.DAY_OF_MONTH));
 		long totalday = ChronoUnit.DAYS.between(sqllocalDate, local) + 1;
 		if (student.absent.contains(currenttime.toString()))// by chanc galti se agar absent lag to ye sahi kr dega
+		{
 			student.absent.remove(currenttime.toString());
-		else if ((totalday == student.absent.size() + student.getAttendanceCount()
+			student.setAttendanceCount(student.getAttendanceCount() + 1);
+			studentrepo.save(student);
+			return student;
+		} else if ((totalday == student.absent.size() + student.getAttendanceCount()
 				&& student.getAttendanceCount() >= 1)) {
 			studentrepo.save(student);
 			return student;

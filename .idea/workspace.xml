@@ -4,13 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f7f29ba6-1492-402b-a8f2-934a5133d7de" name="Changes" comment="docker file added">
+    <list default="true" id="f7f29ba6-1492-402b-a8f2-934a5133d7de" name="Changes" comment="&quot;latest changes after trying to deploy&quot;">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/views/allStudent.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/ServiceImpl/StudentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/ServiceImpl/StudentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/ServiceImpl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/ServiceImpl/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/ViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/ViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/VolunteerApproval.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/VolunteerApproval.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/component/navbar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/component/navbar.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/login.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/manageBatches.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/manageBatches.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/ServiceImpl/BatchServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/ServiceImpl/BatchServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/ServiceImpl/StudentServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/ServiceImpl/StudentServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/ServiceImpl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/ServiceImpl/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/controller/UserController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/com.springboot.swt-0.0.1-SNAPSHOT.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/com.springboot.swt-0.0.1-SNAPSHOT.jar.original" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/2024-09-18T17-23-34_334.dumpstream" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.springboot.swt.project.SoftwavesApplicationTests.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.springboot.swt.project.SoftwavesApplicationTests.txt" beforeDir="false" />
     </list>
@@ -39,7 +53,7 @@
           <entry type="REMOTE">
             <value>
               <list>
-                <branch-info repo="$PROJECT_DIR$" source="origin/neeraj-dev" />
+                <branch-info repo="$PROJECT_DIR$" source="dev-project/master" />
               </list>
             </value>
           </entry>
@@ -47,6 +61,9 @@
       </branch-storage>
     </favorite-branches>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/AdminController.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -59,28 +76,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.SoftwavesApplication.executor": "Run",
-    "Application.Unnamed.executor": "Run",
-    "Maven.com.springboot.swt [clean,pring-boot:run].executor": "Run",
-    "Maven.com.springboot.swt [clean...].executor": "Run",
-    "Maven.com.springboot.swt [clean].executor": "Run",
-    "Maven.com.springboot.swt [install].executor": "Run",
-    "Maven.com.springboot.swt [pring-boot:run].executor": "Run",
-    "Maven.com.springboot.swt [spring-boot:run].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "neeraj-dev",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Abc/OneDrive/Desktop/New folder (3)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "advanced.settings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.SoftwavesApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [clean,pring-boot:run].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [clean...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [pring-boot:run].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [spring-boot:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;neeraj-dev&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Abc/OneDrive/Desktop/New folder (3)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Maven.com.springboot.swt [install]">
+}</component>
+  <component name="RunManager" selected="Maven.com.springboot.swt [spring-boot:run]">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.springboot.swt.project.SoftwavesApplication" />
       <module name="com.springboot.swt" />
@@ -192,12 +211,32 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.Unnamed" />
+      <item itemvalue="Docker.Dockerfile" />
       <item itemvalue="Maven.com.springboot.swt [spring-boot:run]" />
       <item itemvalue="Maven.com.springboot.swt [install]" />
       <item itemvalue="Maven.com.springboot.swt [clean]" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Docker.Dockerfile" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -231,7 +270,47 @@
       <option name="project" value="LOCAL" />
       <updated>1727036228220</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="render db added postgres">
+      <option name="closed" value="true" />
+      <created>1727037923015</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1727037923015</updated>
+    </task>
+    <task id="LOCAL-00004" summary="render neeraj db">
+      <option name="closed" value="true" />
+      <created>1727088118242</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1727088118242</updated>
+    </task>
+    <task id="LOCAL-00005" summary="docker file updated">
+      <option name="closed" value="true" />
+      <created>1727122622895</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1727122622895</updated>
+    </task>
+    <task id="LOCAL-00006" summary="docker file updated">
+      <option name="closed" value="true" />
+      <created>1727170080311</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1727170080311</updated>
+    </task>
+    <task id="LOCAL-00007" summary="&quot;latest changes after trying to deploy&quot;">
+      <option name="closed" value="true" />
+      <created>1727246944343</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1727246944343</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -300,6 +379,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="docker file added" />
-    <option name="LAST_COMMIT_MESSAGE" value="docker file added" />
+    <MESSAGE value="render db added postgres" />
+    <MESSAGE value="render neeraj db" />
+    <MESSAGE value="docker file updated" />
+    <MESSAGE value="&quot;latest changes after trying to deploy&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="&quot;latest changes after trying to deploy&quot;" />
   </component>
 </project>

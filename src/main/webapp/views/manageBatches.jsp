@@ -47,6 +47,7 @@
 				function deletebatch(batchId) {
 					url = "http://localhost:9090/admin/deletebatch?id=" + batchId;
 					updatebatch(url);
+					loadBatch();
 				}
 				function updatebatch(url) {
 					var xhttp = new XMLHttpRequest();
@@ -56,10 +57,11 @@
 						if (this.readyState === 4) {
 							if (this.status === 200) {
 								var updatedBatch = JSON.parse(this.responseText);
-								loadBatch();
+
 							} else {
 								console.log("Error: " + this.status); // Log any error
 							}
+								loadBatch();
 						}
 					};
 
@@ -92,7 +94,7 @@
 									$('<td>').html('<a class="btn btn-outline-info" href="/admin/getBatchDetails?id=' + batch.batchid + '">Details</a>')
 								);
 								// Append the new row to the table
-								$('#tableid').append(newRow);
+								batch.currentStatus != "Completed" ? $('#tableid').append(newRow):null;
 							});
 						},
 						error: function (error) {

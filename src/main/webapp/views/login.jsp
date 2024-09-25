@@ -52,9 +52,10 @@
 							%>
 							<div class="col-md-12">
 								<label for="email-field" class="pb-2">Your Email</label> <input
-									type="email" class="form-control" name="email" id="email-field"
+									type="text" class="form-control" name="email" id="email-field"
 									required>
 							</div>
+
 
 							<div class="col-md-12">
 								<label for="password-field" class="pb-2">Your Password</label> <input

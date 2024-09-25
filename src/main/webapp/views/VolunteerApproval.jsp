@@ -36,7 +36,7 @@ function findAllVolunteer(name){
 			  type: 'GET',
 			  dataType: 'json', // No need to parse the response manually
 		        success: function(response) {
-				
+
 		            // Clear the existing table body to prevent duplicates
 		            $('#tableid').empty();
 
@@ -47,10 +47,7 @@ function findAllVolunteer(name){
 		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Current Role</p><h6 class="text-sm mb-0">' + user.role+ '</h6>'),
 		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">batch</p><h6 class="text-sm mb-0">' + user.batch + '</h6>'),
 		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + user.name + '</h6>'),
-		                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">User Id:</p><h6 class="text-sm mb-0">' + user.id + '</h6>'),
-		                    $('<td>').html('<button type="button" class="btn btn-outline-success " onclick="allowVolunteer(\''+user.id +'\' , \''+name+'\')" >Approve</button>'),
-		                    $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="blockVolunteer(\''+user.id+'\' , \''+name +'\')" >remove</button>')
-		                   
+		                    $('<td>').html('<button type="button" class="btn btn-outline-success " onclick="allowVolunteer(\''+user.id +'\' , \''+name+'\')" >Approve</button><button type="button" class="btn btn-outline-danger" onclick="blockVolunteer(\''+user.id+'\' , \''+name +'\')" >remove</button>'),
 		                );
 		                // Append the new row to the table
 		                $('#tableid').append(newRow);

@@ -131,12 +131,10 @@
 																		</li>
 
 
-																		<li><a href="/admin/AllStudentDetails">All
-																				Students</a></li>
-																		<li><a href="/admin/VolunteerApproval">Volunteer
-																				approval</a></li>
-																		<li><a href="/admin/ManageBatches">Manage
-																				Batches</a></li>
+																				<li><a href="/admin/AllStudentDetails">All Students</a></li>
+																				<li><a href="/admin/VolunteerApproval">Volunteer approval</a></li>
+																				<li><a href="/admin/allStudent">all student (neeraj)</a></li>
+																				<li><a href="/admin/ManageBatches">Manage Batches</a></li>
 
 																		<li class="dropdown"><a href="#"><span>New
 																					Batch</span><i
