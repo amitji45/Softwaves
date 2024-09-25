@@ -155,6 +155,7 @@ public class UserController {
 																											// it is
 																											// tempuser
 																											// of User
+
 		if (userOtp.equals(otp)) {
 			if (purpose.equals("regis")) {
 				userserviceimpl.register(user1);
@@ -214,7 +215,7 @@ public class UserController {
 
 	@RequestMapping("/findVolunteer")
 	public ResponseEntity findVolunteer(@RequestParam String name, HttpServletRequest request) {
-		List<User> list = (List<User>) userserviceimpl.getAllStudent(name);
+		List<Student> list = (List<Student>) userserviceimpl.getAllStudent(name);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 

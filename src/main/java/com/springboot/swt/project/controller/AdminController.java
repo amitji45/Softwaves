@@ -159,7 +159,7 @@ public class AdminController {
 	}
 
 	@RequestMapping("/deletebatch")
-	public ResponseEntity  deletebatch(@RequestParam("id") String batchId, HttpServletRequest request) {
+	public ResponseEntity deletebatch(@RequestParam("id") String batchId, HttpServletRequest request) {
 		batchservicesimpl.deleteBatchByID(batchId);
 		return new ResponseEntity(HttpStatus.OK);
 	}
@@ -181,9 +181,9 @@ public class AdminController {
 
 		return new ResponseEntity(batchlist, HttpStatus.OK);
 	}
+
 	@RequestMapping("/allStudent")
-	public String allStudent(Model model)
-	{
+	public String allStudent(Model model) {
 		return "allStudent";
 	}
 }

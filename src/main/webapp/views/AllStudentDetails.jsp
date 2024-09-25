@@ -20,34 +20,59 @@
                                     <div class="container">
                                         <div class="row justify-content-center text-center">
                                             <div class="col-lg-6">
-                                                <h1>Active Bactch  Record</h1>
+                                                <h1>Completed Bactch Record</h1>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div id="batchesContainer" class="row"></div>
-                                <div class="row mt-4" id="card..">
-                                    <div class="col-lg-12  mb-lg-0 mb-4">
-                                        <div class="card z-index-2 h-100">
-                                            <div class="card-header pb-0 pt-3 bg-transparent" >
-                                                <h6 class="text-capitalize">completed Batches:-</h6>
 
-                                            </div>
-                                            <div class="card-body p-3">
+                                <div class="py-4">
+                                    <div class="row">
 
-                                                <div class="table-responsive">
-                                                    <table class="table align-items-center " id="backtable">
+                                        <section class="col py-4 px-2">
+                                            <div class="row">
+                                                <div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
+                                                    <div class="card z-index-2 h-100">
+                                                        <div class="card-header pb-0 pt-3 bg-transparent">
+                                                            <h6 class="text-capitalize text-center"
+                                                                id="batchandstudent"></h6>
+                                                        </div>
 
-                                                    </table>
-                                                    <table class="table align-items-center " id="tableid">
-                                                    </table>
+                                                        <div class="card-body p-3 " id="card..">
+                                                            <div class="chart ">
+                                                                <table class="table align-items-center ">
+                                                                    <div class="nested-div ">
+
+                                                                        <div class="table-responsive">
+                                                                            <table class="table align-items-center "
+                                                                                id="backtable">
+
+                                                                            </table>
+                                                                            <table class="table align-items-center "
+                                                                                id="tableid">
+                                                                            </table>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </section>
+
 
                                     </div>
                                 </div>
+
+
+
+                                <!-- --------------------------------------------------- -->
+
+
+
                             </section>
                         </div>
                     </div>
@@ -141,105 +166,72 @@
                                     });
                                 }
 
-                                
 
-                                function viewloadBatch() {
-                                  
-                                    $.ajax({
-                                        url: 'http://localhost:9090/admin/findActivebatches',
-                                        type: 'GET',
-                                        dataType: 'json',
-                                        success: function (response) {
-                                            $('#batchesContainer').empty();
-
-                                            if (Array.isArray(response) && response.length > 0) {
-                                                response.forEach(batch => {
-                                                    const cid=batch.batchId;
-                                                    // Call countActiveBatchStudent with a callback
-                                                    countActiveBatchStudent(cid,function (count) {
-                                                        // Construct the card HTML inside the callback
-                                                        const cardHtml = `
-                            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                                <div class="card">
-                                    <div class="card-body p-3">
-                                        <div class="row">
-                                            <div class="col-8">
-                                                <div class="numbers">
-                                                    <p class="text-sm mb-0 font-weight-bold">`+ batch.batchTopic + `</p>
-                                                    <h5 class="font-weight-bolder">`+ count + `</h5>
-                                                    <p class="mb-0">
-                                                        <span class="text-success text-sm font-weight-bolder">100%</span>
-                                                        since Today
-                                                        <a class="bg-gradient-warning btn text-light mt-1"  
-                                                           onclick="batchDetails(`+ batch.batchId + `); changeColor(this);">View</a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-4 text-end">
-                                                <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
-                                                    <i class="fa-solid fa-list-check text-light text-lg opacity-10" aria-hidden="true"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-
-                                                        // Append the card to the container
-                                                        $('#batchesContainer').append(cardHtml);
-                                                    });
-                                                });
-                                            } else {
-                                                $('#batchesContainer').append('<div class="footer-newsletter"><div class="container"><div class="row justify-content-center text-center"><div class="col-lg-6"><h1>No  Available</h1></div></div></div></div>');
-                                            }
-                                        },
-                                        error: function (error) {
-                                            console.error('Error:', error);
-                                            $('#batchesContainer').append('<p>Error loading batches. Please try again.</p>');
-                                        }
-                                    });
-                                }
 
                                 function loadBatch(element) {
                                     changeColor(element);
-                                   // document.getElementById('card..').innerHTML='';
+                                    document.getElementById('batchandstudent').innerText = 'Completed Batch'
                                     $('#backtable').empty();
                                     $.ajax({
                                         url: 'http://localhost:9090/admin/getBatch',
                                         type: 'GET',
-                                        dataType: 'json', // No need to parse the response manually
+                                        dataType: 'json',
                                         success: function (response) {
-                                            
-                                            // Clear the existing table body to prevent duplicates
-                                            $('#tableid').empty();
+                                            $('#tableid').empty(); // Clear the existing table body to prevent duplicates
+                                            let requests = []; // To hold the AJAX requests for total students
+
                                             // Iterate over the response and append rows
                                             response.forEach(batch => {
-                                                const newRow = $('<tr>').attr('id', batch.batchid);
-                                                newRow.append(
-                                                    batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + batch.batchTopic + '</h6>') : null,
-                                                        batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">batch status </p><h6 class="text-sm mb-0">' + batch.currentStatus + '</h6>') : null,
-                                                            batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">batchId</p><h6 class="text-sm mb-0">' + batch.batchId + '</h6>') : null,
-                                                    batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">start date  </p><h6 class="text-sm mb-0">' + batch.startDate + '</h6>') : null,
-                                                    batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">end date  </p><h6 class="text-sm mb-0">' + batch.endDate + '</h6>') : null,
-                                                    batch.currentStatus === "Completed" ? $('<td>').html('<a class="btn btn-outline-info"  onclick="batchDetails(\'' + batch.batchId + '\')">Details</a>') : null
-                                                );
-                                                // Append the new row to the table
-                                                $('#tableid').append(newRow);
-                                                // const separatorRow = $('<tr>').append(
-                                                //     $('<td colspan="4" class="separator-line"/>') // Use a CSS class for styling
-                                                // );
-                                                // $('#tableid').append(separatorRow);
+                                                if (batch.currentStatus === "Completed") {
+                                                    // Create a request to get the number of students
+                                                    const request = $.ajax({
+                                                        url: 'http://localhost:9090/admin/getAllStudentByBatchId?batchId=' + batch.batchId,
+                                                        type: 'GET',
+                                                        dataType: 'json'
+                                                    }).then(studentResponse => {
+                                                        return studentResponse.length; // Return the number of students
+                                                    });
+
+                                                    requests.push(request); // Store the request promise
+                                                }
+                                            });
+
+                                            // Wait for all student count requests to finish
+                                            Promise.all(requests).then(totalStudentsArray => {
+                                                response.forEach((batch, index) => {
+                                                    const newRow = $('<tr>').attr('id', batch.batchId);
+
+                                                    const totalStudents = (batch.currentStatus === "Completed") ? totalStudentsArray.shift() : 0; // Get the total students for this batch
+
+                                                    newRow.append(
+                                                        batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + batch.batchTopic + '</h6>') : null,
+                                                        // batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">Batch Status</p><h6 class="text-sm mb-0">' + batch.currentStatus + '</h6>') : null,
+                                                        batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">Batch ID</p><h6 class="text-sm mb-0">' + batch.batchId + '</h6>') : null,
+                                                        batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">Start Date</p><h6 class="text-sm mb-0">' + batch.startDate + '</h6>') : null,
+                                                        batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">End Date</p><h6 class="text-sm mb-0">' + batch.endDate + '</h6>') : null,
+                                                        batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">Total Students</p><h6 class="text-sm mb-0">' + totalStudents + '</h6>') : null,
+                                                        batch.currentStatus === "Completed" ? $('<td>').html('<a class="btn btn-outline-info" onclick="batchDetails(\'' + batch.batchId + '\')">Details</a>') : null
+                                                    );
+
+                                                    // Append the new row to the table
+                                                    $('#tableid').append(newRow);
+                                                });
+                                            }).catch(error => {
+                                                console.error('Error fetching student counts:', error);
                                             });
                                         },
                                         error: function (error) {
                                             console.error('Error:', error);
-                                            document.getElementById('tableid').innerHTML='';
+                                            $('#tableid').empty();
                                         }
                                     });
-                }
+                                }
+
+
+
 
                                 function batchDetails(batchId) {
+                                    document.getElementById('batchandstudent').innerText = 'Student List'
                                     console.log("batchid=>" + batchId);
                                     $('#backtable').empty();
                                     // Create a new row
@@ -249,7 +241,7 @@
                                         $('<td>').attr('colspan', 2).html('<button type="button" class="btn btn-outline-secondary" style="width: 100%;" onclick="loadBatch(this)">Back all batches</button>')
                                     );
                                     // Append the new row to the table
-                                    $('#backtable').append(backRow);
+                                    $('#batchandstudent').append(backRow);
                                     $.ajax({
                                         url: 'http://localhost:9090/admin/getAllStudentByBatchId?batchId=' + batchId,
                                         type: 'GET',
@@ -259,6 +251,7 @@
                                             $('#tableid').empty();
                                             var check = true;
                                             console.log(response);
+
                                             // Iterate over the response and append rows
                                             response.forEach(batch => {
                                                 check = false;

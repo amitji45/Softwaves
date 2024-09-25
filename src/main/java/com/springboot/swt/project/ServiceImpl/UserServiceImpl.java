@@ -1,22 +1,21 @@
 package com.springboot.swt.project.ServiceImpl;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.Comparator;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.springboot.swt.project.Service.UserService;
 import com.springboot.swt.project.entity.Batch;
@@ -121,6 +120,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public String enrollstudent(String batchId, User user) {
 
 		Random rand = new Random();
@@ -131,10 +131,21 @@ public class UserServiceImpl implements UserService {
 		List<Student> studybatch = studentrepo.findByuser(user);
 
 		for (Student stud : studybatch) {
-			if (stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())) {
+			if (stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())
+					&& stud.getBatch().getCurrentStatus().equals("Completed")) {
 				return "your are all study " + batch.getBatchTopic() + " batch";
 			}
-
+		}
+		int oldbatchstatus = 0;
+		String old = null;
+		for (Student stud : studybatch) {
+			if (stud.getBatch().getCurrentStatus().equals("Enroll")
+					&& !stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())) {
+				old = "" + stud.getBatch().getBatchTopic();
+				stud.setBatch(batch);
+				studentrepo.save(stud);
+				return "remove " + old + " batch And Enroll batch" + batch.getBatchTopic();
+			}
 		}
 
 		if (oldbatch == null) {
@@ -145,8 +156,7 @@ public class UserServiceImpl implements UserService {
 			student.setUser(user);
 			student.setMarks(list);
 			studentrepo.save(student);
-			return " Student Enrolled Successfully";
-
+			return "your are successfully Enroll " + batch.getBatchTopic() + " batch";
 		} else {
 			return " Student is Already Enrolled for " + batch.getBatchTopic();
 		}
@@ -225,12 +235,17 @@ public class UserServiceImpl implements UserService {
 				calendar.get(Calendar.DAY_OF_MONTH));
 		long totalday = ChronoUnit.DAYS.between(sqllocalDate, local) + 1;
 		if (student.absent.contains(currenttime.toString()))// by chanc galti se agar absent lag to ye sahi kr dega
+		{
 			student.absent.remove(currenttime.toString());
-		if (totalday == student.absent.size() + student.getAttendanceCount()) {
+			student.setAttendanceCount(student.getAttendanceCount() + 1);
 			studentrepo.save(student);
 			return student;
-		}
-		student.setAttendanceCount(student.getAttendanceCount() + 1);
+		} else if ((totalday == student.absent.size() + student.getAttendanceCount()
+				&& student.getAttendanceCount() >= 1)) {
+			studentrepo.save(student);
+			return student;
+		} else
+			student.setAttendanceCount(student.getAttendanceCount() + 1);
 		studentrepo.save(student);
 		return student;
 	}
@@ -260,7 +275,8 @@ public class UserServiceImpl implements UserService {
 				calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
 				calendar.get(Calendar.DAY_OF_MONTH));
 		long totalday = ChronoUnit.DAYS.between(sqllocalDate, local) + 1;
-		if (totalday == student.absent.size() + student.getAttendanceCount() && student.getAttendanceCount() >= 1) {
+		if (totalday != 0 && (totalday == student.absent.size() + student.getAttendanceCount()
+				&& student.getAttendanceCount() >= 1)) {
 			student.setAttendanceCount(student.getAttendanceCount() - 1);
 		}
 		student.absent.add(currenttime.toString());
@@ -279,13 +295,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List getAllStudent(String name) {
 		List<User> allStudentList = userrepo.findAll().stream()
-				.filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase() )&& !"Admin".equals(user.getRole()))
-				.sorted(Comparator.comparing(User::getName)) // Sort by name
+				.filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase()))
 				.collect(Collectors.toList());
-
 		return allStudentList;
 	}
-
 
 	@Override
 	public String allowOrBlockVolunteerByID(String id, String allowed) {

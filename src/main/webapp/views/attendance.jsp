@@ -23,17 +23,7 @@
 		<div id="calendar" class="">
 
 			<table class="table ">
-				<!-- 	<thead>
-					<tr class="">
-						<th scope="col">Sun</th>
-						<th scope="col">Mon</th>
-						<th scope="col">Tue</th>
-						<th scope="col">Wed</th>
-						<th scope="col">Thu</th>
-						<th scope="col">Fri</th>
-						<th scope="col">Sat</th>
-					</tr>
-				</thead> -->
+			 
 				<tbody>
 					<%
 						if (student != null && student.getBatch().getStartDate() != null)
@@ -44,8 +34,8 @@
 						calendar.setTime(date);
 						// Correctly create LocalDate using month and day
 						LocalDate localDate = LocalDate.of(calendar.get(Calendar.YEAR), 
-															calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
-															calendar.get(Calendar.DAY_OF_MONTH));
+							calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
+							calendar.get(Calendar.DAY_OF_MONTH));
 						
 						boolean isAbsent = false;
 						int totalDays = student.getAttendanceCount() + student.absent.size();
