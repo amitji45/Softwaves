@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -123,12 +124,12 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public String enrollstudent(String batchId, User user) {
 
-		Random rand = new Random();
-		Optional<Batch> optional = batchrepo.findById(batchId);
-		Batch batch = optional.get();
+        Random rand = new Random();
+        Optional<Batch> optional = batchrepo.findById(batchId);
+        Batch batch = optional.get();
 
-		Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
-		List<Student> studybatch = studentrepo.findByuser(user);
+        Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
+        List<Student> studybatch = studentrepo.findByuser(user);
 
 		for (Student stud : studybatch) {
 			if (stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())
@@ -165,8 +166,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Integer> getMarksList(String id) {
-		User user = userrepo.findById(id).get();
-		Student student = studentrepo.findByUser(user);
+		List<Student> studentList=studentrepo.findByuser(userrepo.findById(id).get());
+		Student student=null;
+		for(Student studentTemp : studentList)
+		{
+			if(studentTemp.getBatch().getCurrentStatus().equals("Active"))
+			{
+				student=studentTemp;
+				break;
+			}
+		}
 		if (student != null)
 			return student.getMarks();
 		return null;
@@ -295,8 +304,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List getAllStudent(String name) {
 		List<User> allStudentList = userrepo.findAll().stream()
-				.filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase()))
+				.filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase() )&& !"Admin".equals(user.getRole()))
+				.sorted(Comparator.comparing(User::getName)) // Sort by name
 				.collect(Collectors.toList());
+
 		return allStudentList;
 	}
 

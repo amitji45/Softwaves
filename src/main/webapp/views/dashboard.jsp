@@ -1,4 +1,6 @@
 <%@ page import="com.springboot.swt.project.entity.User"%>
+<%@ page import="com.springboot.swt.project.entity.Student"%>
+<%@page import="org.hibernate.collection.spi.PersistentBag" %>
 
 <%@ page
 	import="com.springboot.swt.project.entity.User,java.util.ArrayList"%>
@@ -12,11 +14,36 @@
 <body>
 	<%
 	User user = (User) session.getAttribute("user");
+	Student studentUser = (Student) session.getAttribute("activeStudentUser");
+	
+	PersistentBag persistentMarksList= (PersistentBag)session.getAttribute("studentMarks");
+	ArrayList<Integer> marksList=new ArrayList<>(10);
+	if(persistentMarksList!=null){
+	for(Object temporary : persistentMarksList)
+	{
+		marksList.add((Integer)temporary);
+	}
+	}	
+	
 	if (user == null) {
 		response.sendRedirect("/swt/login");
 	}
+	
+	
+	%><%@ include file="component/navbar.jsp"%>
+<%if(studentUser == null)
+{
 	%>
-	<%@ include file="component/navbar.jsp"%>
+	<h4>PLEASE ENROLL IN A BATCH, No Data Available</h4>
+	<%
+}
+else{
+	Integer average=null;
+	if(!marksList.isEmpty())
+			average = (int)marksList.stream()
+            .mapToInt(Integer::intValue)
+            .average()
+            .orElse(0.0); %>
 	<div class="py-4">
 		<div class="row">
 			<aside class="col-xl-3 col-md-6 col-sm-11 py-4">
@@ -31,7 +58,8 @@
 									alt="Admin" class="rounded-circle" width="150">
 								<div class="mt-3">
 									<h4><%=(user != null) ? user.getName() : null%></h4>
-									<p class="text-secondary mb-1"><%=(user != null) ? user.getBatch() : null%></p>
+									<p class="text-secondary mb-1"><%=(studentUser != null) ? studentUser.getRollNo() : null%></p>
+									<p class="text-secondary mb-1"><%=(studentUser != null) ? studentUser.getBatch().getBatchTopic() : null%></p>
 									<p class="text-muted font-size-sm"><%=(user != null) ? user.getEmail() : null%></p>
 									<button type="button" class="btn btn-outline-primary"
 										data-bs-toggle="modal" data-bs-target="#exampleModal">Edit
@@ -65,7 +93,6 @@
 													value="<%=(user != null) ? user.getEmail() : null%>"
 													class="form-control" name="email" id="email-field" required>
 											</div>
-
 										</div>
 									</div>
 								</div>
@@ -89,10 +116,10 @@
 										<div class="col-8">
 											<div class="numbers">
 												<p class="text-sm mb-0 text-uppercase font-weight-bold">Attendance</p>
-												<h5 class="font-weight-bolder">10</h5>
+												<h5 class="font-weight-bolder"><%=studentUser.getAttendanceCount() %></h5>
 												<p class="mb-0">
-													<span class="text-success text-sm font-weight-bolder">100%</span>
-													since Today
+													<span class="text-success text-sm font-weight-bolder"></span>
+													Presents till Today
 												</p>
 												<nav id="navmenu" class="navmenu">
 													<li class="dropdown"><span
@@ -123,10 +150,10 @@
 									<div class="col-8">
 										<div class="numbers">
 											<p class="text-sm mb-0  font-weight-bold">No. of Test</p>
-											<h5 class="font-weight-bolder">4</h5>
+											<h5 class="font-weight-bolder"><%=marksList.size() %></h5>
 											<p class="mb-0">
-												<span class="text-success text-sm font-weight-bolder">100%</span>
-												since Today <a
+												<span class="text-success text-sm font-weight-bolder"><%=(average != null) ? average+" average going" : "No data available"%></span>
+												 <a
 													class="bg-gradient-warning btn text-light mt-1"
 													href="/user/marks?id=<%=(user != null) ? user.getId() : null%>">View</a>
 											</p>
@@ -176,7 +203,7 @@
 									<div class="col-8">
 										<div class="numbers">
 											<p class="text-sm mb-0 text-uppercase font-weight-bold">Average</p>
-											<h5 class="font-weight-bolder">75.6</h5>
+											<h5 class="font-weight-bolder"><%=(average != null) ? average: "No data"%></h5>
 											<p class="mb-0">
 												<span class="text-success text-sm font-weight-bolder">100%</span>
 												since Today
@@ -223,12 +250,12 @@
 			</section>
 		</div>
 	</div>
+	<%} %>
 	<%@ include file="component/footer.jsp"%>
 	<%@ include file="component/script.jsp"%>
 	<script src="<%=assetspath%>js/main.js"></script>
 	<script src="<%=assetspath%>js/chartjs.min.js"></script>
 	<script>
-		
 		document.addEventListener('DOMContentLoaded', function() {
 			findStudentBatches();
 		});
@@ -264,7 +291,7 @@
 		function updateBatchList(batches) {
 			var batchList = document.getElementById('batchList1');
 			// Check if the batchList element exists
-			if (!batchList) {
+			if (!batchList	) {
 				alert('No batches available');
 				return;
 			}
@@ -292,11 +319,10 @@
 						a.textContent = student.batch.batchTopic; // Assuming each batch object has a 'batchTopic' property
 						a.href = url; // Set the URL to navigate to
 						// Append the <a> tag to the <li>
-						 li.appendChild(a);
+						li.appendChild(a);
 						// Append the <li> to the batchList
-							student.batch.currentStatus !="Enroll"?batchList.appendChild(li):null;
+						batchList.appendChild(li);
 					});
-					 
 		}
 
 		var ctx1 = document.getElementById("chart-line").getContext("2d");
@@ -318,7 +344,7 @@
 					backgroundColor : gradientStroke1,
 					borderWidth : 3,
 					fill : true,
-					data : [ 50, 40, 60, 20, 95, 89, 73, 30 ],
+					data : getList(),
 					maxBarThickness : 6
 				} ],
 			},
@@ -378,6 +404,15 @@
 				},
 			},
 		});
+		function getList()
+		{
+			const List = new Array();
+			<%for(Integer marks: marksList){%>
+			List.push(<%=marks!=null?marks:0%>)
+			<%}	%>
+			console.log(List);
+			return List;
+		}
 	</script>
 </body>
 </html>

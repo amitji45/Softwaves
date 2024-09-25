@@ -90,7 +90,6 @@ public class VolunteerController {
 			HttpServletRequest request) {
 		Student student = StudentServiceImpl.setMarks(rollNo, batchId, Integer.parseInt(marks));
 		if (student == null)
-
 			return new ResponseEntity(student, HttpStatus.BAD_REQUEST);
 
 		return new ResponseEntity(student, HttpStatus.OK);
