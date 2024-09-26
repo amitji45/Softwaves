@@ -51,6 +51,15 @@
                                                                             <table class="table align-items-center "
                                                                                 id="tableid">
                                                                             </table>
+                                                                            <!-- <div class="table align-items-center" id="graphmarks"  > -->
+                                                                            <div class="card-body p-3" id="graphdiv" style="display: none;">
+                                                                                <div class="chart">
+                                                                                    <canvas id="chart-line"
+                                                                                        class="chart-canvas"
+                                                                                        height="300"></canvas>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- </div> -->
                                                                         </div>
 
                                                                     </div>
@@ -76,49 +85,8 @@
                             </section>
                         </div>
                     </div>
-
-                    <script>
-                        let lastClickedButton = null; // Track the last clicked button
-                        function changeColor(element) {
-                            if (!element) return;
-                            if (lastClickedButton) {
-                                lastClickedButton.classList.remove('bg-primary');
-                                lastClickedButton.classList.add('bg-gradient-warning');
-                            }
-
-                            // Set the current button to blue
-                            element.classList.remove('bg-gradient-warning');
-                            element.classList.add('bg-primary');
-
-                            // Update the last clicked button to the current one
-                            lastClickedButton = element;
-                            return;
-                        }
-                    </script>
-                    <style>
-                        .bg-gradient-warning {
-                            background-color: yellow;
-                            /* Original color */
-
-                            /* Ensure it behaves like a button */
-                        }
-
-                        .bg-primary {
-                            background-color: blue !important;
-
-                            /* Change text color for visibility */
-                        }
-
-                        .separator-line {
-                            height: 1px;
-                            /* Set the height */
-                            background-color: rgb(0, 0, 0);
-                            /* Set the color */
-                            border: none;
-                            /* Remove any borders */
-                        }
-                    </style>
-
+                    <script src="<%=assetspath%>js/main.js"></script>
+                    <script src="<%=assetspath%>js/chartjs.min.js"></script>
                     <%@ include file="component/footer.jsp" %>
                         <%@ include file="component/script.jsp" %>
                             <script src="<%=assetspath%>js/main.js"></script>
@@ -169,8 +137,10 @@
 
 
                                 function loadBatch(element) {
-                                    changeColor(element);
+ 
                                     document.getElementById('batchandstudent').innerText = 'Completed Batch'
+                                    
+                                    document.getElementById('graphdiv').style.display = 'none';
                                     $('#backtable').empty();
                                     $.ajax({
                                         url: 'http://localhost:9090/admin/getBatch',
@@ -225,12 +195,16 @@
                                             $('#tableid').empty();
                                         }
                                     });
-                           }
+                                }
 
 
 
 
                                 function batchDetails(batchId) {
+                                   
+
+                                    document.getElementById('graphdiv').style.display = 'none';
+                                   
                                     document.getElementById('batchandstudent').innerText = 'Student List'
                                     console.log("batchid=>" + batchId);
                                     $('#backtable').empty();
@@ -260,7 +234,8 @@
                                                     $('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + batch.rollNo + '</h6>'),
                                                     $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + batch.user.name + '</h6>'),
                                                     $('<td>').html('<p class="text-xs font-weight-bold mb-0">Present Count:</p><h6 class="text-sm mb-0">' + batch.attendanceCount + '</h6>'),
-                                                    $('<td>').html('<a class="btn btn-outline-info" href="#' + batch.batchid + '">Details</a>')
+                                                    // $('<td>').html('<a class="btn btn-outline-info" href="#' + batch.batchid + '">Details</a>'),
+                                                    $('<td>').html('<a class="btn btn-outline-danger" onclick="marksDetails(\'' + batch.batch.batchId + '\', \'' + batch.id + '\')">Details</a>')
                                                 );
                                                 // Append the new row to the table
                                                 $('#tableid').append(newRow);
@@ -281,13 +256,132 @@
                                             newRow.append(
                                                 $('<td>').html(' <h6 class="text-sm mb-0 "> page not found  Error : 404 </h6>'));
                                             $('#tableid').append(newRow);
+                                            
+                                    document.getElementById('graphdiv').style.display = 'none';
+                                   
                                         }
                                     });
 
                                 }
+                                function marksDetails(batchId, pkId) {
+                                    alert(batchId + "..call function .." + pkId);
+                                    document.getElementById('batchandstudent').innerText = 'Student Details'
+                                    $('#backtable').empty();
+                                    // Create a new row
+                                    const backRow = $('<tr>');
+                                    // Append the Back button to the row
+                                    backRow.append(
+                                        $('<td>').attr('colspan', 2).html('<button type="button" class="btn btn-outline-secondary" style="width: 100%;" onclick="batchDetails(' + batchId + ')">Back  Student List</button>')
+                                    );
+                                    // Append the new row to the table
+                                    $('#batchandstudent').append(backRow);
+                                    $.ajax({
+                                        url: 'http://localhost:9090/admin/getcompletedmarks?studId=' + pkId,
+                                        type: 'GET',
+                                        dataType: 'json', // No need to parse the response manually
+                                        success: function (response) {
+                                            document.getElementById('graphdiv').style.display='block';
+                                           
+                                            granph(response);
 
+                                        },
+                                        error: function (error) {
+                                            console.error('Error:', error);
+                                            const newRow = $('<tr>');
+                                            $('#tableid').empty();
+                                            newRow.append(
+                                                $('<td>').html(' <h6 class="text-sm mb-0 "> page not found  Error : 404 </h6>'));
+                                            $('#tableid').append(newRow);
+                                        }
+                                    });
+                                }
+                                function granph(response) {
+                                    $('#backtable').empty();
+                                    $('#tableid').empty();
+                                    console.log(response);
+                                    var ctx1 = document.getElementById("chart-line").getContext("2d");
+                                    var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
+                                    gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
+                                    gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
+                                    gradientStroke1.addColorStop(0, 'rgba(94, 114, 228, 0)');
+                                    new Chart(ctx1, {
+                                        type: "line",
+                                        data: {
+                                            labels: ["Week1", "Week2", "Week3", "Week4", "Week5",
+                                                "Week6", "Week7", "Week8"],
+                                            datasets: [{
+                                                label: "Marks Progress",
+                                                tension: 0.4,
+                                                borderWidth: 0,
+                                                pointRadius: 0,
+                                                borderColor: "#5e72e4",
+                                                backgroundColor: gradientStroke1,
+                                                borderWidth: 3,
+                                                fill: true,
+                                                data: response,
+                                                maxBarThickness: 6
+                                            }],
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            maintainAspectRatio: false,
+                                            plugins: {
+                                                legend: {
+                                                    display: false,
+                                                }
+                                            },
+                                            interaction: {
+                                                intersect: false,
+                                                mode: 'index',
+                                            },
+                                            scales: {
+                                                y: {
+                                                    grid: {
+                                                        drawBorder: false,
+                                                        display: true,
+                                                        drawOnChartArea: true,
+                                                        drawTicks: false,
+                                                        borderDash: [5, 5]
+                                                    },
+                                                    ticks: {
+                                                        display: true,
+                                                        padding: 10,
+                                                        color: '#fbfbfb',
+                                                        font: {
+                                                            size: 11,
+                                                            family: "Open Sans",
+                                                            style: 'normal',
+                                                            lineHeight: 2
+                                                        },
+                                                    }
+                                                },
+                                                x: {
+                                                    grid: {
+                                                        drawBorder: false,
+                                                        display: false,
+                                                        drawOnChartArea: false,
+                                                        drawTicks: false,
+                                                        borderDash: [5, 5]
+                                                    },
+                                                    ticks: {
+                                                        display: true,
+                                                        color: '#ccc',
+                                                        padding: 20,
+                                                        font: {
+                                                            size: 11,
+                                                            family: "Open Sans",
+                                                            style: 'normal',
+                                                            lineHeight: 2
+                                                        },
+                                                    }
+                                                },
+                                            },
+                                        },
+                                    });
+                                }
 
                             </script>
+
             </body>
 
             </html>

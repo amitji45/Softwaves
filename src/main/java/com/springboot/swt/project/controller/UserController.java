@@ -1,16 +1,10 @@
 package com.springboot.swt.project.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.crypto.KeySelector.Purpose;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,14 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.springboot.swt.project.ServiceImpl.BatchServiceImpl;
 import com.springboot.swt.project.ServiceImpl.StudentServiceImpl;
 import com.springboot.swt.project.ServiceImpl.UserServiceImpl;
@@ -45,9 +37,10 @@ public class UserController {
 	private UserServiceImpl userserviceimpl;
 	@Autowired
 	private BatchServiceImpl batchservicesimpl;
-	
+
 	@Autowired
 	private StudentServiceImpl studentServiceImpl;
+
 	// Login Controller
 	@PostMapping("/login")
 	public ModelAndView login(HttpServletRequest request, @RequestParam String email, String password) {
@@ -57,11 +50,11 @@ public class UserController {
 			HttpSession session = request.getSession();
 			if (temp.getRole().equalsIgnoreCase("Student") || temp.getRole().equalsIgnoreCase("Volunteer")) {
 				session.setAttribute("user", temp);
-				Student student=studentServiceImpl.getActiveStudent(temp);
+				Student student = studentServiceImpl.getActiveStudent(temp);
 				session.setAttribute("activeStudentUser", student);
 				modal.setViewName("redirect:dashboard");
-				
-				List<Integer> studentMarks=userserviceimpl.getMarksList(temp.getId());
+
+				List<Integer> studentMarks = userserviceimpl.getMarksList(temp.getId());
 				session.setAttribute("studentMarks", studentMarks);
 
 				System.out.println(studentMarks);
@@ -258,11 +251,12 @@ public class UserController {
 		redirectAttributes.addFlashAttribute("success", message);
 		return demo(user, "regis"); // another controller is called
 	}
+
 	@RequestMapping("/getmarks")
 	public ResponseEntity getMarks(@RequestParam String id) {
-		
+
 		List<Integer> marksList = userserviceimpl.getMarksList(id);
-		
-		return new ResponseEntity(marksList,HttpStatus.OK);
+
+		return new ResponseEntity(marksList, HttpStatus.OK);
 	}
 }

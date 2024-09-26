@@ -42,4 +42,7 @@ public interface UserService {
 	Map<String, Object> tempRegister(User user);
 
 	Object getUser(String email, String purpose);
+
+	public List<Integer> getMarksListCompletedBatch(String studId);
+
 }

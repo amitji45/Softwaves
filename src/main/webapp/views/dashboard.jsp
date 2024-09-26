@@ -115,15 +115,14 @@
 													<span class="text-success text-sm font-weight-bolder"></span>
 													<%=(studentUser != null) ?"Presents Till Today" : ""%>
 												</p>
-												<nav id="navmenu" class="navmenu">
+												<nav id="navmenu" class="navmenu" >
 													<li class="dropdown"><span
-														onclick="findStudentBatches()"
+														onload="findStudentBatches()" 
 														class="bg-gradient-primary btn text-light mt-0">view</span>
 														<ul id="batchList1">
 															<!-- List items will be appended here -->
 														</ul></li>
 												</nav>
-
 											</div>
 										</div>
 										<div class="col-4 text-end">
@@ -180,7 +179,7 @@
 										</div>
 									</div>
 									<div class="col-4 text-end">
-										<div
+										<div 
 											class="icon icon-shape bg-gradient-success shadow-primary text-center rounded-circle">
 											<i class="fa-solid fa-chart-pie text-lg opacity-10"
 												aria-hidden="true"></i>
@@ -259,11 +258,16 @@
 				if (this.readyState === XMLHttpRequest.DONE) {
 					if (this.status === 200) {
 						try {
+							var batchList = document.getElementById('navmenu');
+								batchList.style.display = batchList.style.display === 'block' ? 'none' : 'block';
 							// Attempt to parse the JSON response
 							const response = JSON.parse(this.responseText);
 							updateBatchList(response);
-						} catch (e) {
+						}
+						catch (e) 
+						{
 							// Handle JSON parsing error
+							$('#navmenu').empty();
 							console.error('Error parsing JSON:', e);
 							alert('Error: Unable to parse the response.');
 						}
@@ -285,7 +289,7 @@
 			var batchList = document.getElementById('batchList1');
 			// Check if the batchList element exists
 			if (!batchList	) {
-				alert('No batches available');
+				// alert('No batches available');
 				return;
 			}
 
@@ -294,7 +298,7 @@
 			// Log batches for debugging
 			// Check if batches is an array and has elements
 			if (!Array.isArray(batches) || batches.length === 0) {
-				alert('No batches available');
+				// alert('No batches available');
 				return;
 			}
 			// Iterate over the batches and create list items
@@ -397,15 +401,15 @@
 				},
 			},
 		});
-		function getList()
-		{
-			const List = new Array();
-			<%for(Integer marks: marksList){%>
-			List.push(<%=marks!=null?marks:0%>)
-			<%}	%>
-			console.log(List);
-			return List;
-		}
+		function getList() {
+    const list = [];
+    <% for (Integer marks : marksList) { %>
+        list.push(<%= marks != null ? marks : 0 %>);
+    <% } %>
+    console.log(list);
+    return list;
+}
+
 	</script>
 </body>
 </html>
