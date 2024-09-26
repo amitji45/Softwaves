@@ -15,12 +15,12 @@
                 <%@ include file="component/navbar.jsp" %>
                     <div class="py-4">
                         <div class="row">
-                            <section class="col py-4">
+                            <section class="col py-4 ">
                                 <div class="footer-newsletter">
-                                    <div class="container">
-                                        <div class="row justify-content-center text-center">
-                                            <div class="col-lg-6">
-                                                <h1>Completed Batch Record</h1>
+                                    <div class="container ">
+                                        <div class="row justify-content-center text-center ">
+                                            <div class="col-lg-6 ">
+                                                <h2>  Completed Batch Record </h2>
                                             </div>
                                         </div>
                                     </div>
@@ -33,7 +33,7 @@
                                             <div class="row">
                                                 <div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
                                                     <div class="card z-index-2 h-100">
-                                                        <div class="card-header pb-0 p-3">
+                                                        <div class="card-header pb-0 pt-3 bg-transparent">
                                                             <h6 class="text-capitalize text-center"
                                                                 id="batchandstudent"></h6>
                                                         </div>
@@ -49,7 +49,9 @@
 
                                                                             </table>
                                                                             <table class="table align-items-center "
-                                                                                id="tableid">
+                                                                                >
+                                                                                <tbody id="tableid">
+                                                                                </body>
                                                                             </table>
                                                                         </div>
 
@@ -209,7 +211,7 @@
                                                         batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">Batch ID</p><h6 class="text-sm mb-0">' + batch.batchId + '</h6>') : null,
                                                         batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">Start Date</p><h6 class="text-sm mb-0">' + batch.startDate + '</h6>') : null,
                                                         batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">End Date</p><h6 class="text-sm mb-0">' + batch.endDate + '</h6>') : null,
-                                                        batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">No. STU:</p><h6 class="text-sm mb-0">' + totalStudents + '</h6>') : null,
+                                                        batch.currentStatus === "Completed" ? $('<td>').html('<p class="text-xs font-weight-bold mb-0">Total Students</p><h6 class="text-sm mb-0">' + totalStudents + '</h6>') : null,
                                                         batch.currentStatus === "Completed" ? $('<td>').html('<a class="btn btn-outline-danger" onclick="batchDetails(\'' + batch.batchId + '\')">Details</a>') : null
                                                     );
 
@@ -225,7 +227,7 @@
                                             $('#tableid').empty();
                                         }
                                     });
-                           }
+                                }
 
 
 
@@ -260,7 +262,7 @@
                                                     $('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + batch.rollNo + '</h6>'),
                                                     $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + batch.user.name + '</h6>'),
                                                     $('<td>').html('<p class="text-xs font-weight-bold mb-0">Present Count:</p><h6 class="text-sm mb-0">' + batch.attendanceCount + '</h6>'),
-                                                    $('<td>').html('<a class="btn btn-outline-info" href="#' + batch.batchid + '">Details</a>')
+                                                    $('<td>').html('<a class="btn btn-outline-danger" href="#' + batch.batchid + '">Details</a>')
                                                 );
                                                 // Append the new row to the table
                                                 $('#tableid').append(newRow);

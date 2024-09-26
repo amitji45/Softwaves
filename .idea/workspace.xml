@@ -6,16 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f7f29ba6-1492-402b-a8f2-934a5133d7de" name="Changes" comment="&quot;sort L , delete btn, all student page solved&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/ServiceImpl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/ServiceImpl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/AdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/views/AllStudentDetails.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/AllStudentDetails.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/views/VolunteerApproval.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/VolunteerApproval.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/views/allStudent.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/allStudent.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/component/navbar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/component/navbar.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/dashboard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/dashboard.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/views/manageBatches.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/manageBatches.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/ServiceImpl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/ServiceImpl/UserServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,38 +64,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.SoftwavesApplication.executor": "Run",
-    "Application.Unnamed.executor": "Run",
-    "Docker.Dockerfile.executor": "Run",
-    "Maven.com.springboot.swt [clean,pring-boot:run].executor": "Run",
-    "Maven.com.springboot.swt [clean...].executor": "Run",
-    "Maven.com.springboot.swt [clean].executor": "Run",
-    "Maven.com.springboot.swt [install].executor": "Run",
-    "Maven.com.springboot.swt [pring-boot:run].executor": "Run",
-    "Maven.com.springboot.swt [spring-boot:run].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "neeraj-dev",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Abc/OneDrive/Desktop/New folder (3)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "advanced.settings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.SoftwavesApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [clean,pring-boot:run].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [clean...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [pring-boot:run].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.com.springboot.swt [spring-boot:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;neeraj-dev&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Abc/OneDrive/Desktop/New folder (3)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Maven.com.springboot.swt [spring-boot:run]">
-    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.springboot.swt.project.SoftwavesApplication" />
-      <module name="com.springboot.swt" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="New folder (3)" />
       <method v="2">
@@ -205,14 +191,6 @@
       </MavenSettings>
       <method v="2" />
     </configuration>
-    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
-      <deployment type="dockerfile">
-        <settings>
-          <option name="sourceFilePath" value="Dockerfile" />
-        </settings>
-      </deployment>
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
       <deployment type="dockerfile">
         <settings />
@@ -220,17 +198,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.Unnamed" />
-      <item itemvalue="Docker.Dockerfile" />
-      <item itemvalue="Maven.com.springboot.swt [spring-boot:run]" />
-      <item itemvalue="Maven.com.springboot.swt [install]" />
       <item itemvalue="Maven.com.springboot.swt [clean]" />
+      <item itemvalue="Maven.com.springboot.swt [install]" />
+      <item itemvalue="Maven.com.springboot.swt [spring-boot:run]" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Docker.Dockerfile" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
