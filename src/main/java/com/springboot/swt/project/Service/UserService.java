@@ -44,4 +44,6 @@ public interface UserService {
 	Object getUser(String email, String purpose);
 
 	List<User> getVolunteerList();
+	public List<Integer> getMarksListCompletedBatch(String studId);
+
 }

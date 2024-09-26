@@ -42,13 +42,24 @@ public class VolunteerController {
 	}
 
 	@RequestMapping("/findallstudent")
-	public String findallstudent(@RequestParam("batchId") String batchId, Model model, HttpServletRequest session) {
+	public ResponseEntity findallstudent(@RequestParam("batchId") String batchId, Model model,
+			HttpServletRequest session) {
+
 		List<Student> studentlist = StudentServiceImpl.findByBatch(batchId);
 		// List<Student> absentlist = StudentAttendanceServiceImpl.findByBatch(batchId);
 		if (studentlist.size() != 0)
 			model.addAttribute("studentlist", studentlist);
-		// model.addAttribute("absentlist", absentlist);
-		return "userattendance";
+		return new ResponseEntity<>(studentlist, HttpStatus.OK);
+	}
+
+	@RequestMapping("/findallstudentmodel")
+	public Model findallstudentModal(@RequestParam("batchId") String batchId, Model model,
+			HttpServletRequest session) {
+
+		List<Student> studentlist = StudentServiceImpl.findByBatch(batchId);
+		if (studentlist.size() != 0)
+			return model.addAttribute("studentlist", studentlist);
+		return model;
 	}
 
 	@RequestMapping("/userattendance")

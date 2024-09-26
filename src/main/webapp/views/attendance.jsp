@@ -1,6 +1,5 @@
 <%@ page import="com.springboot.swt.project.entity.Student"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.time.LocalDate"%>
 <%@ page import="java.sql.Date"%>
 <%@ page import="java.time.DayOfWeek"%>
@@ -30,8 +29,10 @@
 					 {
 						
 						Date date = student.getBatch().getStartDate();
+						System.out.println(date);
 						Calendar calendar = Calendar.getInstance();
-						calendar.setTime(date);
+						 calendar.setTime(date);
+						
 						// Correctly create LocalDate using month and day
 						LocalDate localDate = LocalDate.of(calendar.get(Calendar.YEAR), 
 							calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
@@ -53,9 +54,13 @@
 										break;
 									}
 								}
-								%>
-								<!-- HTML and JSP code -->
-								<td>
+								if(i%8==0)
+								{
+									%>
+									<!-- HTML and JSP code -->
+									 <tr>
+									<%}%>
+									<td>
 									<div class="card <%=isAbsent ? "bg-danger" : "bg-success"%>">
 										<div class="card-body p-3">
 											<p class="font-weight-bolder text-sm mb-0">
@@ -69,7 +74,10 @@
 										
 									</div>
 								</td>
+									<%if(i%8==0){%>
+									</tr>
 								<%
+									}
 								// Move to the next day
 								localDate = localDate.plusDays(1);
 							}

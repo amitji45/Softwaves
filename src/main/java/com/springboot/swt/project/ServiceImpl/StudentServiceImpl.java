@@ -39,12 +39,13 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public List<Student> findByBatch(String batchId) {
+
 		return studentRepo.findAll().stream()
 				.filter(s -> batchId.equals(s.getBatch().getBatchId())) // Filter by batchId
 				.sorted(Comparator.comparing(Student::getRollNo)) // Sort by roll number
 				.collect(Collectors.toList()); // Collect the filtered and sorted students into a list
-	}
 
+	}
 
 	@Override
 	public List<Student> findAllStudent(String name) {
@@ -65,15 +66,16 @@ public class StudentServiceImpl implements StudentService {
 		studentRepo.save(student);
 		return student;
 	}
+
 	@Override
-	public Student getActiveStudent(User temp) {		
-		List<Student> studentList=studentRepo.findByuser(temp);
-		for(Student student : studentList) 
-		{
+	public Student getActiveStudent(User temp) {
+		List<Student> studentList = studentRepo.findByuser(temp);
+		for (Student student : studentList) {
 			Batch batch = student.getBatch();
-			if(batch.getCurrentStatus().equals("Active"))return student;
+			if (batch.getCurrentStatus().equals("Active"))
+				return student;
 		}
-		
+
 		return null;
 	}
 

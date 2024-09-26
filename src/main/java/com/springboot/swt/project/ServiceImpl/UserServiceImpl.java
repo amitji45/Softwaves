@@ -125,12 +125,12 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public String enrollstudent(String batchId, User user) {
 
-        Random rand = new Random();
-        Optional<Batch> optional = batchrepo.findById(batchId);
-        Batch batch = optional.get();
+		Random rand = new Random();
+		Optional<Batch> optional = batchrepo.findById(batchId);
+		Batch batch = optional.get();
 
-        Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
-        List<Student> studybatch = studentrepo.findByuser(user);
+		Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
+		List<Student> studybatch = studentrepo.findByuser(user);
 
 		for (Student stud : studybatch) {
 			if (stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())
@@ -153,7 +153,6 @@ public class UserServiceImpl implements UserService {
 		if (oldbatch == null) {
 			Student student = new Student();
 			ArrayList<Integer> list = new ArrayList<Integer>(10);
-			student.setId(rand.nextInt(1000));
 			student.setBatch(batch);
 			student.setUser(user);
 			student.setMarks(list);
@@ -167,13 +166,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Integer> getMarksList(String id) {
-		List<Student> studentList=studentrepo.findByuser(userrepo.findById(id).get());
-		Student student=null;
-		for(Student studentTemp : studentList)
-		{
-			if(studentTemp.getBatch().getCurrentStatus().equals("Active"))
-			{
-				student=studentTemp;
+		List<Student> studentList = studentrepo.findByuser(userrepo.findById(id).get());
+		Student student = null;
+		for (Student studentTemp : studentList) {
+			if (studentTemp.getBatch().getCurrentStatus().equals("Active")) {
+				student = studentTemp;
 				break;
 			}
 		}
@@ -305,7 +302,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List getAllStudent(String name) {
 		List<User> allStudentList = userrepo.findAll().stream()
-				.filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase() )&& !"Admin".equals(user.getRole()))
+				.filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase())
+						&& !"Admin".equals(user.getRole()))
 				.sorted(Comparator.comparing(User::getName)) // Sort by name
 				.collect(Collectors.toList());
 
@@ -365,4 +363,12 @@ public class UserServiceImpl implements UserService {
 		return avgBatches;
 	}
 
+	@Override
+	public List<Integer> getMarksListCompletedBatch(String studId) {
+		Optional<Student> student = studentrepo.findById(new Integer(studId));
+		if (student == null)
+			return null;
+		Student st = student.get();
+		return st.getMarks();
+	}
 }

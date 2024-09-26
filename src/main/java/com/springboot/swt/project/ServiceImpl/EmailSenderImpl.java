@@ -32,13 +32,13 @@ public class EmailSenderImpl implements EmailSender {
 			}
 		});
 		try {
-			String messagetemplate="Dear [User Name],\r\n"
+			String messagetemplate = "Dear [User Name],\r\n"
 					+ "\r\n"
 					+ "We've received a request to reset your password for your Softwaves account.\r\n"
 					+ "\r\n"
 					+ "To verify your identity, please enter the following 6-digit OTP code:\r\n"
 					+ "\r\n"
-					+ "["+massage+"]\r\n"
+					+ "[" + massage + "]\r\n"
 					+ "\r\n"
 					+ "This code is valid for 5 minutes.\r\n"
 					+ "\r\n"
@@ -51,7 +51,7 @@ public class EmailSenderImpl implements EmailSender {
 			message.setSubject(subject);
 			message.setText(messagetemplate);
 			Transport.send(message);
-			
+
 			return "Email sent successfully!";
 		} catch (MessagingException e) {
 			e.printStackTrace();

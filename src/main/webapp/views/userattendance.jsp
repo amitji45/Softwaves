@@ -17,8 +17,6 @@
 									List<Batch> activebatch = (List<Batch>) request.getAttribute("activebatch");
 											%>
 											<script>
-											function setAttributeName(id)
-										{}
 												document.addEventListener('DOMContentLoaded', function () {
 													findActiveBatches();
 												});
@@ -77,81 +75,102 @@
 														return;
 													}
 
-													// Clear existing items
 													batchList.innerHTML = '';
 
-													// Log batches1 for debugging
-
 													if (!Array.isArray(batches1) || batches1.length === 0) {
-														
-														Swal.fire({
-												icon: "error",
-												title: "Oops...",
-												text:"No active batches found."
-												
-											});
+														console.warn('No active batches found.');
 														return;
 													}
 
-													// Iterate over the batches and create list items
-													batches1
-														.forEach(function (batch) {
-															if (!batch.batchId || !batch.batchTopic) {
-																console
-																	.warn(
-																		'Batch object missing required properties:',
-																		batch);
-																return;
-															}
+													batches1.forEach(function (batch) {
+														if (!batch.batchId || !batch.batchTopic) {
+															console.warn('Batch object missing required properties:', batch);
+															return;
+														}
 
-															var li = document.createElement('li');
-															var a = document.createElement('a');
-															var url = "http://localhost:9090/valunteer/findallstudent?batchId="
-																+ batch.batchId;
+														var li = document.createElement('li');
+														var a = document.createElement('a');
+														var batchId = batch.batchId;
 
-															// Set the text and href of the <a> tag
-															a.textContent = batch.batchTopic; // Assuming each batch object has a 'batchTopic' property
-															a.href = url; // Set the URL to navigate to
-															a.id = 'batch-' + batch.batchId; // Set ID for potential use in other operations
+														a.textContent = batch.batchTopic;
+														a.href = '#';
 
-															// Append the <a> tag to the <li>
-															li.appendChild(a);
+														a.addEventListener('click', function (event) {
+															event.preventDefault();
 
-															// Append the <li> to the list
-															batchList.appendChild(li);
+															$.ajax({
+																url: 'http://localhost:9090/valunteer/findallstudent?batchId=' + batchId,
+																type: 'GET',
+																dataType: 'json',
+																success: function (response) {
+																	$('#presenttableid').empty();
+																	$('#absenttableid').empty();
+
+																	if (response.length >= 1) {
+																		document.getElementById('batchandstudent').style.display = 'block';
+																		document.getElementById('PleaseSelectBatchAvailableStudent').style.display = 'none';
+																		document.getElementById('NoAvailableStudentinthisBatch').style.display = 'none';
+																	} else {
+																		document.getElementById('batchandstudent').style.display = 'none';
+																		document.getElementById('PleaseSelectBatchAvailableStudent').style.display = 'block';
+																		document.getElementById('NoAvailableStudentinthisBatch').style.display = 'block';
+																	}
+
+																	response.forEach(function (student) {
+																		const newRow = $('<tr>').attr('id', student.rollNo);
+																		newRow.append(
+																			$('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),
+																			$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
+																			$('<td>').html('<a class="btn btn-outline-danger" onclick="studentabsent(\'' + student.rollNo + '\')">Absent</a>'),
+																			$('<td>').html('<a class="btn btn-outline-success" onclick="studentpresent(\'' + student.rollNo + '\')">Present</a>'),
+																			$('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')
+																		);
+																		$('#presenttableid').append(newRow);
+																	});
+																},
+																error: function (error) {
+																	console.error('Error:', error);
+																	$('#presenttableid').empty();
+																	const newRow = $('<tr>');
+																	newRow.append(
+																		$('<td>').html('<h6 class="text-sm mb-0">Error: Unable to fetch data. Please try again later.</h6>')
+																	);
+																	$('#presenttableid').append(newRow);
+																}
+															});
 														});
+
+														li.appendChild(a);
+														batchList.appendChild(li);
+													});
 												}
 
-												//      function for student  attendance for present
 												function studentpresent(rollNo) {
-													url = "http://localhost:9090/valunteer/studentattendance/present?rollNo=";
-													markAttendence(rollNo, url);
-												}
-												//      function for student  attendance for absent
-												function studentabsent(rollNo) {
-													url = "http://localhost:9090/valunteer/studentattendance/absent?rollNo=";
-													markAttendence(rollNo, url);
+													var batchId = $('#batchIdinlist').data('batch-id');
+													if (!batchId) {
+														alert("Batch ID is not set.");
+														return;
+													}
+													var url = "http://localhost:9090/valunteer/studentattendance/present?rollNo=" + rollNo + "&batchId=" + batchId;
+													markAttendence(rollNo, url, 'present');
 												}
 
-												function markAttendence(rollNo, url) {
-	<%if (list != null) {%>
-		var batchId = '<%=list.get(0).getBatch().getBatchId()%>';
-	<%} else {%>
-														alert('No available student');
-														return; // Exit the function if no batchId is available
-<%}%>
-		// Get the roll number input value
-			if (!rollNo) {
+												function studentabsent(rollNo) {
+													var batchId = $('#batchIdinlist').data('batch-id');
+													if (!batchId) {
+														alert("Batch ID is not set.");
+														return;
+													}
+													var url = "http://localhost:9090/valunteer/studentattendance/absent?rollNo=" + rollNo + "&batchId=" + batchId;
+													markAttendence(rollNo, url, 'absent');
+												}
+
+												function markAttendence(rollNo, url, status) {
+													if (!rollNo) {
 														rollNo = document.getElementById('email-field').value;
 													}
 													if (!rollNo) {
-														
-														Swal.fire({
-												icon: "error",
-												title: "Oops...",
-												text:"Please Enter Roll Number"
-												
-											});
+														alert("Please Enter Roll Number");
 														return;
 													}
 
@@ -159,35 +178,54 @@
 													xhttp.onreadystatechange = function () {
 														if (xhttp.readyState === XMLHttpRequest.DONE) {
 															if (xhttp.status === 200) {
-																// Check the response from the server
 																var response = xhttp.responseText;
 																if (response === null || response.trim() === "") {
-																	
-																	Swal.fire({
-												icon: "error",
-												title: "Oops...",
-												text:"Response from server is null or empty."
-												
-											});
+																	alert("Response from server is null or empty.");
 																} else {
-																	
-																	Swal.fire({
-												icon: "error",
-												title: "Oops...",
-												text:"Response from server is null or empty."
-												
-											});
-																	document.getElementById(rollNo).remove();
+																	var student = JSON.parse(response);
+
+																	// Create a new row for the student
+																	const newRow = $('<tr>').attr('id', student.Id);
+																	newRow.append(
+																		$('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),
+																		$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
+																		$('<td>').html('<a class="btn btn-outline-danger" onclick="studentabsent(\'' + student.rollNo + '\')">Absent</a>'),
+																		$('<td>').html('<a class="btn btn-outline-success" onclick="studentpresent(\'' + student.rollNo + '\')">Present</a>'),
+																		$('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')
+																	);
+																	document.getElementById('absentcard').style.display = 'block';
+																	if (status === 'absent') {
+																		// Remove from present table if exists
+																		const presentRow = document.getElementById(student.rollNo);
+																		if (presentRow) {
+																			presentRow.remove(); // Remove from present table
+																		}
+
+																		// Append to the absent table
+																		$('#absenttableid').append(newRow);
+																		alert("Successfully marked " + student.rollNo + " as absent.");
+																	} else if (status === 'present') {
+																		// Remove from absent table if exists
+																		const absentRow = document.getElementById(student.rollNo);
+																		if (absentRow) {
+																			absentRow.remove(); // Remove from absent table
+																		}
+
+																		// Append to the present table
+																		$('#presenttableid').append(newRow);
+																		alert("Successfully marked " + student.rollNo + " as present.");
+																	}
 																}
 															} else {
-																alert("Error occurred while marking attendance. Status: "
-																	+ xhttp.status);
+																alert("Error occurred while marking attendance. Status: " + xhttp.status);
 															}
 														}
 													};
-													xhttp.open("GET", url + rollNo + "&batchId=" + batchId, true);
+													xhttp.open("GET", url, true);
 													xhttp.send();
 												}
+
+
 											</script>
 
 											<%@ include file="component/navbar.jsp" %>
@@ -197,14 +235,15 @@
 														<!-- Section Title -->
 														<div class="container section-title">
 															<h2>User Attendence</h2>
-															<% if (list !=null) { String
-																currentBatch=request.getParameter("batchId"); %>
+															<% if (list !=null&&list.size()>0) {
+																String currentBatch=request.getParameter("batchId"); %>
 																<h3>
-																	Batch :-
-																	<%=list.get(0).getBatch().getBatchTopic()%>
+																	Batch :-<%=list.get(0).getBatch().getBatchTopic()%>
 																</h3>
 																<% } else { %>
-																	<h3>Please Select Batch Available Student</h3>
+																	<h3 style="display: none;"
+																		id="PleaseSelectBatchAvailableStudent">Please
+																		Select Batch Available Student</h3>
 																	<% } %>
 														</div>
 														<!--col-xl-2 col-md-6 col-sm-11 py-4 -->
@@ -236,9 +275,11 @@
 
 																		</div>
 																		<div class="col-md-12 text-center">
+
 																			<button type="button"
 																				class="btn btn-secondary"
 																				onclick="studentpresent(document.getElementById('email-field').value)">Enter</button>
+
 																			<button type="button"
 																				class="btn btn-secondary"
 																				onclick="studentabsent(document.getElementById('email-field').value)">delete</button>
@@ -249,115 +290,98 @@
 															</div>
 
 														</div>
+														<div class="container section-title"
+															id="NoAvailableStudentinthisBatch" style="display: none;">
+
+															<h2>No Available Student in this Batch..</h2>
+
+
+														</div>
 
 														<!------------------------------------------------------------------------------------------------------------------------------------------->
-														<div class="py-4">
+														<div class="py-4" id="batchandstudent" style="display: none;">
 															<div class="row">
-																<% if (list !=null) { %>
-																	<section class="col py-4 px-2 ">
-																		<div class="row ">
-																			<div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
-																				<div class="card z-index-2 h-100">
-																					<div
-																						class="card-header pb-0 pt-3 bg-transparent">
-																						<h6
-																							class="text-capitalize text-center">
-																							Student List</h6>
-																					</div>
-																					<div class="card-body p-3 ">
-																						<div class="chart ">
-																							<!-- <canvas id="chart-line" class="chart-canvas" height="300"></canvas> -->
 
-																							<table
-																								class="table align-items-center ">
+
+																<section class="col py-4 px-2">
+																	<div class="row">
+																		<div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
+																			<div class="card z-index-2 h-100">
+																				<div class="card-header pb-0 p-3">
+																					<h6
+																						class="text-capitalize text-center">
+																						Student List</h6>
+																				</div>
+																				<div class="card-body p-3 "
+																					id="presentcard..">
+																					<div class="chart ">
+																						<table
+																							class="table align-items-center ">
+																							<div class="nested-div ">
+
 																								<div
-																									class="nested-div ">
-																									<% for (int i=0; i <
-																										list.size();
-																										i++) { %>
+																									class="table-responsive">
 
-																										<div
-																											class="table-responsive">
-																											<table
-																												class="table align-items-center ">
-																												<tbody>
-																													<tr
-																														id="<%=list.get(i).getRollNo()%>">
-																														<td>
-																															<div
-																																class="text-center">
-																																<p
-																																	class="text-xs font-weight-bold mb-0">
-																																	Roll
-																																	no:
-																																</p>
-																																<h6
-																																	class="text-sm mb-0">
-																																	<%=list.get(i).getRollNo()%>
-																																</h6>
-																															</div>
-																														</td>
-																														<td>
-																															<div
-																																class="text-center">
-																																<p
-																																	class="text-xs font-weight-bold mb-0">
-																																	Name:
-																																</p>
-																																<h6
-																																	class="text-sm mb-0">
-																																	<%=list.get(i).getUser().getName()%>
-																																</h6>
-																															</div>
-																														</td>
-																														<td
-																															class="text-center">
-																															<div
-																																class="col text-center">
-																																<p
-																																	class="text-xs font-weight-bold mb-0">
-																																	Id:
-																																</p>
-																																<h6
-																																	class="text-sm mb-0">
-																																	<%=list.get(i).getBatch().getBatchId()%>
-																																</h6>
-																															</div>
-																														</td>
-																														<td>
-																															<div
-																																class="">
-																																<!-- <button type="button" class="btn btn-outline-success"
-																				onclick="">Allow</button> -->
-																																<button
-																																	type="button"
-																																	class="btn btn-outline-danger"
-																																	onclick="studentabsent('<%=list.get(i).getRollNo()%>')">Remove</button>
-																															</div>
-																														</td>
-																													</tr>
-																											</table>
-																										</div>
-																										<% } %>
+																									<table
+																										class="table align-items-center "
+																										id="presenttableid">
+																									</table>
+
 																								</div>
-																								</tbody>
-																							</table>
+
+																							</div>
+
+																						</table>
+																					</div>
 
 
-																						</div>
+
+
+
+																				</div>
+
+																			</div>
+																		</div>
+																	</div>
+																	<!-- ---------- -->
+																	<div class="row" style="display: none;"
+																		id="absentcard">
+																		<div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
+																			<div class="card z-index-2 h-100">
+																				<div class="card-header pb-0 p-3">
+																					<h6
+																						class="text-capitalize text-center">
+																						Student Absent List</h6>
+																				</div>
+																				<div class="card-body p-3 "
+																					id="absentcardcard..">
+																					<div class="chart ">
+																						<table
+																							class="table align-items-center ">
+																							<div class="nested-div ">
+																								<div
+																									class="table-responsive">
+
+																									<table
+																										class="table align-items-center  "
+																										id="absenttableid">
+																									</table>
+																								</div>
+																							</div>
+																						</table>
 																					</div>
 																				</div>
 																			</div>
 																		</div>
-																	</section>
-																	<% } else { %>
-																		<h3 class="container section-title">Not
-																			Available
-																			Student in
-																			This Batch!</h3>
-																		<% } %>
+																	</div>
 															</div>
-														</div>
+													</section>
+
+
+
+
+													</div>
+													</div>
 												</main>
 												<!-- /Contact Section -->
 												<%@ include file="component/footer.jsp" %>
