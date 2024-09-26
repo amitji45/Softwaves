@@ -220,11 +220,13 @@
 	function getData()
 	{
 		const List = new Array();
-		<%for(Map.Entry<Batch, Integer> avg : avgBatches.entrySet()){%>
+		
+		<%if(avgBatches!=null){
+		for(Map.Entry<Batch, Integer> avg : avgBatches.entrySet()){%>
 		
 		List.push(<%=avg.getValue()!=null?avg.getValue():0%>);
 		
-		<%}	%>
+		<%}}	%>
 		console.log(List);
 		return List;
 	}
@@ -233,11 +235,12 @@
 	function getLabel()
 	{
 		const List = new Array();
-		<%for(Map.Entry<Batch, Integer> avg : avgBatches.entrySet()){%>
+		<%if(avgBatches!=null){
+		for(Map.Entry<Batch, Integer> avg : avgBatches.entrySet()){%>
 		
 		List.push('<%=avg.getKey().getBatchTopic()!=null?avg.getKey().getBatchTopic():0%>')
 
-		<%}	%>
+		<%}}	%>
 		console.log(List);
 		return List;
 	}
