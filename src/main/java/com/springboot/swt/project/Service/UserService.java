@@ -42,4 +42,6 @@ public interface UserService {
 	Map<String, Object> tempRegister(User user);
 
 	Object getUser(String email, String purpose);
+
+	List<User> getVolunteerList();
 }

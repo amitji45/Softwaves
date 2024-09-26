@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -334,6 +335,34 @@ public class UserServiceImpl implements UserService {
 		response.put("message", "User registered successfully");
 		response.put("user", user);
 		return response;
+	}
+	
+	@Override
+	public List<User> getVolunteerList(){
+		List<User> volunteerList = userrepo.findByRole("Volunteer");
+		return volunteerList;
+	}
+	
+	public Map getAverage() {
+		List<Batch> activeBatches=batchrepo.findByCurrentStatus("Active");
+		if(activeBatches == null || activeBatches.isEmpty())return null;
+		Map<Batch, Integer> avgBatches= new HashMap<>();
+		for(Batch batch : activeBatches)
+		{
+			int avgOfStudents=0;
+			List<Student> studentList=studentrepo.findByBatch(batch);
+			if(studentList!=null && !studentList.isEmpty()) {
+			for(Student student : studentList)
+			{
+				LinkedList<Integer> marks=new LinkedList<>(student.getMarks());
+				if(marks!=null && !marks.isEmpty())avgOfStudents=avgOfStudents+(int)marks.get(marks.size()-1);
+			}
+			}
+			if(avgOfStudents != 0) avgBatches.put(batch,avgOfStudents/studentList.size());
+			else avgBatches.put(batch,  0 );
+		}
+		
+		return avgBatches;
 	}
 
 }

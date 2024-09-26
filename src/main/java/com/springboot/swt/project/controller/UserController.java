@@ -33,6 +33,7 @@ import com.springboot.swt.project.entity.Batch;
 import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.entity.TempUser;
 import com.springboot.swt.project.entity.User;
+import com.springboot.swt.project.repo.BatchRepo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -55,6 +56,8 @@ public class UserController {
 		User temp = userserviceimpl.login(email, password);
 		if (temp != null && temp.getAllowed().equals("Allowed")) {
 			HttpSession session = request.getSession();
+			
+			
 			if (temp.getRole().equalsIgnoreCase("Student") || temp.getRole().equalsIgnoreCase("Volunteer")) {
 				session.setAttribute("user", temp);
 				Student student=studentServiceImpl.getActiveStudent(temp);
@@ -64,10 +67,21 @@ public class UserController {
 				List<Integer> studentMarks=userserviceimpl.getMarksList(temp.getId());
 				session.setAttribute("studentMarks", studentMarks);
 
-				System.out.println(studentMarks);
+				//System.out.println(studentMarks);
 				return modal;
 			}
 			if (temp.getRole().equalsIgnoreCase("Admin")) {
+				List<Student> allStudents=studentServiceImpl.findAllStudent("");
+				List<Batch> allBatches=batchservicesimpl.sendAllBatches();
+				List<User> notAllowedUsers=userserviceimpl.getNotAllowedUsers();
+				List<User> volunteerList=userserviceimpl.getVolunteerList();
+				Map<Batch, String> avgBatches=userserviceimpl.getAverage();
+				
+				session.setAttribute("allStudents", allStudents);
+				session.setAttribute("allBatches", allBatches);
+				session.setAttribute("notAllowedUsers", notAllowedUsers);
+				session.setAttribute("volunteerList", volunteerList);
+				session.setAttribute("avgBatches", avgBatches);
 				session.setAttribute("admin", temp);
 				modal.setViewName("redirect:/admin/dashboard");
 				return modal;
@@ -265,4 +279,8 @@ public class UserController {
 		
 		return new ResponseEntity(marksList,HttpStatus.OK);
 	}
+	
+	
+	
+	
 }

@@ -6,16 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="f7f29ba6-1492-402b-a8f2-934a5133d7de" name="Changes" comment="&quot;sort L , delete btn, all student page solved&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/Service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/ServiceImpl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/ServiceImpl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/AllStudentDetails.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/AllStudentDetails.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/VolunteerApproval.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/VolunteerApproval.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/allStudent.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/allStudent.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/component/navbar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/component/navbar.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/dashboard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/dashboard.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/manageBatches.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/manageBatches.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/repo/UserRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/springboot/swt/project/repo/UserRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/admindashboard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/admindashboard.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/maven/com.springboot.swt/com.springboot.swt/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/maven/com.springboot.swt/com.springboot.swt/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/Service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/Service/UserService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/ServiceImpl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/ServiceImpl/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/repo/UserRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/springboot/swt/project/repo/UserRepo.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +82,7 @@
     "Maven.com.springboot.swt [clean].executor": "Run",
     "Maven.com.springboot.swt [install].executor": "Run",
     "Maven.com.springboot.swt [pring-boot:run].executor": "Run",
-    "Maven.com.springboot.swt [spring-boot:run].executor": "Run",
+    "Maven.com.springboot.swt [spring-boot:run].executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "neeraj-dev",
@@ -94,6 +96,12 @@
   }
 }]]></component>
   <component name="RunManager" selected="Maven.com.springboot.swt [spring-boot:run]">
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.springboot.swt.project.SoftwavesApplication" />
       <module name="com.springboot.swt" />
@@ -213,28 +221,17 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile">
-        <settings />
-      </deployment>
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Application.Unnamed" />
-      <item itemvalue="Docker.Dockerfile" />
-      <item itemvalue="Maven.com.springboot.swt [spring-boot:run]" />
-      <item itemvalue="Maven.com.springboot.swt [install]" />
       <item itemvalue="Maven.com.springboot.swt [clean]" />
+      <item itemvalue="Maven.com.springboot.swt [install]" />
+      <item itemvalue="Maven.com.springboot.swt [spring-boot:run]" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Docker.Dockerfile" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
+        <option value="jdk-1.8.0_402-corretto-1.8.0_402-4caba194b151-ae57be32" />
         <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
       </set>
     </attachedChunks>
@@ -387,5 +384,16 @@
     <MESSAGE value="&quot;latest changes after trying to deploy&quot;" />
     <MESSAGE value="&quot;sort L , delete btn, all student page solved&quot;" />
     <option name="LAST_COMMIT_MESSAGE" value="&quot;sort L , delete btn, all student page solved&quot;" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/springboot/swt/project/controller/UserController.java</url>
+          <line>54</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
