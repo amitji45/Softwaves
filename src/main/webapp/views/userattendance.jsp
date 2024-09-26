@@ -36,11 +36,23 @@
 																	updateBatchList(response);
 																} catch (e) {
 																	// Handle JSON parsing error
-																	alert('Error: no Active batches..');
+																	
+																	Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text:"Error: no Active batches.."
+												
+											});
 																	//    console.error('JSON parsing error:', e);
 																}
 															} else {
-																alert('Error: ' + this.statusText);
+															
+																Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text:'Error: ' + this.statusText
+												
+											});
 															}
 														}
 													};
@@ -54,7 +66,13 @@
 
 													// Check if the batchList element exists
 													if (!batchList) {
-														alert('not available...');
+													
+														Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text:"not available"
+												
+											});
 														console.error('Element with id "batchList1" not found.');
 														return;
 													}
@@ -65,7 +83,13 @@
 													// Log batches1 for debugging
 
 													if (!Array.isArray(batches1) || batches1.length === 0) {
-														alert('No active batches found.');
+														
+														Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text:"No active batches found."
+												
+											});
 														return;
 													}
 
@@ -121,7 +145,13 @@
 														rollNo = document.getElementById('email-field').value;
 													}
 													if (!rollNo) {
-														alert("Please Enter Roll Number");
+														
+														Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text:"Please Enter Roll Number"
+												
+											});
 														return;
 													}
 
@@ -132,9 +162,21 @@
 																// Check the response from the server
 																var response = xhttp.responseText;
 																if (response === null || response.trim() === "") {
-																	alert("Response from server is null or empty.");
+																	
+																	Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text:"Response from server is null or empty."
+												
+											});
 																} else {
-																	alert("Successfully marked attendance.");
+																	
+																	Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text:"Response from server is null or empty."
+												
+											});
 																	document.getElementById(rollNo).remove();
 																}
 															} else {

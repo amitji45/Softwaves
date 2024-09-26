@@ -68,7 +68,13 @@
 	    const pass2 = document.getElementById("pass2");
 
 	    if (pass1.value !== pass2.value) {
-	        alert("Passwords must match.");
+	        
+			Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text:"Passwords must match."
+												
+											});
 	        return false;
 	    }
 

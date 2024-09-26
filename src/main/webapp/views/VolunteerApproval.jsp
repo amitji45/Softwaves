@@ -8,6 +8,7 @@
 				<%@ include file="component/head.jsp" %>
 					<script>
 						window.onload = function () {
+							
 							// Call findAllVolunteer with the desired name (if applicable)
 							findAllVolunteer(""); // Replace with the actual name
 						};

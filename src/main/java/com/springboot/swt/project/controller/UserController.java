@@ -67,7 +67,7 @@ public class UserController {
 				List<Integer> studentMarks=userserviceimpl.getMarksList(temp.getId());
 				session.setAttribute("studentMarks", studentMarks);
 
-				//System.out.println(studentMarks);
+				System.out.println(studentMarks);
 				return modal;
 			}
 			if (temp.getRole().equalsIgnoreCase("Admin")) {

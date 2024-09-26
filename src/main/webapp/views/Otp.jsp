@@ -60,12 +60,12 @@
 
 							var email = document.getElementById("validateButton").value;
 							var purpose1 = document.getElementById("hiddenpurpose").value;
-					
+
 							var cn = '<%= usertopass.getContactNo() %>';
 							var n = '<%=usertopass.getName() %>';
 							var pass = '<%= usertopass.getPassword() %>';
 							var purpose11 = '<%= purpose%>';
-						
+
 							document.addEventListener("DOMContentLoaded", function (event) {
 
 								function OTPInput() {
@@ -77,7 +77,7 @@
 							$(document).ready(function () {
 								$(".validate").click(function () {
 									// Your function logic here
-									
+
 
 									var otpValue = "";
 									$("#otp input").each(function () {
@@ -111,8 +111,13 @@
 										},
 										error: function (xhr, status, error) {
 											// Handle errors (e.g., display an error message)
-											alert("Otp is in-correct please enter correct otp");
-
+											//alert("Otp is in-correct please enter correct otp");
+											Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text: "Incorrect OTP !",
+												
+											});
 										}
 									});
 								});

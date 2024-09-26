@@ -8,6 +8,6 @@
 	src="<%=assetspath%>vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
 <script src="<%=assetspath%>vendor/isotope-layout/isotope.pkgd.min.js"></script>
 <script src="<%=assetspath%>vendor/swiper/swiper-bundle.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Main JS File -->
 <script src="<%=assetspath%>js/main.js"></script>

@@ -148,9 +148,9 @@
 									<canvas id="chart-line" class="chart-canvas" height="100"></canvas>
 								</div>
 							</div>
-							<%}else  %>
+							<%}else { %>
 									<p class="text-sm mb-0 text-sm font-weight-bold">No Data Available</p>
-							<% %>
+							<%} %>
 						</div>
 					</div>
 					<div class="col-lg-5">
@@ -170,6 +170,8 @@
 	
 	
 	<script>
+
+		// ---------------
 	const canvas = document.getElementById('chart-line');
 	const ctx = canvas.getContext('2d');
 	const labelList = getLabel();
@@ -186,7 +188,7 @@
 	      'rgba(255, 206, 86, 0.2)',
 	      'rgba(75, 192, 192, 0.2)'
 	    ],
-	    borderColor:   
+	    borderColor: 
 	 [
 	      'rgba(255, 99, 132, 1)',
 	      'rgba(54, 162, 235, 1)',
@@ -239,6 +241,7 @@
 		console.log(List);
 		return List;
 	}
+	
 	</script>
 	
 	<%@ include file="component/footer.jsp"%>
