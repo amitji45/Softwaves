@@ -112,7 +112,7 @@
 												<nav id="navmenu" class="navmenu" >
 													<li class="dropdown"><span
 														onload="findStudentBatches()" 
-														class="bg-gradient-primary btn text-light mt-0">view</span>
+														class="bg-gradient-primary btn text-light mt-0">View</span>
 														<ul id="batchList1">
 															<!-- List items will be appended here -->
 														</ul></li>
@@ -136,7 +136,7 @@
 								<div class="row">
 									<div class="col-8">
 										<div class="numbers">
-											<p class="text-sm mb-0  font-weight-bold">No. of Test</p>
+											<p class="text-sm mb-0  font-weight-bold">TEST</p>
 											<h5 class="font-weight-bolder"><%=marksList!=null?marksList.size():0 %></h5>
 											<p class="mb-0">
 												<span class="text-success text-sm font-weight-bolder"></span>
@@ -287,7 +287,16 @@
 		function updateBatchList(batches) {
 			var batchList = document.getElementById('batchList1');
 			// Check if the batchList element exists
-			if (!batchList	) {
+			if (batchList != null) {
+				var li = document.createElement('li');
+				var a = document.createElement('a');
+				a.textContent = 'No Batches'; // Assuming each batch object has a 'batchTopic' property
+				a.href = '#'; // Set the URL to navigate to
+				li.appendChild(a);
+				// Append the <li> to the batchList
+				batchList.appendChild(li);
+			
+				
 				// alert('No batches available');
 				return;
 			}
@@ -418,7 +427,7 @@
 			Swal.fire({
 				icon: "error",
 				title: "Wait !",
-				text: "This part of website is under construction",
+				text: "This part of website is under maintenance",
 				
 			});
 		}

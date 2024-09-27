@@ -97,9 +97,23 @@ public class VolunteerController {
 	}
 
 	@RequestMapping("/setmarks")
-	public ResponseEntity setStudentMarks(@RequestParam String rollNo, String batchId, String marks,
+	public ResponseEntity setStudentMarks(@RequestParam String rollNo, String batchId, String marks, String testNo,
 			HttpServletRequest request) {
-		Student student = StudentServiceImpl.setMarks(rollNo, batchId, Integer.parseInt(marks));
+		int test=0;
+		int roll=0;
+		int studentMarks=0;
+
+		try {
+			studentMarks=Integer.parseInt(marks);
+			test=Integer.parseInt(testNo);
+			roll=Integer.parseInt(rollNo);
+		}
+		catch(Exception e)
+		{
+			return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+		}
+
+		Student student = StudentServiceImpl.setMarks(rollNo, batchId, test , studentMarks);
 		if (student == null)
 			return new ResponseEntity(student, HttpStatus.BAD_REQUEST);
 

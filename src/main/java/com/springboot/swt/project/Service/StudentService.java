@@ -12,8 +12,8 @@ public interface StudentService {
 
 	List<Student> findAllStudent(String name);
 
-	Student setMarks(String rollNo, String batchId, Integer marks);
-
 	Student getActiveStudent(User temp);
+
+	Student setMarks(String rollNo, String batchId, Integer testNo, Integer marks);
 
 }
