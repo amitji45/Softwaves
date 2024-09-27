@@ -3,7 +3,6 @@ FROM maven:3.9.0-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
-# Copy the pom.xml and the source code
 COPY pom.xml .
 COPY src ./src
 
@@ -24,4 +23,3 @@ EXPOSE 9090
 
 # Start Tomcat
 CMD ["catalina.sh", "run"]
-
