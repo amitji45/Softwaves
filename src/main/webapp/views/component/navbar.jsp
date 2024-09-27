@@ -55,7 +55,7 @@
 												}
 											} else {
 												console.log("Error: " + this.status + " " + this.statusText);
-												showError("Failed to fetch batches. Please try again later.");
+												console.log("Failed to fetch batches. Please try again later.");
 											}
 										}
 									};
@@ -155,7 +155,12 @@
 								}
 								// Function to show error messages to the user
 								function showError(message) {
-									alert(message); // You can replace this with a more sophisticated UI element
+									Swal.fire({
+									                                                   icon : "info",
+                                    												title: "Message:",
+                                    												text: message,
+                                                                                    timer : 2000
+                                    											});// You can replace this with a more sophisticated UI element
 								}
 								//      function for  Active batch list 
 								function findActiveBatchesnavbar() {

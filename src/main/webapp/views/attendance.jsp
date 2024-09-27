@@ -118,5 +118,6 @@
 	</div>
 
 	<%@ include file="component/script.jsp"%>
+	<%@ include file="component/footer.jsp"%>
 </body>
 </html>

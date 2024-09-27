@@ -123,6 +123,8 @@
 								});
 							});
 						</script>
+						<%@ include file="component/footer.jsp"%>
+                        	<%@ include file="component/script.jsp"%>
 	</body>
 
 	</html>
