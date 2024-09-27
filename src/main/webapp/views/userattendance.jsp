@@ -24,33 +24,33 @@
 												function findActiveBatches() {
 													var url = "http://localhost:9090/valunteer/findActivebatches";
 													var xhttp = new XMLHttpRequest();
-
 													xhttp.onreadystatechange = function () {
 														if (this.readyState === XMLHttpRequest.DONE) {
 															if (this.status === 200) {
 																try {
 																	// Attempt to parse the JSON response
 																	var response = JSON.parse(this.responseText);
+
 																	updateBatchList(response);
 																} catch (e) {
 																	// Handle JSON parsing error
-																	
+
 																	Swal.fire({
-												icon: "error",
-												title: "Oops...",
-												text:"Error: no Active batches.."
-												
-											});
+																		icon: "error",
+																		title: "Oops...",
+																		text: "Error: no Active batches.."
+
+																	});
 																	//    console.error('JSON parsing error:', e);
 																}
 															} else {
-															
+
 																Swal.fire({
-												icon: "error",
-												title: "Oops...",
-												text:'Error: ' + this.statusText
-												
-											});
+																	icon: "error",
+																	title: "Oops...",
+																	text: 'Error: ' + this.statusText
+
+																});
 															}
 														}
 													};
@@ -58,19 +58,40 @@
 													xhttp.send();
 												}
 												// Function to update the batch list
+												function presentrowappend(student) {
+													const newRow = $('<tr>').attr('id', student.rollNo);
+													newRow.append(
+														$('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),
+														$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
+														$('<td>').html('<a class="btn btn-outline-danger" onclick="studentabsent(\'' + student.rollNo + '\')">Absent</a>'),
+														// $('<td>').html('<a class="btn btn-outline-success" onclick="studentpresent(\'' + student.rollNo + '\')">Present</a>'),
+														$('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')
+													);
+													document.getElementById('batchandstudent').style.display = 'block';
+													$('#presenttableid').append(newRow);
+
+												}
+												function absentrowappend(student) {
+													const newRow = $('<tr>').attr('id', student.rollNo);
+													newRow.append(
+														$('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),
+														$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
+														// $('<td>').html('<a class="btn btn-outline-danger" onclick="studentabsent(\'' + student.rollNo + '\')">Absent</a>'),
+														$('<td>').html('<a class="btn btn-outline-success" onclick="studentpresent(\'' + student.rollNo + '\')">Present</a>'),
+														$('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')
+													);
+													$('#absenttableid').append(newRow);
+												}
 												function updateBatchList(batches1) {
-
 													var batchList = document.getElementById('batchList1');
-
 													// Check if the batchList element exists
 													if (!batchList) {
-													
 														Swal.fire({
-												icon: "error",
-												title: "Oops...",
-												text:"not available"
-												
-											});
+															icon: "error",
+															title: "Oops...",
+															text: "not available"
+
+														});
 														console.error('Element with id "batchList1" not found.');
 														return;
 													}
@@ -81,13 +102,11 @@
 														console.warn('No active batches found.');
 														return;
 													}
-
 													batches1.forEach(function (batch) {
 														if (!batch.batchId || !batch.batchTopic) {
 															console.warn('Batch object missing required properties:', batch);
 															return;
 														}
-
 														var li = document.createElement('li');
 														var a = document.createElement('a');
 														var batchId = batch.batchId;
@@ -107,25 +126,26 @@
 																	$('#absenttableid').empty();
 
 																	if (response.length >= 1) {
-																		document.getElementById('batchandstudent').style.display = 'block';
+																		//document.getElementById('batchandstudent').style.display = 'block';
 																		document.getElementById('PleaseSelectBatchAvailableStudent').style.display = 'none';
 																		document.getElementById('NoAvailableStudentinthisBatch').style.display = 'none';
 																	} else {
-																		document.getElementById('batchandstudent').style.display = 'none';
+																		// document.getElementById('batchandstudent').style.display = 'none';
 																		document.getElementById('PleaseSelectBatchAvailableStudent').style.display = 'block';
 																		document.getElementById('NoAvailableStudentinthisBatch').style.display = 'block';
 																	}
-
+																	let today = new Date().toISOString().split('T')[0];
 																	response.forEach(function (student) {
-																		const newRow = $('<tr>').attr('id', student.rollNo);
-																		newRow.append(
-																			$('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),
-																			$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
-																			$('<td>').html('<a class="btn btn-outline-danger" onclick="studentabsent(\'' + student.rollNo + '\')">Absent</a>'),
-																			$('<td>').html('<a class="btn btn-outline-success" onclick="studentpresent(\'' + student.rollNo + '\')">Present</a>'),
-																			$('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')
-																		);
-																		$('#presenttableid').append(newRow);
+
+																		var isAbsentToday = student.absent.includes(today);
+																		if (isAbsentToday) {
+
+																			document.getElementById('absentcard').style.display = 'block';
+																			absentrowappend(student);
+																		}
+																		else {
+																			presentrowappend(student);
+																		}
 																	});
 																},
 																error: function (error) {
@@ -146,9 +166,15 @@
 												}
 
 												function studentpresent(rollNo) {
+
 													var batchId = $('#batchIdinlist').data('batch-id');
 													if (!batchId) {
-														alert("Batch ID is not set.");
+														Swal.fire({
+															icon: "error",
+															title: "Oops...",
+															text: "Batch ID is not set."
+
+														});
 														return;
 													}
 													var url = "http://localhost:9090/valunteer/studentattendance/present?rollNo=" + rollNo + "&batchId=" + batchId;
@@ -156,9 +182,15 @@
 												}
 
 												function studentabsent(rollNo) {
+
 													var batchId = $('#batchIdinlist').data('batch-id');
 													if (!batchId) {
-														alert("Batch ID is not set.");
+														Swal.fire({
+															icon: "error",
+															title: "Oops...",
+															text: "Batch ID is not set."
+
+														});
 														return;
 													}
 													var url = "http://localhost:9090/valunteer/studentattendance/absent?rollNo=" + rollNo + "&batchId=" + batchId;
@@ -170,7 +202,12 @@
 														rollNo = document.getElementById('email-field').value;
 													}
 													if (!rollNo) {
-														alert("Please Enter Roll Number");
+														Swal.fire({
+															icon: "error",
+															title: "Oops...",
+															text: "Please Enter Roll Number"
+
+														});
 														return;
 													}
 
@@ -180,44 +217,44 @@
 															if (xhttp.status === 200) {
 																var response = xhttp.responseText;
 																if (response === null || response.trim() === "") {
-																	alert("Response from server is null or empty.");
+																	console.log("Response from server is null or empty.");
 																} else {
 																	var student = JSON.parse(response);
-
-																	// Create a new row for the student
-																	const newRow = $('<tr>').attr('id', student.Id);
-																	newRow.append(
-																		$('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),
-																		$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
-																		$('<td>').html('<a class="btn btn-outline-danger" onclick="studentabsent(\'' + student.rollNo + '\')">Absent</a>'),
-																		$('<td>').html('<a class="btn btn-outline-success" onclick="studentpresent(\'' + student.rollNo + '\')">Present</a>'),
-																		$('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')
-																	);
 																	document.getElementById('absentcard').style.display = 'block';
 																	if (status === 'absent') {
-																		// Remove from present table if exists
 																		const presentRow = document.getElementById(student.rollNo);
 																		if (presentRow) {
 																			presentRow.remove(); // Remove from present table
 																		}
-
+																		absentrowappend(student);
 																		// Append to the absent table
-																		$('#absenttableid').append(newRow);
-																		alert("Successfully marked " + student.rollNo + " as absent.");
+																		Swal.fire({
+																			icon: "success",
+																			title: "Oops...",
+																			text: "Successfully marked " + student.rollNo + " as absent."
+																		});
 																	} else if (status === 'present') {
+
 																		// Remove from absent table if exists
 																		const absentRow = document.getElementById(student.rollNo);
 																		if (absentRow) {
 																			absentRow.remove(); // Remove from absent table
 																		}
-
-																		// Append to the present table
-																		$('#presenttableid').append(newRow);
-																		alert("Successfully marked " + student.rollNo + " as present.");
+																		presentrowappend(student);
+																		Swal.fire({
+																			icon: "success",
+																			title: "Oops...",
+																			text: "Successfully marked " + student.rollNo + " as present."
+																		});
+																		 
 																	}
 																}
 															} else {
-																alert("Error occurred while marking attendance. Status: " + xhttp.status);
+																Swal.fire({
+																			icon: "error",
+																			title: "Oops...",
+																			text: "Plese Insert Corect No. " +rollNo + " default"
+																		});
 															}
 														}
 													};
@@ -278,11 +315,11 @@
 
 																			<button type="button"
 																				class="btn btn-secondary"
-																				onclick="studentpresent(document.getElementById('email-field').value)">Enter</button>
+																				onclick="studentpresent(document.getElementById('email-field').value)">Present</button>
 
 																			<button type="button"
 																				class="btn btn-secondary"
-																				onclick="studentabsent(document.getElementById('email-field').value)">delete</button>
+																				onclick="studentabsent(document.getElementById('email-field').value)">Absent</button>
 																		</div>
 																	</div>
 
@@ -301,8 +338,6 @@
 														<!------------------------------------------------------------------------------------------------------------------------------------------->
 														<div class="py-4" id="batchandstudent" style="display: none;">
 															<div class="row">
-
-
 																<section class="col py-4 px-2">
 																	<div class="row">
 																		<div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
@@ -326,18 +361,10 @@
 																										class="table align-items-center "
 																										id="presenttableid">
 																									</table>
-
 																								</div>
-
 																							</div>
-
 																						</table>
 																					</div>
-
-
-
-
-
 																				</div>
 
 																			</div>
@@ -376,10 +403,6 @@
 																	</div>
 															</div>
 													</section>
-
-
-
-
 													</div>
 													</div>
 												</main>
