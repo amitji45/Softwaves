@@ -32,7 +32,7 @@
                         <ul class="justify-content-center col-xl-9 col-md-6 col-sm-7 py-9 ">
                             <li class="dropdown">
                                 <a href="#" onclick="findActiveBatches()">
-                                    <span id="header1">Attendance</span>
+                                    <span id="header1">Select Batch</span>
                                     <i class="bi bi-chevron-down toggle-dropdown"></i>
                                 </a>
                                 <ul>
@@ -70,6 +70,14 @@
 
 
 									<div class="row mb-4">
+										<div class="input-group mb-3">
+											<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
+												Test No.</span> <input type="text" class="form-control"
+												placeholder="Enter Test No." name="testNo" id="testNo" required>
+										</div>
+									</div>
+
+								<div class="row mb-4">
 										<div class="input-group mb-3">
 											<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
 												Roll No.</span> <input type="text" class="form-control"
@@ -125,10 +133,11 @@
 							// Get values from input fields
 							var marks = "" + document.getElementById("marks").value;
 							var rollNo = "" + document.getElementById("rollNo").value;
+							var testNo = "" + document.getElementById("testNo").value;
 							var batchId = "" + document.getElementById("batchId").value;
 							var url = "http://localhost:9090/valunteer/setmarks?rollNo=";
 
-							if (marks === "" || rollNo === "" || batchId === "") {
+							if (marks === "" || rollNo === "" || batchId === "" || testNo=== "") {
 								alert('Please Enter Valid Data');
 							}
 							// Create XMLHttpRequest object
@@ -159,7 +168,7 @@
 								};
 							}
 							// Open and send the request
-							xhttp.open("GET", url + rollNo + "&batchId=" + batchId + "&marks=" + marks, true);
+							xhttp.open("GET", url + rollNo + "&batchId=" + batchId + "&marks=" + marks + "&testNo=" + testNo, true);
 							xhttp.send();
 						}
 

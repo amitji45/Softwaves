@@ -53,11 +53,10 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public Student setMarks(String rollNo, String batchId, Integer marks) {
+	public Student setMarks(String rollNo, String batchId, Integer testNo, Integer marks) {
 		Batch batch = (batchRepo.findById(batchId)).get();
 		Student student = studentRepo.findByRollNoAndBatch(rollNo, batch);
-
-		if (student == null)
+		if (student == null || testNo > student.getMarks().size() || testNo < student.getMarks().size()-1)
 			return null;
 		ArrayList<Integer> tempList = new ArrayList<>(student.getMarks());
 
