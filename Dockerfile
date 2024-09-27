@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM maven:3.9.1-openjdk-17 AS build
+FROM maven:3.9.0-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
@@ -24,3 +24,4 @@ EXPOSE 9090
 
 # Start Tomcat
 CMD ["catalina.sh", "run"]
+
