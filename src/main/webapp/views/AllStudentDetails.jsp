@@ -30,30 +30,32 @@
                                     <div class="row">
 
                                         <section class="col py-4 px-2">
+                                            <!-- ---------------------------------------------=============================================== -->
+                                                                    <!-- ---------------------------------------------=============================================== -->
                                             <div class="row">
                                                 <div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
-                                                    <div class="card z-index-2 h-100">
-                                                        <div class="card-header pb-0 pt-3 bg-transparent">
-                                                            <h6 class="text-capitalize text-center"
+                                                    <div class="card">
+                                                        <div class="card-header pb-0 pt-3">
+                                                            <div class="d-flex justify-content-center">
+
+                                                                <h6 class="text-capitalize text-center"
                                                                 id="batchandstudent"></h6>
+                                                            </div>
                                                         </div>
 
-                                                        <div class="card-body p-3 " id="completedbatchdiv"
-                                                            style="display: none;">
-                                                            <div class="chart ">
-                                                                <table class="table align-items-center ">
-                                                                    <div class="nested-div ">
+                                                         
 
-                                                                        <div class="table-responsive">
-                                                                            <table class="table align-items-center "
-                                                                                id="batchListtableId">
-
-                                                                            </table>
-                                                                            <table class="table align-items-center "
-                                                                                id="studentListtbody">
+                                                                        <div class="table-responsive" id="completedbatchdiv"
+                                                                           style="display: none;">
+                                                                            <table class="table align-items-center ">
+                                                                                <tbody  id="batchListtableId">
+                    
+                                                                                </tbody> 
 
                                                                             </table>
-                                                                            <!-- <div class="table align-items-center" id="graphmarks"  > -->
+                                                                            <table class="table align-items-center ">
+                                                                                <tbody  id="studentListtbody"></tbody>
+                                                                            </table>
                                                                             <div class="card-body p-3" id="graphdiv"
                                                                                 style="display: none;">
                                                                                 <div class="chart">
@@ -62,29 +64,13 @@
                                                                                         height="300"></canvas>
                                                                                 </div>
                                                                             </div>
-                                                                            <!-- </div> -->
                                                                         </div>
-
-                                                                    </div>
-
-                                                                </table>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </section>
-
-
                                     </div>
                                 </div>
-
-
-
-                                <!-- --------------------------------------------------- -->
-
-
-
                             </section>
                         </div>
                     </div>
@@ -108,7 +94,6 @@
                                             } else {
                                                 console.log("Error: " + this.status); // Log any error
                                             }
-
                                         }
                                     };
 
@@ -153,11 +138,12 @@
                                         success: function (response) {
                                             $('#studentListtbody').empty(); // Clear the existing table body to prevent duplicates
                                             let requests = []; // To hold the AJAX requests for total students
-
+                                            var check=true;
                                             // Iterate over the response and append rows
                                             response.forEach(batch => {
                                                 if (batch.currentStatus === "Completed") {
                                                     // Create a request to get the number of students
+                                                    check=false;
                                                     const request = $.ajax({
                                                         url: 'http://localhost:9090/admin/getAllStudentByBatchId?batchId=' + batch.batchId,
                                                         type: 'GET',
@@ -165,10 +151,14 @@
                                                     }).then(studentResponse => {
                                                         return studentResponse.length; // Return the number of students
                                                     });
-
                                                     requests.push(request); // Store the request promise
                                                 }
                                             });
+                                            if(check)
+                                            {
+                                                document.getElementById('batchandstudent').innerText = 'not Available Completed Batch...';
+                                                return ;
+                                            }
                                             Promise.all(requests).then(totalStudentsArray => {
                                                 response.forEach((batch, index) => {
                                                     // Append only if the batch is completed
