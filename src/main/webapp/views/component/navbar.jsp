@@ -28,7 +28,7 @@
 										if (this.readyState == 4 && this.status == 200) {
 											
 											Swal.fire({
-												icon: "sucess",
+												icon: "success",
 												title: "Done",
 												text: response.target.responseText,
 												

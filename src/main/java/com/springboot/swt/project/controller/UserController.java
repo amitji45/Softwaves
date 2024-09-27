@@ -58,7 +58,7 @@ public class UserController {
 
 				List<Integer> studentMarks = userserviceimpl.getMarksList(temp.getId());
 				session.setAttribute("studentMarks", studentMarks);
-
+				int x= studentMarks!=null?studentMarks.size():0;
 				//System.out.println(studentMarks);
 				return modal;
 			}

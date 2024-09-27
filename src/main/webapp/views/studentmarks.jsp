@@ -21,14 +21,8 @@
 	if (user == null) {
 		response.sendRedirect("/swt/login");
 	}
-	PersistentBag persistentMarksList= (PersistentBag)session.getAttribute("marksList");
-	ArrayList<Integer> marksList=new ArrayList<>(10);
-	if(persistentMarksList!=null){
-	for(Object temporary : persistentMarksList)
-	{
-		marksList.add((Integer)temporary);
-	}
-	}
+	List<Integer> marksList=(List<Integer>)session.getAttribute("marksList");
+	
 %>
 	<div class="d-flex justify-content-center">
 	<div class="col-8 md-10 mb-lg-8 mb-4">
@@ -41,7 +35,7 @@
 					<div class="table-responsive">
 						<table class="table align-items-center ">
 							<tbody>
-								<%if(!marksList.isEmpty()){
+								<%if(marksList!=null && !marksList.isEmpty()){
 									for(Integer marks : marksList){ %>
 								
 								<tr>
