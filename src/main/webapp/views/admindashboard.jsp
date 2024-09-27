@@ -141,16 +141,12 @@
 							<div class="card-header pb-0 pt-3 bg-transparent">
 								<h6 class="text-capitalize">Batches Week Test Report</h6>
 							</div>
-							<%
-							if(avgBatches!=null && !avgBatches.isEmpty()) {%>
+							
 							<div class="card-body p-3">
 								<div class="chart">
 									<canvas id="chart-line" class="chart-canvas" height="100"></canvas>
 								</div>
 							</div>
-							<%}else { %>
-									<p class="text-sm mb-0 text-sm font-weight-bold">No Data Available</p>
-							<%} %>
 						</div>
 					</div>
 					<div class="col-lg-5">
@@ -180,7 +176,7 @@
 	const data = {
 	  labels: labelList,
 	  datasets: [{
-	    label: 'Average',
+	    label: <%=avgBatches!=null%>?'Average':'',
 	    data: dataList,
 	    backgroundColor: [
 	      'rgba(255, 99, 132, 0.2)',
@@ -226,7 +222,12 @@
 		
 		List.push(<%=avg.getValue()!=null?avg.getValue():0%>);
 		
-		<%}}	%>
+		<%}}	
+		else{%>
+			
+			List.push(0);
+		
+		<%}%>
 		console.log(List);
 		return List;
 	}
@@ -240,7 +241,12 @@
 		
 		List.push('<%=avg.getKey().getBatchTopic()!=null?avg.getKey().getBatchTopic():0%>')
 
-		<%}}	%>
+		<%}}
+		else{%>
+			
+			List.push('No Batch Data')
+		
+		<%}%>
 		console.log(List);
 		return List;
 	}
