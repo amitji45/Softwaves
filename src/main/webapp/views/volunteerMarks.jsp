@@ -114,8 +114,7 @@
 							xhttp.send();
 							if(!response)
 								{
-									alert('my name is aman..');
-									console.log('mana....');
+
 									return ;
 								}
 								document.getElementById("rollNo").value="";
@@ -129,7 +128,13 @@
 							var url = "http://localhost:9090/valunteer/setmarks?rollNo=";
 
 							if (marks === "" || rollNo === "" || batchId === "") {
-								alert('Please Enter Valid Data');
+
+								Swal.fire({
+                                												icon: "error",
+                                												title: "Not Valid ",
+                                												text: "Please Enter Valid Data !",
+                                												timer : 700
+                                											});
 							}
 							// Create XMLHttpRequest object
 							else {
@@ -142,10 +147,17 @@
 											var response = this.responseText;
 											if (response === null || response.trim() === "") {
 												// Handle the case where response is null or empty
-												alert('Response is null or empty. Please try again.');
+												console.log('Response is null or empty. Please try again.');
 											} else {
+												
 												// Handle a valid response
-												alert('Marks uploaded successfully!');
+												Swal.fire({
+												icon: "success",
+												title: "Done",
+												text: "Marks uploaded successfully!",
+												timer : 700
+											});
+												
 											}
 
 											// Clear the input fields
@@ -153,7 +165,7 @@
 											document.getElementById("marks").value = "";
 										} else {
 											// Handle HTTP errors
-											alert('Failed to upload marks. Status: ' + this.status);
+											console.log('Failed to upload marks. Status: ' + this.status);
 										}
 									}
 								};

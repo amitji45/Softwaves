@@ -217,16 +217,8 @@
 																			class="bi bi-chevron-down toggle-dropdown"></i></a>
 																	<ul>
 																		<li><a href="/admin/approval">Approval</a></li>
-																		<li class="dropdown"><a
-																				href="#"><span>Marks</span> <i
-																					class="bi bi-chevron-down toggle-dropdown"></i></a>
-																			<ul>
-																				<li><a href="#">c & C++</a></li>
-																				<li><a href="#">Core Java</a></li>
-																				<li><a href="#">Advance Java</a></li>
 
-																			</ul>
-																		</li>
+
 
 
 																		<li><a href="/admin/AllStudentDetails">Completed

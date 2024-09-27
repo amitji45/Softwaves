@@ -46,6 +46,7 @@
 								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
 									Email</span> <input type="text" class="form-control"
 									placeholder="Enter Email" name="email" required>
+									<!-- data-valid-phone-regex="^[6789]\d{6}$"  -->
 							</div>
 						</div>
 
@@ -53,8 +54,7 @@
 							<div class="input-group mb-3">
 								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">Phone
 									No</span> <input type="text" class="form-control"
-									placeholder="Enter Contact No." name="contactNo"  required>
-									<!-- data-valid-phone-regex="^[6789]\d{6}$"  -->
+									placeholder="Enter Contact No." name="contactNo"  required>  
 							</div>
 						</div>
 

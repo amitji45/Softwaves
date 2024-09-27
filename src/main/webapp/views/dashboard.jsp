@@ -46,12 +46,12 @@
 									alt="Admin" class="rounded-circle" width="150">
 								<div class="mt-3">
 									<h4><%=(user != null) ? user.getName() : null%></h4>
-									<p class="text-secondary mb-1"><%=(studentUser != null) ? studentUser.getRollNo() : "Not in a Batch"%></p>
-									<p class="text-secondary mb-1"><%=(studentUser != null) ? studentUser.getBatch().getBatchTopic() : "Not in a Batch"%></p>
+									<p class="text-secondary mb-1"><%=(studentUser != null) ? studentUser.getRollNo() :"" %></p>
+									<p class="text-secondary mb-1"><%=(studentUser != null) ? studentUser.getBatch().getBatchTopic() :""%></p>
 									<p class="text-muted font-size-sm"><%=(user != null) ? user.getEmail() : null%></p>
-									<button type="button" class="btn btn-outline-primary"
+									 <!-- <button type="button" class="btn btn-outline-primary"
 										data-bs-toggle="modal" data-bs-target="#exampleModal">Edit
-										Profile</button>
+										Profile</button> -->
 								</div>
 							</div>
 						</div>

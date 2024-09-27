@@ -8,7 +8,6 @@
 				<head>
 					<%@ include file="component/head.jsp" %>
 				</head>
-
 				<body>
 					<% List<Student> list = (List<Student>) request.getAttribute("studentlist");
 
@@ -257,8 +256,9 @@
 																		blanckdivnone();
 																		Swal.fire({
 																			icon: "success",
-																			title: "Oops...",
+																			title: "Done",
 																			text: "Successfully marked " + student.rollNo + " as present."
+																			timer : 700
 																		});
 
 
