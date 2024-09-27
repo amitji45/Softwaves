@@ -50,11 +50,11 @@
 													var response = JSON.parse(this.responseText); // Parse the JSON response
 													handleResponse(response);
 												} catch (error) {
-													console.error("Error parsing JSON:", error);
+													console.log("Error parsing JSON:", error);
 
 												}
 											} else {
-												console.error("Error: " + this.status + " " + this.statusText);
+												console.log("Error: " + this.status + " " + this.statusText);
 												showError("Failed to fetch batches. Please try again later.");
 											}
 										}
@@ -68,7 +68,7 @@
 								function handleResponse(response) {
 									// Clear previous dropdown if it exists
 									var dropdownContainer = document.getElementById('dropdownContainer');
-									dropdownContainer.innerHTML = ''; // Clear existing dropdown
+									dropdownContainer.innerHTML =' '; // Clear existing dropdown
 									// Only proceed if response length is >= 1
 									if (Array.isArray(response) && response.length >= 1) {
 										// Create the dropdown structure
@@ -155,7 +155,7 @@
 								}
 								// Function to show error messages to the user
 								function showError(message) {
-									// alert(message); // You can replace this with a more sophisticated UI element
+									alert(message); // You can replace this with a more sophisticated UI element
 								}
 								//      function for  Active batch list 
 								function findActiveBatchesnavbar() {
@@ -163,6 +163,7 @@
 									var xhttp = new XMLHttpRequest();
 
 									xhttp.onreadystatechange = function () {
+										
 										var userattendanceli = document.getElementById('userattendanceli');
 										if (this.readyState === XMLHttpRequest.DONE) {
 											if (this.status === 200) {
@@ -174,15 +175,8 @@
 												} catch (e) {
 													userattendanceli.style.display = 'none';
 												}
-											} else {
-												userattendanceli.style.display = 'none';
-												// showError('Error: ' + this.statusText);
-											}
+											} 
 										}
-										else {
-											userattendanceli.style.display = 'none';
-										}
-
 									};
 									xhttp.open("GET", url, true);
 									xhttp.send();

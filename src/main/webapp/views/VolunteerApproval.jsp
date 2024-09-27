@@ -8,12 +8,7 @@
 				<%@ include file="component/head.jsp" %>
 					<script>
 						window.onload = function () {
-							Swal.fire({
-                            												icon: "error",
-                            												title: "Oops...",
-                            												text: "Incorrect OTP !"
-
-                            											});
+							
 							// Call findAllVolunteer with the desired name (if applicable)
 							findAllVolunteer(""); // Replace with the actual name
 						};

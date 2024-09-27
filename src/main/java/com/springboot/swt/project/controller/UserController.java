@@ -49,8 +49,7 @@ public class UserController {
 		User temp = userserviceimpl.login(email, password);
 		if (temp != null && temp.getAllowed().equals("Allowed")) {
 			HttpSession session = request.getSession();
-			
-			
+
 			if (temp.getRole().equalsIgnoreCase("Student") || temp.getRole().equalsIgnoreCase("Volunteer")) {
 				session.setAttribute("user", temp);
 				Student student = studentServiceImpl.getActiveStudent(temp);
@@ -64,12 +63,12 @@ public class UserController {
 				return modal;
 			}
 			if (temp.getRole().equalsIgnoreCase("Admin")) {
-				List<Student> allStudents=studentServiceImpl.findAllStudent("");
-				List<Batch> allBatches=batchservicesimpl.sendAllBatches();
-				List<User> notAllowedUsers=userserviceimpl.getNotAllowedUsers();
-				List<User> volunteerList=userserviceimpl.getVolunteerList();
-				Map<Batch, String> avgBatches=userserviceimpl.getAverage();
-				
+				List<Student> allStudents = studentServiceImpl.findAllStudent("");
+				List<Batch> allBatches = batchservicesimpl.sendAllBatches();
+				List<User> notAllowedUsers = userserviceimpl.getNotAllowedUsers();
+				List<User> volunteerList = userserviceimpl.getVolunteerList();
+				Map<Batch, String> avgBatches = userserviceimpl.getAverage();
+
 				session.setAttribute("allStudents", allStudents);
 				session.setAttribute("allBatches", allBatches);
 				session.setAttribute("notAllowedUsers", notAllowedUsers);
@@ -273,8 +272,5 @@ public class UserController {
 
 		return new ResponseEntity(marksList, HttpStatus.OK);
 	}
-	
-	
-	
-	
+
 }
