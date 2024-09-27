@@ -136,8 +136,7 @@
 							var batchId = "" + document.getElementById("batchId").value;
 							var url = "http://localhost:9090/valunteer/setmarks?rollNo=";
 
-<<<<<<< HEAD
-							if (marks === "" || rollNo === "" || batchId === "") {
+							if (marks === "" || rollNo === "" || batchId === "" || testNo=== "") {
 
 								Swal.fire({
                                 												icon: "error",
@@ -145,10 +144,6 @@
                                 												text: "Please Enter Valid Data !",
                                 												timer : 700
                                 											});
-=======
-							if (marks === "" || rollNo === "" || batchId === "" || testNo=== "") {
-								alert('Please Enter Valid Data');
->>>>>>> raghav-dev
 							}
 							// Create XMLHttpRequest object
 							else {

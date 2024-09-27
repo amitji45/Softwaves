@@ -102,7 +102,7 @@ public class VolunteerController {
 		int test=0;
 		int roll=0;
 		int studentMarks=0;
-
+				System.out.println(studentMarks+"105 vc ");
 		try {
 			studentMarks=Integer.parseInt(marks);
 			test=Integer.parseInt(testNo);
@@ -112,7 +112,7 @@ public class VolunteerController {
 		{
 			return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
 		}
-
+	
 		Student student = StudentServiceImpl.setMarks(rollNo, batchId, test , studentMarks);
 		if (student == null)
 			return new ResponseEntity(student, HttpStatus.BAD_REQUEST);
