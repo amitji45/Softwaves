@@ -15,6 +15,7 @@ import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.entity.User;
 import com.springboot.swt.project.repo.BatchRepo;
 import com.springboot.swt.project.repo.StudentRepo;
+import com.springboot.swt.project.repo.UserRepo;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -25,6 +26,8 @@ public class StudentServiceImpl implements StudentService {
 	@Autowired
 	BatchRepo batchRepo;
 
+	@Autowired
+	UserRepo userRepo;
 	// @Override
 	// public Student markAttendance(String rollNo,String batchId) {
 	// Batch batch=(batchRepo.findById(batchId)).get();
@@ -52,16 +55,19 @@ public class StudentServiceImpl implements StudentService {
 		return studentRepo.findAll();
 	}
 
+	
 	@Override
 	public Student setMarks(String rollNo, String batchId, Integer testNo, Integer marks) {
 		Batch batch = (batchRepo.findById(batchId)).get();
 		Student student = studentRepo.findByRollNoAndBatch(rollNo, batch);
-		if (student == null || testNo > student.getMarks().size()+1 || testNo < student.getMarks().size() 
-				|| testNo>8 || testNo<1 || marks >100 || marks<1)
+		if (student == null || testNo<1 || marks >100 || marks<1){
+			System.out.println(testNo);
 			return null;
+			}
 		ArrayList<Integer> tempList = new ArrayList<>(student.getMarks());
 
-		tempList.set(testNo-1,marks);
+		if(testNo == tempList.size())tempList.set(testNo-1,marks);
+		if(testNo == tempList.size()+1)tempList.add(marks);
 		student.setMarks(tempList);
 		studentRepo.save(student);
 		return student;
@@ -78,5 +84,10 @@ public class StudentServiceImpl implements StudentService {
 
 		return null;
 	}
+
+	public void removeStudentFromBatch(Integer id) {
+		
+		studentRepo.delete(studentRepo.findById(id).get());
+		}
 
 }

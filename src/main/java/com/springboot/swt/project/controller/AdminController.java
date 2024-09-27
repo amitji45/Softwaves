@@ -190,4 +190,12 @@ public class AdminController {
 	public ResponseEntity getcompletedmarks(@RequestParam("studId") String studId) {
 		return new ResponseEntity(userserviceimpl.getMarksListCompletedBatch(studId), HttpStatus.OK);
 	}
+	
+	@RequestMapping("/removeStudent")
+	public ResponseEntity removeStudent(@RequestParam String id) {
+		int studentId=Integer.parseInt(id);
+		studentServiceImpl.removeStudentFromBatch(studentId);
+		return null;
+	
+	}
 }

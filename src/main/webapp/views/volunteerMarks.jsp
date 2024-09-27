@@ -136,21 +136,15 @@
 							var batchId = "" + document.getElementById("batchId").value;
 							var url = "http://localhost:9090/valunteer/setmarks?rollNo=";
 
-<<<<<<< HEAD
-							if (marks === "" || rollNo === "" || batchId === "") {
+							if (marks === "" || rollNo === "" || batchId === "" || testNo=== "") {
 
 								Swal.fire({
-                                												icon: "error",
-                                												title: "Not Valid ",
-                                												text: "Please Enter Valid Data !",
-                                												timer : 700
-                                											});
-=======
-							if (marks === "" || rollNo === "" || batchId === "" || testNo=== "") {
-								alert('Please Enter Valid Data');
->>>>>>> raghav-dev
-							}
-							// Create XMLHttpRequest object
+                                			icon: "error",
+                        					title: "Not Valid ",
+                            				text: "Please Enter Valid Data !",
+                            				timer : 700
+								})
+							}					// Create XMLHttpRequest object
 							else {
 								var xhttp = new XMLHttpRequest();
 
@@ -161,8 +155,13 @@
 											var response = this.responseText;
 											if (response === null || response.trim() === "") {
 												// Handle the case where response is null or empty
-												console.log('Response is null or empty. Please try again.');
-											} else {
+												Swal.fire({
+													icon: "error",
+													title: "Error",
+													text: "Failed to upload marks",
+													timer : 700
+												});	
+												} else {
 												
 												// Handle a valid response
 												Swal.fire({
@@ -179,8 +178,12 @@
 											document.getElementById("marks").value = "";
 										} else {
 											// Handle HTTP errors
-											console.log('Failed to upload marks. Status: ' + this.status);
-										}
+											Swal.fire({
+												icon: "error",
+												title: "Error",
+												text: "Failed to upload marks",
+												timer : 700
+											});										}
 									}
 								};
 							}
