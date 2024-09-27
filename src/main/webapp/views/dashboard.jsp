@@ -418,7 +418,7 @@
 			Swal.fire({
 				icon: "error",
 				title: "Wait !",
-				text: "This part of website is under construction",
+				text: "This part of website is under maintenance",
 				
 			});
 		}
