@@ -98,7 +98,7 @@
 			<section class="col py-4">
 					<div class="row">
 						<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-							<div class="card ">
+							<div class="card style="min-height: 250px;">
 								<div class=" card-body p-3">
 									<div class="row">
 										<div class="col-8">
@@ -131,7 +131,7 @@
 							</div>
 						</div>
 					<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-						<div class="card">
+						<div class="card style="min-height: 250px;">
 							<div class="card-body p-3">
 								<div class="row">
 									<div class="col-8">
@@ -160,7 +160,7 @@
 						</div>
 					</div>
 					<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-						<div class="card">
+						<div class="card style="min-height: 250px;">
 							<div class="card-body p-3">
 								<div class="row">
 									<div class="col-8">
@@ -189,7 +189,7 @@
 						</div>
 					</div>
 					<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-						<div class="card ">
+						<div class="card style="min-height: 250px;">
 							<div class="card-body p-3">
 								<div class="row">
 									<div class="col-8">

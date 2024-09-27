@@ -4,21 +4,11 @@
 		<div class="container">
 			<div class="row justify-content-center text-center">
 				<div class="col-lg-6">
-					<h4>Join Our Newsletter</h4>
-					<p>Subscribe to our newsletter and receive the latest news
+					<h4>Join Our Youtube</h4>
+					<p>Subscribe to our Youtube and receive the latest video
 						about our products and services!</p>
-					<form action="#" method="post"
-						class="php-email-form">
-						<div class="newsletter-form">
-							<input type="email" name="email"><input type="submit"
-								value="Subscribe">
-						</div>
-						<div class="loading">Loading</div>
-						<div class="error-message"></div>
-						<div class="sent-message">Your subscription request has been
-							sent. Thank you!</div>
-					</form>
 				</div>
+				<a href="https://www.youtube.com/@abhisir7248" target="_blank" class="btn-get-started">Subscribe</a>
 			</div>
 		</div>
 	</div>
@@ -47,28 +37,23 @@
 					<li><i class="bi bi-chevron-right"></i> <a href="#">About
 							us</a></li>
 					<li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
-					<li><i class="bi bi-chevron-right"></i> <a href="#">Terms
-							of service</a></li>
+					<li><i class="bi bi-chevron-right"></i> <a href="#rules">Rules</a></li>
 				</ul>
 			</div>
 
 			<div class="col-lg-2 col-md-3 footer-links">
-				<h4>Our Services</h4>
+				<h4>We Offer</h4>
 				<ul>
-					<li><i class="bi bi-chevron-right"></i> <a href="#">Web
-							Design</a></li>
-					<li><i class="bi bi-chevron-right"></i> <a href="#">Web
-							Development</a></li>
-					<li><i class="bi bi-chevron-right"></i> <a href="#">Product
-							Management</a></li>
-					<li><i class="bi bi-chevron-right"></i> <a href="#">Marketing</a></li>
+					<li><i class="bi bi-chevron-right"></i> Industrial Training</li>
+					<li><i class="bi bi-chevron-right"></i> Weekly Test</li>
+					<li><i class="bi bi-chevron-right"></i> Motivational Session</li>
+					<li><i class="bi bi-chevron-right"></i> Special Spirituality Session</li>
 				</ul>
 			</div>
 
 			<div class="col-lg-4 col-md-12">
 				<h4>Follow Us</h4>
-				<p>Cras fermentum odio eu feugiat lide par naso tierra videa
-					magna derita valies</p>
+				<p>Softwaves Technologies</p>
 				<div class="social-links d-flex">
 					<a href=""><i class="bi bi-twitter-x"></i></a> <a href=""><i
 						class="bi bi-facebook"></i></a> <a href=""><i
