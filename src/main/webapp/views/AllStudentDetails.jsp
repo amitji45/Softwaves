@@ -43,10 +43,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <!-- <div class="card-body p-3 " >
-                                                            <div class="chart ">
-                                                                <table class="table align-items-center ">
-                                                                    <div class="nested-div "> -->
+                                                         
 
                                                                         <div class="table-responsive" id="completedbatchdiv"
                                                                            style="display: none;">
@@ -59,7 +56,6 @@
                                                                             <table class="table align-items-center ">
                                                                                 <tbody  id="studentListtbody"></tbody>
                                                                             </table>
-                                                                            <!-- <div class="table align-items-center" id="graphmarks"  > -->
                                                                             <div class="card-body p-3" id="graphdiv"
                                                                                 style="display: none;">
                                                                                 <div class="chart">
@@ -68,29 +64,13 @@
                                                                                         height="300"></canvas>
                                                                                 </div>
                                                                             </div>
-                                                                            <!-- </div> -->
                                                                         </div>
-<!-- 
-                                                                    </div>
-
-                                                                </table>
-                                                            </div>
-                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
                                         </section>
-
-
                                     </div>
                                 </div>
-
-
-
-                                <!-- --------------------------------------------------- -->
-
-
-
                             </section>
                         </div>
                     </div>
@@ -114,7 +94,6 @@
                                             } else {
                                                 console.log("Error: " + this.status); // Log any error
                                             }
-
                                         }
                                     };
 
@@ -159,11 +138,12 @@
                                         success: function (response) {
                                             $('#studentListtbody').empty(); // Clear the existing table body to prevent duplicates
                                             let requests = []; // To hold the AJAX requests for total students
-
+                                            var check=true;
                                             // Iterate over the response and append rows
                                             response.forEach(batch => {
                                                 if (batch.currentStatus === "Completed") {
                                                     // Create a request to get the number of students
+                                                    check=false;
                                                     const request = $.ajax({
                                                         url: 'http://localhost:9090/admin/getAllStudentByBatchId?batchId=' + batch.batchId,
                                                         type: 'GET',
@@ -171,10 +151,14 @@
                                                     }).then(studentResponse => {
                                                         return studentResponse.length; // Return the number of students
                                                     });
-
                                                     requests.push(request); // Store the request promise
                                                 }
                                             });
+                                            if(check)
+                                            {
+                                                document.getElementById('batchandstudent').innerText = 'not Available Completed Batch...';
+                                                return ;
+                                            }
                                             Promise.all(requests).then(totalStudentsArray => {
                                                 response.forEach((batch, index) => {
                                                     // Append only if the batch is completed
