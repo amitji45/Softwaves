@@ -53,7 +53,8 @@
 							<div class="input-group mb-3">
 								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">Phone
 									No</span> <input type="text" class="form-control"
-									placeholder="Enter Contact No." name="contactNo" required>
+									placeholder="Enter Contact No." name="contactNo"  required>
+									<!-- data-valid-phone-regex="^[6789]\d{6}$"  -->
 							</div>
 						</div>
 
@@ -62,6 +63,7 @@
 								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
 									Password </span> <input type="password" class="form-control"
 									placeholder="Enter Password" name="password" required>
+									<!-- data-valid-password-regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" -->
 							</div>
 						</div>
 

@@ -14,6 +14,8 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -372,5 +374,35 @@ public class UserServiceImpl implements UserService {
 			return null;
 		Student st = student.get();
 		return st.getMarks();
+	}
+	@Override
+	public String[] validation(User user) {
+//		String [] patternString = {"^(\\w+[@](gmail|yahoo)\\.(com|in))$" , "^(([+]91)?[6-9]\\d{9})$" ,"^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"};
+//		String [] matcherString = {user.getEmail() , user.getContactNo() , user.getPassword()};
+//		int count =0;
+//		for (int i=0;i<patternString.length;i++)
+//		{
+//			Pattern pattern =Pattern.compile(patternString[i]);
+//			Matcher matcher=pattern.matcher(matcherString[i]);
+//			if (matcher.matches()) count++;
+//		}
+
+//
+		Pattern emailValid=Pattern.compile("^(\\w+[@](gmail|yahoo)\\.(com|in))$");
+		Matcher emailMatcher=emailValid.matcher(user.getEmail());
+		if (!emailMatcher.matches())return new String[]{"false" , "email is not valid " };
+
+		Pattern phoneValid=Pattern.compile("^(([+]91)?[6-9]\\d{9})$");
+		Matcher phoneMatcher=phoneValid.matcher(user.getContactNo());
+		if (!phoneMatcher.matches())return new String[]{"false", "phone no is invalid " };
+
+
+		Pattern passValid=Pattern.compile("^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
+		Matcher passMatcher=passValid.matcher(user.getPassword());
+		if (!passMatcher.matches())return new String[]{"false" , "password is invalid " };
+
+
+//		return passMatcher.matches() && emailMatcher.matches() && phoneMatcher.matches() ;
+		return new String[]{"true" , "sucess"};
 	}
 }

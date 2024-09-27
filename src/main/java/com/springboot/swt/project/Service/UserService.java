@@ -45,5 +45,7 @@ public interface UserService {
 
 	List<User> getVolunteerList();
 	public List<Integer> getMarksListCompletedBatch(String studId);
+	String[] validation(User user);
+
 
 }
