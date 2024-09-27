@@ -1,3 +1,4 @@
+
 FROM maven:4.0.0-openjdk-17-slim AS build
 # Set the working directory in the container
 WORKDIR /app
