@@ -30,28 +30,34 @@
                                     <div class="row">
 
                                         <section class="col py-4 px-2">
+                                            <!-- ---------------------------------------------=============================================== -->
+                                                                    <!-- ---------------------------------------------=============================================== -->
                                             <div class="row">
                                                 <div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
-                                                    <div class="card z-index-2 h-100">
-                                                        <div class="card-header pb-0 pt-3 bg-transparent">
-                                                            <h6 class="text-capitalize text-center"
+                                                    <div class="card">
+                                                        <div class="card-header pb-0 pt-3">
+                                                            <div class="d-flex justify-content-center">
+
+                                                                <h6 class="text-capitalize text-center"
                                                                 id="batchandstudent"></h6>
+                                                            </div>
                                                         </div>
 
-                                                        <div class="card-body p-3 " id="completedbatchdiv"
-                                                            style="display: none;">
+                                                        <!-- <div class="card-body p-3 " >
                                                             <div class="chart ">
                                                                 <table class="table align-items-center ">
-                                                                    <div class="nested-div ">
+                                                                    <div class="nested-div "> -->
 
-                                                                        <div class="table-responsive">
-                                                                            <table class="table align-items-center "
-                                                                                id="batchListtableId">
+                                                                        <div class="table-responsive" id="completedbatchdiv"
+                                                                           style="display: none;">
+                                                                            <table class="table align-items-center ">
+                                                                                <tbody  id="batchListtableId">
+                    
+                                                                                </tbody> 
 
                                                                             </table>
-                                                                            <table class="table align-items-center "
-                                                                                id="studentListtbody">
-
+                                                                            <table class="table align-items-center ">
+                                                                                <tbody  id="studentListtbody"></tbody>
                                                                             </table>
                                                                             <!-- <div class="table align-items-center" id="graphmarks"  > -->
                                                                             <div class="card-body p-3" id="graphdiv"
@@ -64,12 +70,12 @@
                                                                             </div>
                                                                             <!-- </div> -->
                                                                         </div>
-
+<!-- 
                                                                     </div>
 
                                                                 </table>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
