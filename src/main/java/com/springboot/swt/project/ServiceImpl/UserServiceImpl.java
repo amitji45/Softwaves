@@ -369,7 +369,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Integer> getMarksListCompletedBatch(String studId) {
-		Optional<Student> student = studentrepo.findById(new Integer(studId));
+		Optional<Student> student = studentrepo.findById(Integer.parseInt(studId));
 		if (student == null)
 			return null;
 		Student st = student.get();
