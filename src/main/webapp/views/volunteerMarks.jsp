@@ -58,7 +58,7 @@
 												placeholder="Enter Roll No." name="rollNo" id="rollNo" required>
 										</div>
 									</div>
-									 
+
 
 									<div class="row mb-4">
 										<div class="input-group mb-3">
@@ -78,6 +78,32 @@
 						<!-- End Contact Form -->
 
 					</div>
+					<section class="col py-4 px-2">
+						<div class="row">
+							<div class="col-lg-5 mb-lg-0 mb-4 mx-auto">
+								<div class="card">
+									<div class="card-header pb-0 p-3">
+										<div class="d-flex justify-content-center">
+											<h6 class="mb-2">
+												Student List</h6>
+										</div>
+									</div>
+
+									<div class="table-responsive" id="markscard">
+										<table class="table align-items-center ">
+											<tbody id="markslistappend">
+
+											</tbody>
+										</table>
+
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+
+					</section>
 				</section>
 				<!-- /Contact Section -->
 			</main>
@@ -126,8 +152,7 @@
 						function showStudentMarks() {
 							var batchList = document.getElementById('batchList1');
 							var batchId = batchList.value;
-
-							console.log(batchId);
+							$('#markslistappend').empty();
 						}
 
 						function uploadMarks() {
@@ -160,6 +185,9 @@
 												// Handle the case where response is null or empty
 												console.error('Response is null or empty. Please try again.');
 											} else {
+												
+												var student = JSON.parse(response); // Parse the JSON response
+												markslistappend(student);
 												Swal.fire({
 													icon: "success",
 													title: "Oops...",
@@ -184,15 +212,18 @@
 							xhttp.send();
 						}
 
-						function setBatchValue(batchId, batchTopic) {
-							var selectElement = document.getElementById("batchId");
-							selectElement.value = batchId; // Set the value of the select element
-							const header = document.getElementById('myHeader');
-							// Append content to the existing content of the h3
-							console.log(batchTopic);
-							header.textContent = "Selected Batch : " + batchTopic;
-							const header1 = document.getElementById('header1');
-							header1.textContent = batchTopic;
+						function markslistappend(student)
+						 {
+							const newRow = $('<tr>').attr('id', student.rollNo);
+							newRow.append(
+								$('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),
+								$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
+								$('<td>').html('<p class="text-xs font-weight-bold mb-0">Marks:</p><h6 class="text-sm mb-0">' + marks.value + '</h6>'),
+								$('<td>').html('<a class="btn btn-outline-success" >remove</a>'),
+								// $('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')
+							);
+							$('#markslistappend').append(newRow);
+
 						}
 
 					</script>

@@ -89,7 +89,6 @@
 													op1.textContent = 'None';
 													batchList.appendChild(op1);
 
-
 													batches1.forEach(function (batch) {
 														if (!batch.batchId || !batch.batchTopic) {
 															console.warn('Batch object missing required properties:', batch);
@@ -97,7 +96,6 @@
 														}
 														var op = document.createElement('option');
 														var batchId = batch.batchId;
-
 														op.value = batch.batchId;
 														op.textContent = batch.batchTopic;
 														batchList.appendChild(op);
@@ -331,26 +329,7 @@
 
 																</div>
 															</div>
-															<div class="col-lg-5 mb-lg-0 mb-4 mx-auto">
-																<div class="card ">
-																	<div class="card-header pb-0 p-3">
-																		<div class="d-flex justify-content-center">
-																			<h6 class="mb-2">
-																			Student Absent List</h6>
-																		</div>
-																	</div>
-
-																	<div class="table-responsive" id="absentcardcard..">
-
-																		<table class="table align-items-center  ">
-																			<tbody id="absenttableid">
-
-																			</tbody>
-																		</table>
-																	</div>
-
-																</div>
-															</div>
+														 
 														</div>
 
 													</section>

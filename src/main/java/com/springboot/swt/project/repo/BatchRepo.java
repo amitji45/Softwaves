@@ -9,9 +9,11 @@ import com.springboot.swt.project.entity.Batch;
 import com.springboot.swt.project.entity.User;
 
 public interface BatchRepo extends JpaRepository<Batch, String> {
-	 
+
 	Optional<Batch> findById(String batchId);
+
 	List<Batch> findByCurrentStatus(String currentStatus);
+
 	public Batch findByBatchId(String batchId);
 
 }
