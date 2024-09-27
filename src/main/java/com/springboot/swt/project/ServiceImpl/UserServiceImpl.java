@@ -294,9 +294,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Student> findStudentBatch(User user) {
-
+		if(user!=null) {
 		List<Student> studentlist = studentrepo.findByUserId(user.getId());
 		return studentlist;
+		}
+		return null;
 	}
 
 	@Override

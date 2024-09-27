@@ -16,14 +16,8 @@
 	User user = (User) session.getAttribute("user");
 	Student studentUser = (Student) session.getAttribute("activeStudentUser");
 	
-	PersistentBag persistentMarksList= (PersistentBag)session.getAttribute("studentMarks");
-	ArrayList<Integer> marksList=new ArrayList<>(10);
-	if(persistentMarksList!=null){
-	for(Object temporary : persistentMarksList)
-	{
-		marksList.add((Integer)temporary);
-	}
-	}	
+	List<Integer> marksList=(List<Integer>)session.getAttribute("studentMarks");
+	
 	
 	if (user == null) {
 		response.sendRedirect("/swt/login");
@@ -33,7 +27,7 @@
 	%><%@ include file="component/navbar.jsp"%>
 <%
 	Integer average=null;
-	if(!marksList.isEmpty())
+	if(marksList!=null && !marksList.isEmpty())
 			average = (int)marksList.stream()
             .mapToInt(Integer::intValue)
             .average()
@@ -52,8 +46,8 @@
 									alt="Admin" class="rounded-circle" width="150">
 								<div class="mt-3">
 									<h4><%=(user != null) ? user.getName() : null%></h4>
-									<p class="text-secondary mb-1"><%=(studentUser != null) ? studentUser.getRollNo() : null%></p>
-									<p class="text-secondary mb-1"><%=(studentUser != null) ? studentUser.getBatch().getBatchTopic() : null%></p>
+									<p class="text-secondary mb-1"><%=(studentUser != null) ? studentUser.getRollNo() : ""%></p>
+									<p class="text-secondary mb-1"><%=(studentUser != null) ? studentUser.getBatch().getBatchTopic() : ""%></p>
 									<p class="text-muted font-size-sm"><%=(user != null) ? user.getEmail() : null%></p>
 									<button type="button" class="btn btn-outline-primary"
 										data-bs-toggle="modal" data-bs-target="#exampleModal">Edit
@@ -110,10 +104,10 @@
 										<div class="col-8">
 											<div class="numbers">
 												<p class="text-sm mb-0 text-uppercase font-weight-bold">Attendance</p>
-												<h5 class="font-weight-bolder"><%=(studentUser != null) ?studentUser.getAttendanceCount() : "No Data"%></h5>
+												<h5 class="font-weight-bolder"><%=(studentUser != null) ?studentUser.getAttendanceCount() : "0"%></h5>
 												<p class="mb-0">
 													<span class="text-success text-sm font-weight-bolder"></span>
-													<%=(studentUser != null) ?"Presents Till Today" : ""%>
+													<%=(studentUser != null) ?"Presents Till Today" : "No data available"%>
 												</p>
 												<nav id="navmenu" class="navmenu" >
 													<li class="dropdown"><span
@@ -143,9 +137,10 @@
 									<div class="col-8">
 										<div class="numbers">
 											<p class="text-sm mb-0  font-weight-bold">No. of Test</p>
-											<h5 class="font-weight-bolder"><%=marksList.size() %></h5>
+											<h5 class="font-weight-bolder"><%=marksList!=null?marksList.size():0 %></h5>
 											<p class="mb-0">
-												<span class="text-success text-sm font-weight-bolder"><%=(average != null) ? average+" average going" : "No data available"%></span>
+												<span class="text-success text-sm font-weight-bolder"></span>
+												 <%=(average != null) ? average+" average going" : "No data available"%>
 												 <a
 													class="bg-gradient-warning btn text-light mt-1"
 													href="/user/marks?id=<%=(user != null) ? user.getId() : null%>">View</a>
@@ -171,11 +166,15 @@
 									<div class="col-8">
 										<div class="numbers">
 											<p class="text-sm mb-0 text-uppercase font-weight-bold">Progress</p>
-											<h5 class="font-weight-bolder">20%</h5>
+											<h5 class="font-weight-bolder">-</h5>
 											<p class="mb-0">
-												<span class="text-success text-sm font-weight-bolder">100%</span>
-												since Today
-											</p>
+												<span class="text-success text-sm font-weight-bolder"></span>
+												No data
+												</p>
+												<a
+													class="bg-gradient-success shadow-primary btn text-light mt-1"
+													onclick='getProgress()'>View</a>
+											
 										</div>
 									</div>
 									<div class="col-4 text-end">
@@ -196,10 +195,10 @@
 									<div class="col-8">
 										<div class="numbers">
 											<p class="text-sm mb-0 text-uppercase font-weight-bold">Average</p>
-											<h5 class="font-weight-bolder"><%=(average != null) ? average: "No data"%></h5>
+											<h5 class="font-weight-bolder"><%=(average != null) ? average: "0"%></h5>
 											<p class="mb-0">
-												<span class="text-success text-sm font-weight-bolder">100%</span>
-												since Today
+												<span class="text-success text-sm font-weight-bolder"></span>
+												<%=(average != null) ? "Average of your marks": "No data available"%>
 											</p>
 										</div>
 									</div>
@@ -403,12 +402,26 @@
 		});
 		function getList() {
     const list = [];
-    <% for (Integer marks : marksList) { %>
+    <%if(marksList!=null && !marksList.isEmpty()) 
+    	for (Integer marks : marksList) { %>
         list.push(<%= marks != null ? marks : 0 %>);
-    <% } %>
+    <% } 
+    else {
+    %>
+    list.push(0);
+    <%}%>
     console.log(list);
     return list;
 }
+		
+		function getProgress() {
+			Swal.fire({
+				icon: "error",
+				title: "Wait !",
+				text: "This part of website is under construction",
+				
+			});
+		}
 
 	</script>
 </body>
