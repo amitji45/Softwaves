@@ -89,6 +89,18 @@
                                         if (this.readyState === 4) {
                                             if (this.status === 200) {
                                                 var updatedBatch = JSON.parse(this.responseText);
+                                                updatedBatch.forEach(student => {
+                                                console.log("batchId:", student.batchId);
+                                                
+                                                const newRow = $('<tr>').attr('id', student.batchId);
+                                                newRow.append(
+                                                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Roll No:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),
+                                                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
+                                                    $('<td>').html('<p class="text-xs font-weight-bold mb-0">Present Count:</p><h6 class="text-sm mb-0">' + student.attendanceCount + '</h6>'),
+                                                    $('<td>').html('<a class="btn btn-outline-danger" onclick="">Details</a>')
+                                                );
+                                                $('#studentdetails').append(newRow);
+                                            });
                                                 loadBatch();
                                             } else {
                                                 console.log("Error: " + this.status); // Log any error
@@ -98,13 +110,14 @@
 
                                     xhttp.send();
                                 }
+
                                 window.onload = function () {
                                     loadBatch();
 
                                 }
 
                                 function countActiveBatchStudent(batchId, callback) {
-                                    console.log(batchId);
+                          
                                     $.ajax({
                                         url: 'http://localhost:9090/admin/getAllStudentByBatchId?batchId=' + batchId,
                                         type: 'GET',
@@ -116,7 +129,7 @@
                                         },
                                         error: function (error) {
                                             console.error('Error:', error);
-                                            callback("not found"); // Call the callback with an error message
+                                            callback("not found"); // Call the call back with an error message
                                         }
                                     });
                                 }
@@ -203,9 +216,7 @@
                                 function batchDetails(batchId) {
                                     document.getElementById('graphdiv').style.display = 'none';
                                     document.getElementById('batchandstudent').innerText = 'Student List';
-
-                                    console.log("batchid => " + batchId);
-
+ 
                                     $('#batchListtableId').empty();
                                     $('#studentListtbody').empty();
 
@@ -222,9 +233,7 @@
                                         type: 'GET',
                                         dataType: 'json',
                                         success: function (response) {
-                                            // Log response for debugging
-                                            console.log(response);
-
+                                            
                                             // Clear table before appending new data
                                             $('#studentListtbody').empty();
 
@@ -237,7 +246,7 @@
                                             } else {
                                                 // Iterate over the response and append rows
                                                 response.forEach(student => {
-                                                    console.log("batchId:", student.batchId);
+                                                     
 
                                                     const newRow = $('<tr>').attr('id', student.batchId);
                                                     newRow.append(

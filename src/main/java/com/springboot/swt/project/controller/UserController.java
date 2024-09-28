@@ -247,14 +247,13 @@ public class UserController {
 	public ModelAndView tempRegistration(@ModelAttribute("user") User user,
 			RedirectAttributes redirectAttributes) {
 
-		// String [] out =userserviceimpl.validation(user);
-		// ModelAndView modalValid = new ModelAndView();
-		// if(out[0].equals("false"))
-		// {
-		// modalValid.addObject("error", out[1]);
-		// modalValid.setViewName("redirect:/swt/regis");
-		// return modalValid;
-		// }
+		String[] out = userserviceimpl.validation(user);
+		ModelAndView modalValid = new ModelAndView();
+		if (out[0].equals("false")) {
+			modalValid.addObject("error", out[1]);
+			modalValid.setViewName("redirect:/swt/regis");
+			return modalValid;
+		}
 
 		Map<String, Object> result = userserviceimpl.tempRegister(user); // saves the data in temprory table
 		ModelAndView modal = new ModelAndView();

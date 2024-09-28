@@ -10,6 +10,8 @@ public interface StudentService {
 	// Student markAttendance(String rollNo, String batchId);
 	List<Student> findByBatch(String batchId);
 
+	List<Student> findByUserId(String userId);
+
 	List<Student> findAllStudent(String name);
 
 	Student getActiveStudent(User temp);

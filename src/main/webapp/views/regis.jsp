@@ -44,7 +44,7 @@
 						<div class="row mb-4">
 							<div class="input-group mb-3">
 								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
-									Email</span> <input type="text" class="form-control"
+									Email</span> <input type="email" class="form-control"
 									placeholder="Enter Email" name="email" required>
 									<!-- data-valid-phone-regex="^[6789]\d{6}$"  -->
 							</div>
@@ -54,7 +54,7 @@
 							<div class="input-group mb-3">
 								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">Phone
 									No</span> <input type="text" class="form-control"
-									placeholder="Enter Contact No." name="contactNo"  required>  
+									placeholder="Enter Contact No." name="contactNo" data-valid-phone-regex="^[6789]\d{6}$"  required>  
 							</div>
 						</div>
 
@@ -62,7 +62,7 @@
 							<div class="input-group mb-3">
 								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
 									Password </span> <input type="password" class="form-control"
-									placeholder="Enter Password" name="password" required>
+									placeholder="Enter Password" name="password" data-valid-password-regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" required>
 									<!-- data-valid-password-regex="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" -->
 							</div>
 						</div>

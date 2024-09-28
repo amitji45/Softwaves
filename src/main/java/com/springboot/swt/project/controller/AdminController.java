@@ -182,6 +182,15 @@ public class AdminController {
 		return new ResponseEntity(batchlist, HttpStatus.OK);
 	}
 
+	@RequestMapping("/getAllStudentByUserId")
+	public ResponseEntity getAllStudentByUserId(String userId, HttpServletRequest session) {
+		List<Student> batchlist = studentServiceImpl.findByUser(userId);
+		if (batchlist != null)
+			return new ResponseEntity(batchlist, HttpStatus.OK);
+		return new ResponseEntity(batchlist, HttpStatus.BAD_REQUEST);
+
+	}
+
 	@RequestMapping("/allStudent")
 	public String allStudent(Model model) {
 		return "allStudent";
@@ -191,14 +200,14 @@ public class AdminController {
 	public ResponseEntity getcompletedmarks(@RequestParam("studId") String studId) {
 		return new ResponseEntity(userserviceimpl.getMarksListCompletedBatch(studId), HttpStatus.OK);
 	}
-	
+
 	@RequestMapping("/removeStudent")
 	public ResponseEntity removeStudent(@RequestParam String id) {
-		int studentId=Integer.parseInt(id);
+		int studentId = Integer.parseInt(id);
 		studentServiceImpl.removeStudentFromBatch(studentId);
-		List<Student> studentList=studentServiceImpl.findByBatch(id);
-		
-		return new ResponseEntity(studentList,HttpStatus.OK);
-	
+		List<Student> studentList = studentServiceImpl.findByBatch(id);
+
+		return new ResponseEntity(studentList, HttpStatus.OK);
+
 	}
 }

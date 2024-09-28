@@ -46,8 +46,7 @@ public class StudentServiceImpl implements StudentService {
 					.filter(s -> batchId.equals(s.getBatch().getBatchId())) // Filter by batchId
 					.sorted(Comparator.comparing(Student::getRollNo)) // Sort by roll number
 					.collect(Collectors.toList()); // Collect the filtered and sorted students into a list
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			return studentRepo.findAll().stream()
 					.filter(s -> batchId.equals(s.getBatch().getBatchId())) // Filter by batchI// Sort by roll number
 					.collect(Collectors.toList());
@@ -60,21 +59,21 @@ public class StudentServiceImpl implements StudentService {
 		return studentRepo.findAll();
 	}
 
-	
 	@Override
 	public Student setMarks(String rollNo, String batchId, Integer testNo, Integer marks) {
 		Batch batch = (batchRepo.findById(batchId)).get();
 		Student student = studentRepo.findByRollNoAndBatch(rollNo, batch);
 
 		if (student == null || testNo > student.getMarks().size() + 1 || testNo < student.getMarks().size()
-				|| testNo > 8 || testNo < 1 || marks > 100 || marks < 1){
+				|| testNo > 8 || testNo < 1 || marks > 100 || marks < 1) {
 			return null;
-			}
+		}
 		ArrayList<Integer> tempList = new ArrayList<>(student.getMarks());
-	
 
-		if(testNo == tempList.size())tempList.set(testNo-1,marks);
-		if(testNo == tempList.size()+1)tempList.add(marks);
+		if (testNo == tempList.size())
+			tempList.set(testNo - 1, marks);
+		if (testNo == tempList.size() + 1)
+			tempList.add(marks);
 		student.setMarks(tempList);
 		studentRepo.save(student);
 		return student;
@@ -92,9 +91,15 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	public void removeStudentFromBatch(Integer id) {
-		
+
 		studentRepo.deleteById(id);
-		
+
 	}
 
+	@Override
+	public List<Student> findByUserId(String userId) {
+
+		List<Student> list = null;
+		return list;
+	}
 }

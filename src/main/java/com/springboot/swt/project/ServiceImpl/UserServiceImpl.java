@@ -6,16 +6,16 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,9 +53,8 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> response = new HashMap<>();
 		user.setRole("Student");
 		user.setId(generateUserId(user));
-
-			user.setPassword(encode(user.getPassword()));
-			user.setContactNo(encode(user.getContactNo()));
+		user.setPassword(encode(user.getPassword()));
+		user.setContactNo(encode(user.getContactNo()));
 
 		if (finder(user)) {
 			response.put("message", "email or contact no already registered");
@@ -63,15 +62,14 @@ public class UserServiceImpl implements UserService {
 			return response;
 		}
 		userrepo.save(user);
-		try {
-			user.setContactNo(decode(user.getContactNo()));
-			user.setPassword(decode(user.getPassword()));
-		}
-		catch(Exception e){}
+		user.setContactNo(decode(user.getContactNo()));
+		user.setPassword(decode(user.getPassword()));
+
 		response.put("message", "User registered successfully");
 		response.put("user", user);
 		return response;
 	}
+
 	private String generateUserId(User user) {
 		StringBuilder id = new StringBuilder();
 		LocalDate local = LocalDate.now();
@@ -85,12 +83,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String encode(String s) {
-		return Base64.getEncoder().encodeToString(s.getBytes());
+		// return Base64.getEncoder().encodeToString(s.getBytes());
+		return s;
 	}
 
 	@Override
 	public String decode(String s) {
-		return new String(Base64.getDecoder().decode(s));
+		// return new String(Base64.getDecoder().decode(s));
+		return s;
 	}
 
 	@Override
@@ -100,10 +100,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User login(String email, String password) {
-		User tempEmail = userrepo.findByEmailAndPassword(email, encode(password));
-		if (tempEmail != null) {
-			tempEmail.setContactNo(decode(tempEmail.getContactNo()));
-			return tempEmail;
+		try {
+
+			User tempEmail = userrepo.findByEmailAndPassword(email, encode(password));
+			if (tempEmail != null) {
+				tempEmail.setContactNo(decode(tempEmail.getContactNo()));
+				return tempEmail;
+			}
+		} catch (Exception e) {
+
+			return null;
 		}
 		return null;
 	}
@@ -158,10 +164,8 @@ public class UserServiceImpl implements UserService {
 			Student student = new Student();
 			ArrayList<Integer> list = new ArrayList<Integer>(10);
 			student.setBatch(batch);
-			student.setUser(user);
 			student.setMarks(list);
-			user.setBatch(batch.getBatchTopic());
-			userrepo.save(user);
+			student.setUser(user);
 			studentrepo.save(student);
 			return "your are successfully Enroll " + batch.getBatchTopic() + " batch";
 		} else {
@@ -300,9 +304,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Student> findStudentBatch(User user) {
-		if(user!=null) {
-		List<Student> studentlist = studentrepo.findByUserId(user.getId());
-		return studentlist;
+		if (user != null) {
+			List<Student> studentlist = studentrepo.findByUserId(user.getId());
+			return studentlist;
 		}
 		return null;
 	}
@@ -342,38 +346,40 @@ public class UserServiceImpl implements UserService {
 		response.put("user", user);
 		return response;
 	}
-	
+
 	@Override
-	public List<User> getVolunteerList(){
+	public List<User> getVolunteerList() {
 		List<User> volunteerList = userrepo.findByRole("Volunteer");
 		return volunteerList;
 	}
-	
+
 	public Map getAverage() {
-		List<Batch> activeBatches=batchrepo.findByCurrentStatus("Active");
-		if(activeBatches == null || activeBatches.isEmpty())return null;
-		Map<Batch, Integer> avgBatches= new HashMap<>();
-		for(Batch batch : activeBatches)
-		{
-			int avgOfStudents=0;
-			List<Student> studentList=studentrepo.findByBatch(batch);
-			if(studentList!=null && !studentList.isEmpty()) {
-			for(Student student : studentList)
-			{
-				LinkedList<Integer> marks=new LinkedList<>(student.getMarks());
-				if(marks!=null && !marks.isEmpty())avgOfStudents=avgOfStudents+(int)marks.get(marks.size()-1);
+		List<Batch> activeBatches = batchrepo.findByCurrentStatus("Active");
+		if (activeBatches == null || activeBatches.isEmpty())
+			return null;
+		Map<Batch, Integer> avgBatches = new HashMap<>();
+		for (Batch batch : activeBatches) {
+			int avgOfStudents = 0;
+			List<Student> studentList = studentrepo.findByBatch(batch);
+			if (studentList != null && !studentList.isEmpty()) {
+				for (Student student : studentList) {
+					LinkedList<Integer> marks = new LinkedList<>(student.getMarks());
+					if (marks != null && !marks.isEmpty())
+						avgOfStudents = avgOfStudents + (int) marks.get(marks.size() - 1);
+				}
 			}
-			}
-			if(avgOfStudents != 0) avgBatches.put(batch,avgOfStudents/studentList.size());
-			else avgBatches.put(batch,  0 );
+			if (avgOfStudents != 0)
+				avgBatches.put(batch, avgOfStudents / studentList.size());
+			else
+				avgBatches.put(batch, 0);
 		}
-		
+
 		return avgBatches;
 	}
 
 	@Override
 	public List<Integer> getMarksListCompletedBatch(String studId) {
-		Optional<Student> student = studentrepo.findById(Integer.parseInt(studId));
+		Optional<Student> student = studentrepo.findById(new Integer(studId));
 		if (student == null)
 			return null;
 		Student st = student.get();
@@ -382,31 +388,36 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String[] validation(User user) {
-//		String [] patternString = {"^(\\w+[@](gmail|yahoo)\\.(com|in))$" , "^(([+]91)?[6-9]\\d{9})$" ,"^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"};
-//		String [] matcherString = {user.getEmail() , user.getContactNo() , user.getPassword()};
-//		int count =0;
-//		for (int i=0;i<patternString.length;i++)
-//		{
-//			Pattern pattern =Pattern.compile(patternString[i]);
-//			Matcher matcher=pattern.matcher(matcherString[i]);
-//			if (matcher.matches()) count++;
-//		}
-//
-		Pattern emailValid=Pattern.compile("^(\\w+[@](gmail|yahoo)\\.(com|in))$");
-		Matcher emailMatcher=emailValid.matcher(user.getEmail());
-		if (!emailMatcher.matches())return new String[]{"false" , "email is not valid " };
+		// String [] patternString = {"^(\\w+[@](gmail|yahoo)\\.(com|in))$" ,
+		// "^(([+]91)?[6-9]\\d{9})$"
+		// ,"^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"};
+		// String [] matcherString = {user.getEmail() , user.getContactNo() ,
+		// user.getPassword()};
+		// int count =0;
+		// for (int i=0;i<patternString.length;i++)
+		// {
+		// Pattern pattern =Pattern.compile(patternString[i]);
+		// Matcher matcher=pattern.matcher(matcherString[i]);
+		// if (matcher.matches()) count++;
+		// }
+		//
+		Pattern emailValid = Pattern.compile("^(\\w+[@](gmail|yahoo)\\.(com|in))$");
+		Matcher emailMatcher = emailValid.matcher(user.getEmail());
+		if (!emailMatcher.matches())
+			return new String[] { "false", "email is not valid " };
 
-		Pattern phoneValid=Pattern.compile("^(([+]91)?[6-9]\\d{9})$");
-		Matcher phoneMatcher=phoneValid.matcher(user.getContactNo());
-		if (!phoneMatcher.matches())return new String[]{"false", "phone no is invalid " };
+		Pattern phoneValid = Pattern.compile("^(([+]91)?[6-9]\\d{9})$");
+		Matcher phoneMatcher = phoneValid.matcher(user.getContactNo());
+		if (!phoneMatcher.matches())
+			return new String[] { "false", "phone no is invalid " };
 
+		Pattern passValid = Pattern.compile("^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
+		Matcher passMatcher = passValid.matcher(user.getPassword());
+		if (!passMatcher.matches())
+			return new String[] { "false", "password is invalid " };
 
-		Pattern passValid=Pattern.compile("^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
-		Matcher passMatcher=passValid.matcher(user.getPassword());
-		if (!passMatcher.matches())return new String[]{"false" , "password is invalid " };
-
-
-//		return passMatcher.matches() && emailMatcher.matches() && phoneMatcher.matches() ;
-		return new String[]{"true" , "sucess"};
+		// return passMatcher.matches() && emailMatcher.matches() &&
+		// phoneMatcher.matches() ;
+		return new String[] { "true", "sucess" };
 	}
 }
