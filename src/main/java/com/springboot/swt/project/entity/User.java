@@ -14,7 +14,7 @@ public class User {
 
 	@Column
 	private String otp;
-	
+
 	@Column(nullable = false, unique = true)
 	private String contactNo;
 	@Column(nullable = false)
@@ -34,7 +34,6 @@ public class User {
 
 	public User() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getId() {
@@ -108,8 +107,6 @@ public class User {
 	public void setOtp(String otp) {
 		this.otp = otp;
 	}
-
-	
 
 	@Override
 	public String toString() {

@@ -3,6 +3,7 @@ package com.springboot.swt.project.Service;
 import java.util.List;
 import java.util.Map;
 
+import com.springboot.swt.project.entity.Batch;
 import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.entity.User;
 
@@ -44,8 +45,11 @@ public interface UserService {
 	Object getUser(String email, String purpose);
 
 	List<User> getVolunteerList();
+
 	public List<Integer> getMarksListCompletedBatch(String studId);
+
 	String[] validation(User user);
 
+	List<Student> byDefaultAllStudentAbsent(Batch BatchId);
 
 }

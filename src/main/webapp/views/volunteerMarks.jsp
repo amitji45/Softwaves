@@ -19,56 +19,21 @@
 					<!-- End Section Title -->
 
 
-
-					<!-- End Section Title -->
-
-
-
-
-
-
-
-					<nav id="navmenu" class="navmenu">
-                        <ul class="justify-content-center col-xl-9 col-md-6 col-sm-7 py-9 ">
-                            <li class="dropdown">
-                                <a href="#" onclick="findActiveBatches()">
-                                    <span id="header1">Select Batch</span>
-                                    <i class="bi bi-chevron-down toggle-dropdown"></i>
-                                </a>
-                                <ul>
-                                    <% List<Batch> activebatches = (List<Batch>) session.getAttribute("activebatch");
-                                       for (Batch batch : activebatches) { %>
-                                        <li>
-                                            <a href="#"
-                                               onclick="setBatchValue('<%=batch.getBatchId()%>' ,'<%=batch.getBatchTopic()%>'); return false;">
-                                                <%=batch.getBatchTopic()%>
-                                            </a>
-                                        </li>
-                                    <% } %>
-                                </ul>
-                            </li>
-                        </ul>
-                    </nav>
-
-                    <!-- Select Element -->
-                    <select hidden class="justify-content-center col-xl-9 col-md-6 col-sm-7 py-9" id="batchId">
-                        <option value="" disabled selected>Select a batch</option>
-                        <% for (Batch batch : activebatches) { %>
-                            <option value="<%=batch.getBatchId()%>"><%=batch.getBatchTopic()%></option>
-                        <% } %>
-                    </select>
-
-
-
-
-
-
 					<div class="container d-flex justify-content-center">
 						<div class="col-lg-6">
 							<form method="post" class="php-email-form">
 								<div class="row gy-4">
 
 
+									<div class="row mb-4">
+										<div class="col-md-12">
+											<label for="batchList1" class="pb-2">Select Batch</label>
+											<select class="form-control" name="batch" id="batchList1"
+												onchange="showStudentMarks()">
+												<!-- Options will be dynamically added here -->
+											</select>
+										</div>
+									</div>
 									<div class="row mb-4">
 										<div class="input-group mb-3">
 											<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
@@ -77,13 +42,14 @@
 										</div>
 									</div>
 
-								<div class="row mb-4">
+									<div class="row mb-4">
 										<div class="input-group mb-3">
 											<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
 												Roll No.</span> <input type="text" class="form-control"
 												placeholder="Enter Roll No." name="rollNo" id="rollNo" required>
 										</div>
 									</div>
+
 
 									<div class="row mb-4">
 										<div class="input-group mb-3">
@@ -103,49 +69,101 @@
 						<!-- End Contact Form -->
 
 					</div>
+					<section class="col py-4 px-2">
+						<div class="row">
+							<div class="col-lg-5 mb-lg-0 mb-4 mx-auto">
+								<div class="card">
+									<div class="card-header pb-0 p-3">
+										<div class="d-flex justify-content-center">
+											<h6 class="mb-2">
+												Student List</h6>
+										</div>
+									</div>
+
+									<div class="table-responsive" id="markscard">
+										<table class="table align-items-center ">
+											<tbody id="markslistappend">
+
+											</tbody>
+										</table>
+
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+
+					</section>
 				</section>
 				<!-- /Contact Section -->
 			</main>
 			<%@ include file="component/footer.jsp" %>
 				<%@ include file="component/script.jsp" %>
 					<script>
+						document.addEventListener('DOMContentLoaded', function () {
+							findActiveBatches();
+						});
+						function findActiveBatches() {
+							var batchList = document.getElementById('batchList1');
+							batchList.textContent = '';
+							var op1 = document.createElement('option');
+							op1.textContent = 'None';
+							batchList.appendChild(op1);
 
-						/* function uploadMarks(){
-							marks=""+ document.getElementById("marks").value;
-							rollNo=""+ document.getElementById("rollNo").value;
-							batchId=""+document.getElementById("batchId").value;
-							url = "http://localhost:9090/valunteer/setmarks?rollNo=";
-							
-							var xhttp = new XMLHttpRequest();
-							
-							xhttp.open("GET", url + rollNo + "&batchId=" + batchId + "&marks=" + marks, true);
-							xhttp.send();
-							if(!response)
-								{
+							$.ajax({
+								url: "http://localhost:9090/valunteer/findActivebatches",
+								type: 'GET',
+								dataType: 'json',
+								success: function (batches1) {
+									batches1.forEach(function (batch) {
+										if (!batch.batchId || !batch.batchTopic) {
+											console.warn('Batch object missing required properties:', batch);
+											return;
+										}
+										var op = document.createElement('option');
+										var batchId = batch.batchId;
+										op.value = batch.batchId;
+										op.textContent = batch.batchTopic;
+										batchList.appendChild(op);
+									});
+								},
+								error: function (error) {
+									Swal.fire({
+										icon: "error",
+										title: "Oops...",
+										text: "Error: no Active batches.."
 
-									return ;
+									});
+									console.error('Error:', error);
 								}
-								document.getElementById("rollNo").value="";
-								document.getElementById("marks").value="";
-						} */
+							});
+
+						}
+						function showStudentMarks() {
+							var batchList = document.getElementById('batchList1');
+							var batchId = batchList.value;
+							$('#markslistappend').empty();
+						}
+
 						function uploadMarks() {
 							// Get values from input fields
 							var marks = "" + document.getElementById("marks").value;
 							var rollNo = "" + document.getElementById("rollNo").value;
+							var batchId = "" + document.getElementById("batchList1").value;
 							var testNo = "" + document.getElementById("testNo").value;
-							var batchId = "" + document.getElementById("batchId").value;
+
 							var url = "http://localhost:9090/valunteer/setmarks?rollNo=";
 
 							if (marks === "" || rollNo === "" || batchId === "" || testNo=== "") {
 
 								Swal.fire({
-                                												icon: "error",
-                                												title: "Not Valid ",
-                                												text: "Please Enter Valid Data !",
-                                												timer : 700
-                                											});
-							}
-							// Create XMLHttpRequest object
+                                			icon: "error",
+                        					title: "Not Valid ",
+                            				text: "Please Enter Valid Data !",
+                            				timer : 700
+								})
+							}					// Create XMLHttpRequest object
 							else {
 								var xhttp = new XMLHttpRequest();
 
@@ -156,26 +174,40 @@
 											var response = this.responseText;
 											if (response === null || response.trim() === "") {
 												// Handle the case where response is null or empty
-												console.log('Response is null or empty. Please try again.');
-											} else {
+												Swal.fire({
+													icon: "error",
+													title: "Error",
+													text: "Failed to upload marks",
+													timer : 700
+												});	
+												} else {
 												
 												// Handle a valid response
+
+												var student = JSON.parse(response); // Parse the JSON response
+												markslistappendfunction(student);
+
 												Swal.fire({
-												icon: "success",
-												title: "Done",
-												text: "Marks uploaded successfully!",
-												timer : 700
-											});
-												
+													icon: "success",
+													title: "Done",
+													timer: 700,
+													text: "Marks uploaded successfully!"
+												});
+
 											}
 
 											// Clear the input fields
 											document.getElementById("rollNo").value = "";
 											document.getElementById("marks").value = "";
+											document.getElementById("testNo").value = "";
 										} else {
 											// Handle HTTP errors
-											console.log('Failed to upload marks. Status: ' + this.status);
-										}
+											Swal.fire({
+												icon: "error",
+												title: "Error",
+												text: "Failed to upload marks",
+												timer : 700
+											});										}
 									}
 								};
 							}
@@ -184,16 +216,19 @@
 							xhttp.send();
 						}
 
-function setBatchValue(batchId, batchTopic) {
-    var selectElement = document.getElementById("batchId");
-    selectElement.value = batchId; // Set the value of the select element
-      const header = document.getElementById('myHeader');
-                // Append content to the existing content of the h3
-                console.log(batchTopic);
-                header.textContent = "Selected Batch : "+batchTopic;
-                  const header1 = document.getElementById('header1');
-                  header1.textContent= batchTopic;
-}
+						function markslistappendfunction(student) {
+							const newRow = $('<tr>').attr('id', student.rollNo);
+							newRow.append(
+								$('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),
+								$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
+								$('<td>').html('<p class="text-xs font-weight-bold mb-0">testNo:</p><h6 class="text-sm mb-0">' + document.getElementById("testNo").value + '</h6>'),
+								$('<td>').html('<p class="text-xs font-weight-bold mb-0">Marks:</p><h6 class="text-sm mb-0">' + marks.value + '</h6>'),
+								$('<td>').html('<a class="btn btn-outline-success" >remove</a>'),
+								// $('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')
+							);
+							$('#markslistappend').append(newRow);
+
+						}
 
 					</script>
 	</body>
