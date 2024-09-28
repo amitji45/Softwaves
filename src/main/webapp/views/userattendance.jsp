@@ -8,6 +8,7 @@
 				<head>
 					<%@ include file="component/head.jsp" %>
 				</head>
+
 				<body>
 					<% List<Student> list = (List<Student>) request.getAttribute("studentlist");
 
@@ -62,11 +63,10 @@
 														$('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),
 														$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
 														$('<td>').html('<a class="btn btn-outline-danger" onclick="studentabsent(\'' + student.rollNo + '\')">Absent</a>'),
-														$('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')
+														$('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>'),
 													);
-
 													$('#presenttableid').append(newRow);
-
+													return;
 
 												}
 												function absentrowappend(student) {
@@ -80,6 +80,7 @@
 													);
 													$('#absenttableid').append(newRow);
 
+													return;	
 												}
 												function updateBatchList(batches1) {
 													var batchList = document.getElementById('batchList1');
@@ -87,8 +88,6 @@
 													var op1 = document.createElement('option');
 													op1.textContent = 'None';
 													batchList.appendChild(op1);
-
-
 													batches1.forEach(function (batch) {
 														if (!batch.batchId || !batch.batchTopic) {
 															console.warn('Batch object missing required properties:', batch);
@@ -96,7 +95,6 @@
 														}
 														var op = document.createElement('option');
 														var batchId = batch.batchId;
-
 														op.value = batch.batchId;
 														op.textContent = batch.batchTopic;
 														batchList.appendChild(op);
@@ -105,32 +103,37 @@
 
 												function showStudentAttendance() {
 													var batchList = document.getElementById('batchList1');
+
+													$('#presenttableid').empty();
+													$('#absenttableid').empty();
 													var batchId = batchList.value;
-													console.log(batchList.value);
+
 													$.ajax({
 														url: 'http://localhost:9090/valunteer/findallstudent?batchId=' + batchId,
 														type: 'GET',
 														dataType: 'json',
 														success: function (response) {
 
-															$('#presenttableid').empty();
-															$('#absenttableid').empty();
 															if (response.length >= 1) {
 																document.getElementById('NoAvailableStudentinthisBatch').style.display = 'none';
 															}
 															else {
 																document.getElementById('NoAvailableStudentinthisBatch').style.display = 'block';
 															}
-															let today = new Date().toISOString().split('T')[0];
+															let today = new Date().toISOString().split('T')[0];  // Get today's date in 'YYYY-MM-DD' format
 															response.forEach(function (student) {
 
-																var isAbsentToday = student.absent.includes(today);
-																if (isAbsentToday) {
 
-																	absentrowappend(student);
+																var formattedAbsentDates = student.absent.map(date => new Date(date).toISOString().split('T')[0]);
+																var isAbsentToday = formattedAbsentDates.includes(today); 
+																alert(isAbsentToday);
+																if (isAbsentToday) {
+																	presentrowappend(student);
+																	console.log("presentrowappend=> " + student.absent+ "=> "+isAbsentToday);
 																}
 																else {
-																	presentrowappend(student);
+																	absentrowappend(student);
+																	console.log("absentrowappend=> " + student.absent+ "=> "+isAbsentToday);
 																}
 															});
 														},
@@ -210,11 +213,16 @@
 																		}
 																		absentrowappend(student);
 
+																		const trId = student.rollNo;
+																		$('#' + trId).append(
+																			$('<td>').html('<i class="bi bi-check2-circle"></i>')  // Example: Adding an icon or some content
+																		);
 																		// Append to the absent table
 																		Swal.fire({
 																			icon: "success",
 																			title: "Oops...",
-																			text: "Successfully marked " + student.rollNo + " as absent."
+																			text: "Successfully marked " + student.rollNo + " as absent.",
+																			timer: 700
 																		});
 
 																	} else if (status === 'present') {
@@ -226,13 +234,16 @@
 																		}
 																		presentrowappend(student);
 
+																		const trId = student.rollNo;
+																		$('#' + trId).append(
+																			$('<td>').html('<i class="bi bi-check2-circle"></i>')  // Example: Adding an icon or some content
+																		);
 																		Swal.fire({
 																			icon: "success",
 																			title: "Done",
 																			text: "Successfully marked " + student.rollNo + " as present.",
-																			timer : 700
+																			timer: 700
 																		});
-
 
 																	}
 																}
@@ -316,7 +327,7 @@
 																	<div class="card-header pb-0 p-3">
 																		<div class="d-flex justify-content-center">
 																			<h6 class="mb-2">
-																				Student List</h6>
+																				Student Present List</h6>
 																		</div>
 																	</div>
 
@@ -336,7 +347,7 @@
 																	<div class="card-header pb-0 p-3">
 																		<div class="d-flex justify-content-center">
 																			<h6 class="mb-2">
-																			Student Absent List</h6>
+																				Student Absent List</h6>
 																		</div>
 																	</div>
 

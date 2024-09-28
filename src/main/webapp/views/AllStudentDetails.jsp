@@ -91,7 +91,7 @@
                                                 var updatedBatch = JSON.parse(this.responseText);
                                                 updatedBatch.forEach(student => {
                                                 console.log("batchId:", student.batchId);
-                                                
+                                                    
                                                 const newRow = $('<tr>').attr('id', student.batchId);
                                                 newRow.append(
                                                     $('<td>').html('<p class="text-xs font-weight-bold mb-0">Roll No:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),

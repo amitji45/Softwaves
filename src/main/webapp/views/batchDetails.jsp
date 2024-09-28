@@ -17,7 +17,7 @@
                         </div>
                         <div class="container">
                             <div class="row ">
-                                <div class="col-lg-12 mb-lg-0 mb-4">
+                                <div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
                                     <div class="card ">
                                         <div class="card-header pb-0 p-3">
                                             <div class="d-flex justify-content-between">
@@ -28,7 +28,7 @@
                                             <table class="table align-items-center " id=>
                                                 <tbody>
                                                     <%if(studentList==null || studentList.isEmpty()) { %>
-                                                        <p class="d-flex justify-content-center">NO STUDENT ENTRY FOUND
+                                                        <p class="d-flex justify-content-center ">NO STUDENT ENTRY FOUND
                                                         </p>
                                                         <%} else { for (Student student : studentList) { %>
                                                             <tr id="<%=student.getRollNo()%>">
