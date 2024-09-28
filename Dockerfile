@@ -12,6 +12,9 @@ RUN mvn clean package -DskipTests
 # Stage 2: Create a minimal Tomcat image to run the WAR
 FROM tomcat:9.0
 
+# Create a non-root user with a specific UID in the range 10000-20000
+RUN groupadd -g 10001 myuser && useradd -u 10001 -g myuser -r myuser
+
 # Remove the default web apps (optional)
 RUN rm -rf /usr/local/tomcat/webapps/*
 
