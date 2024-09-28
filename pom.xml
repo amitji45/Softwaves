@@ -14,6 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Softwaves</name>
 	<description>Softaves Institute own Website spring boot project</description>
+	<packaging>war</packaging>
 	<url />
 	<licenses>
 		<license />
@@ -92,7 +93,18 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-security</artifactId>-->
 
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.jetbrains</groupId>-->
+<!--			<artifactId>annotations</artifactId>-->
+<!--			<version>RELEASE</version>-->
+<!--			<scope>compile</scope>-->
+<!--		</dependency>-->
 
 
 	</dependencies>
