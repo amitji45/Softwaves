@@ -253,11 +253,11 @@
 		function findStudentBatches() {
 			var url = "http://localhost:9090/user/find/student/batch";
 			var xhttp = new XMLHttpRequest();
+			var batchList = document.getElementById('navmenu');
 			xhttp.onreadystatechange = function() {
 				if (this.readyState === XMLHttpRequest.DONE) {
 					if (this.status === 200) {
 						try {
-							var batchList = document.getElementById('navmenu');
 								batchList.style.display = batchList.style.display === 'block' ? 'none' : 'block';
 							// Attempt to parse the JSON response
 							const response = JSON.parse(this.responseText);
@@ -269,6 +269,15 @@
 							$('#navmenu').empty();
 							console.error('Error parsing JSON:', e);
 							alert('Error: Unable to parse the response.');
+						
+							var li = document.createElement('li');
+							var a = document.createElement('a');
+							a.textContent = 'No Batches'; // Assuming each batch object has a 'batchTopic' property
+							a.href = '#'; // Set the URL to navigate to
+							li.appendChild(a);
+							// Append the <li> to the batchList
+							batchList.appendChild(li);
+						
 						}
 					} else {
 						alert('Error: ' + this.statusText);
@@ -287,19 +296,7 @@
 		function updateBatchList(batches) {
 			var batchList = document.getElementById('batchList1');
 			// Check if the batchList element exists
-			if (batchList != null) {
-				var li = document.createElement('li');
-				var a = document.createElement('a');
-				a.textContent = 'No Batches'; // Assuming each batch object has a 'batchTopic' property
-				a.href = '#'; // Set the URL to navigate to
-				li.appendChild(a);
-				// Append the <li> to the batchList
-				batchList.appendChild(li);
 			
-				
-				// alert('No batches available');
-				return;
-			}
 
 			// Clear existing items
 			batchList.innerHTML = '';

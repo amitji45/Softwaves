@@ -25,7 +25,7 @@
                                             </div>
                                         </div>
                                         <div class="table-responsive">
-                                            <table class="table align-items-center ">
+                                            <table class="table align-items-center " id=>
                                                 <tbody>
                                                     <%if(studentList==null || studentList.isEmpty()) { %>
                                                         <p class="d-flex justify-content-center">NO STUDENT ENTRY FOUND
@@ -65,7 +65,7 @@
                                                                     <td>
                                                                         <div class="text-center">
                                                                             <button type="button"
-                                                                                class="btn btn-outline-danger " onclick="removeStudentFromBatch('<%=student.getId()%>')">Remove</button>
+                                                                                class="btn btn-outline-danger " onclick="removeStudentFromBatch('<%=student.getId()%>','<%=student.getRollNo()%>')">Remove</button>
                                                                         </div>
                                                                     </td>
                                                                     <%}%>
@@ -82,29 +82,15 @@
                     <script>
                     
                     	
-                        function removeStudentFromBatch(id) {
+                        function removeStudentFromBatch(id,rollNo) {
+									console.log(id);
                             $.ajax({
-                                url: 'http://localhost:9090/admin/removeStudent?id=' + id + '',
+                                url: 'http://localhost:9090/admin/removeStudent?id=' + id,
                                 type: 'GET',
                                 dataType: 'json', // No need to parse the response manually
                                 success: function (response) {
+                    				document.getElementById(rollNo).remove();
 
-                                    // Clear the existing table body to prevent duplicates
-                                    $('#tableid').empty();
-
-                                    // Iterate over the response and append rows
-                                    response.forEach(user => {
-                                        const newRow = $('<tr>').attr('id', user.id);
-                                        newRow.append(
-                                            $('<td>').html('<p class="text-xs font-weight-bold mb-0">Current Role</p><h6 class="text-sm mb-0">' + user.role + '</h6>'),
-                                            $('<td>').html('<p class="text-xs font-weight-bold mb-0">batch</p><h6 class="text-sm mb-0">' + user.batch + '</h6>'),
-                                            $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + user.name + '</h6>'),
-                                            user.role != "Volunteer" ? $('<td>').html('<button type="button" class="btn btn-outline-success " onclick="allowVolunteer(\'' + user.id + '\' , \'' + name + '\')" >Approve</button>') : null,
-                                            user.role === "Volunteer" ? $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="blockVolunteer(\'' + user.id + '\' , \'' + name + '\')" >remove</button>') : null,
-                                        );
-                                        // Append the new row to the table
-                                        $('#tableid').append(newRow);
-                                    });
                                 },
                                 error: function (error) {
                                     console.error('Error:', error);

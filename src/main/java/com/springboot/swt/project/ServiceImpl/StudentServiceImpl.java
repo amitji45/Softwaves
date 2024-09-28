@@ -87,7 +87,8 @@ public class StudentServiceImpl implements StudentService {
 
 	public void removeStudentFromBatch(Integer id) {
 		
-		studentRepo.delete(studentRepo.findById(id).get());
-		}
+		studentRepo.deleteById(id);
+		
+	}
 
 }

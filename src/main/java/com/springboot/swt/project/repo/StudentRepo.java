@@ -27,4 +27,6 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
 
 	void removeByUserAndBatch(User user, Batch batch);
 
+	void deleteById(Integer Id);
+
 }
