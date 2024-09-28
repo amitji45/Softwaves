@@ -314,15 +314,14 @@
 
 													// Function to update the batch list
 
-													function updateBatchList(batches) {
+													function updateBatchList(batches) 
+													{
 														var batchList = document.getElementById('batchList1');
 														// Check if the batchList element exists
 														if (!batchList) {
-
 															// alert('No batches available');
 															return;
 														}
-
 														// Clear existing items
 														batchList.innerHTML = '';
 														// Log batches for debugging
