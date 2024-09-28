@@ -22,20 +22,6 @@
 
 					<!-- End Section Title -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 					<div class="container d-flex justify-content-center">
 						<div class="col-lg-6">
 							<form method="post" class="php-email-form">
