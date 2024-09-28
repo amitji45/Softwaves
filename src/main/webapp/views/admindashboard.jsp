@@ -166,8 +166,6 @@
 	
 	
 	<script>
-
-		// ---------------
 	const canvas = document.getElementById('chart-line');
 	const ctx = canvas.getContext('2d');
 	const labelList = getLabel();
