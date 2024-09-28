@@ -204,12 +204,12 @@ public class UserServiceImpl implements UserService {
 			TempUser tempUser = tempUserRepo.findByEmail(email);
 			tempUser.setOtp("" + randomNumber);
 			tempUserRepo.save(tempUser); // we will update the otp in the database
-			emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber);
+			emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber,purpose);
 		} else {
 			User user = userrepo.findByContactNoOrEmail(null, email);
 			user.setOtp("" + randomNumber);
 			userrepo.save(user); // we will update the otp in the database
-			emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber);
+			emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber,purpose);
 		}
 	}
 

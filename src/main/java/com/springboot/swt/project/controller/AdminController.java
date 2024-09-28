@@ -106,13 +106,6 @@ public class AdminController {
 		return new ResponseEntity<>("Batch Created SuccessFully ", HttpStatus.OK);
 	}
 
-	@ResponseBody
-	@RequestMapping("/sendemail")
-	public ResponseEntity<String> sendEmail(@RequestParam String to, @RequestParam String subject,
-			@RequestParam String massage) {
-		return new ResponseEntity<>(emailsenderimp.sendEmail(to, subject, massage), HttpStatus.OK);
-	}
-
 	@RequestMapping("/VolunteerApproval")
 	public String VApproval(Model model, HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null)
