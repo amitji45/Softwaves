@@ -11,7 +11,6 @@
 <head>
 <%@ include file="component/head.jsp"%>
 <link href="<%=assetspath%>css/attendance.css" rel="stylesheet">
-
 </head>
 <body>
 	<%@ include file="component/navbar.jsp"%>
@@ -21,13 +20,11 @@
 	<div class="container text-center">
 		<div id="calendar" class="">
 
-			<table class="table ">
-			 
+			<table class="table ">			 
 				<tbody>
 					<%
 						if (student != null && student.getBatch().getStartDate() != null)
-					 {
-						
+					 {	
 						Date date = student.getBatch().getStartDate();
 						System.out.println(date);
 						Calendar calendar = Calendar.getInstance();
@@ -82,7 +79,6 @@
 								localDate = localDate.plusDays(1);
 							}
 						}
-					
 					 	else {
 						%>
 
@@ -97,7 +93,6 @@
 						</div>
 						<%
 						}
-
 					} else {
 					%>
 					<div class="footer-newsletter">
@@ -116,12 +111,7 @@
 			</table>
 		</div>
 	</div>
-
 	<%@ include file="component/script.jsp"%>
 	<%@ include file="component/footer.jsp"%>
-<<<<<<< HEAD
-=======
-	 
->>>>>>> aman-dev
 </body>
-</html>
+</html> 

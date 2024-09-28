@@ -1,19 +1,27 @@
+# Stage 1: Build the application
+FROM maven:3.9.0-eclipse-temurin-17 AS build
 
-FROM maven:4.0.0-openjdk-17-slim AS build
-# Set the working directory in the container
 WORKDIR /app
-# Copy the pom.xml and the project files to the container
+
+# Copy the pom.xml and the source code
 COPY pom.xml .
 COPY src ./src
-# Build the application using Maven
-RUN mvn clean package -DskipTests
-# Use an official OpenJDK image as the base image
-FROM openjdk:17-jdk-alpine
-# Copy the built JAR file from the previous stage to the container
-COPY target/*.jar app.jar
-# Set the command to run the application
-CMD ["java", "-jar", "app.jar"]
 
+# Package the application as a WAR
+RUN mvn clean package -DskipTests
+
+# Stage 2: Create a minimal Tomcat image to run the WAR
+FROM tomcat:9.0
+
+# Remove the default web apps (optional)
+RUN rm -rf /usr/local/tomcat/webapps/*
+
+# Copy the WAR file to the Tomcat webapps directory
+COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/yourapp.war
+
+# Expose the default Tomcat port
 EXPOSE 9090
 
-jdbc:mysql///
+# Start Tomcat
+CMD ["catalina.sh", "run"]
+

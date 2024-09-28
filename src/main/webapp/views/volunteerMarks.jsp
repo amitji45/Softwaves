@@ -19,9 +19,6 @@
 					<!-- End Section Title -->
 
 
-
-					<!-- End Section Title -->
-
 					<div class="container d-flex justify-content-center">
 						<div class="col-lg-6">
 							<form method="post" class="php-email-form">
@@ -37,6 +34,14 @@
 											</select>
 										</div>
 									</div>
+									<div class="row mb-4">
+										<div class="input-group mb-3">
+											<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
+												Test No.</span> <input type="text" class="form-control"
+												placeholder="Enter Test No." name="testNo" id="testNo" required>
+										</div>
+									</div>
+
 									<div class="row mb-4">
 										<div class="input-group mb-3">
 											<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
@@ -146,10 +151,11 @@
 							var marks = "" + document.getElementById("marks").value;
 							var rollNo = "" + document.getElementById("rollNo").value;
 							var batchId = "" + document.getElementById("batchList1").value;
+							var testNo = "" + document.getElementById("testNo").value;
 
 							var url = "http://localhost:9090/valunteer/setmarks?rollNo=";
 
-							if (marks === "" || rollNo === "" || batchId === "None") {
+							if (marks === "" || rollNo === "" || batchId === "None" || testNo === "") {
 								Swal.fire({
 									icon: "error",
 									title: "Oops...",
@@ -169,41 +175,52 @@
 											var response = this.responseText;
 											if (response === null || response.trim() === "") {
 												// Handle the case where response is null or empty
-												console.error('Response is null or empty. Please try again.');
+												console.log('Response is null or empty. Please try again.');
 											} else {
-												
+
+												// Handle a valid response
+
 												var student = JSON.parse(response); // Parse the JSON response
-												markslistappend(student);
+												markslistappendfunction(student);
+
 												Swal.fire({
 													icon: "success",
-													title: "Oops...",
-													timer: 2000,
+													title: "Done",
+													timer: 700,
 													text: "Marks uploaded successfully!"
-
 												});
+
 											}
 
 											// Clear the input fields
 											document.getElementById("rollNo").value = "";
 											document.getElementById("marks").value = "";
+											document.getElementById("testNo").value = "";
 										} else {
 											// Handle HTTP errors
-											console.error('Failed to upload marks. Status: ' + this.status);
+
+											Swal.fire({
+												icon: "success",
+												title: "Done",
+												timer: 700,
+												text: "Marks uploaded successfully!"
+											});
+											console.log('Failed to upload marks. Status: ' + this.status);
 										}
 									}
 								};
 							}
 							// Open and send the request
-							xhttp.open("GET", url + rollNo + "&batchId=" + batchId + "&marks=" + marks, true);
+							xhttp.open("GET", url + rollNo + "&batchId=" + batchId + "&marks=" + marks + "&testNo=" + testNo, true);
 							xhttp.send();
 						}
 
-						function markslistappend(student)
-						 {
+						function markslistappendfunction(student) {
 							const newRow = $('<tr>').attr('id', student.rollNo);
 							newRow.append(
 								$('<td>').html('<p class="text-xs font-weight-bold mb-0">rollNo:</p><h6 class="text-sm mb-0">' + student.rollNo + '</h6>'),
 								$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
+								$('<td>').html('<p class="text-xs font-weight-bold mb-0">testNo:</p><h6 class="text-sm mb-0">' + document.getElementById("testNo").value + '</h6>'),
 								$('<td>').html('<p class="text-xs font-weight-bold mb-0">Marks:</p><h6 class="text-sm mb-0">' + marks.value + '</h6>'),
 								$('<td>').html('<a class="btn btn-outline-success" >remove</a>'),
 								// $('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')

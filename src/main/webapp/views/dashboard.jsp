@@ -44,13 +44,10 @@
 																			<%=(user !=null) ? user.getName() : null%>
 																		</h4>
 																		<p class="text-secondary mb-1">
-																			<%=(studentUser !=null) ?
-																				studentUser.getRollNo() :"" %>
+																			<%=(studentUser !=null) ?studentUser.getRollNo() :"" %>
 																		</p>
 																		<p class="text-secondary mb-1">
-																			<%=(studentUser !=null) ?
-																				studentUser.getBatch().getBatchTopic()
-																				:""%>
+																			<%=(studentUser !=null) ?studentUser.getBatch().getBatchTopic():""%>
 																		</p>
 																		<p class="text-muted font-size-sm">
 																			<%=(user !=null) ? user.getEmail() : null%>
@@ -84,12 +81,10 @@
 																				width="150">
 																			<div class="mt-3">
 																				<h4>
-																					<%=(user !=null) ? user.getName() :
-																						null%>
+																					<%=(user !=null) ? user.getName() :null%>
 																				</h4>
 																				<p class="text-secondary mb-1">
-																					<%=(user !=null) ? user.getBatch() :
-																						null%>
+																					<%=(user !=null) ? user.getBatch():null%>
 																				</p>
 																				<div class="col-md-12">
 																					<label for="email-field"
@@ -117,7 +112,7 @@
 												<section class="col py-4">
 													<div class="row">
 														<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-															<div class="card ">
+															<div class="card style=" min-height: 250px;">
 																<div class=" card-body p-3">
 																	<div class="row">
 																		<div class="col-8">
@@ -126,7 +121,7 @@
 																					class="text-sm mb-0 text-uppercase font-weight-bold">
 																					Attendance</p>
 																				<h5 class="font-weight-bolder">
-																					<%=(studentUser !=null)?studentUser.getAttendanceCount(): "0" %>
+																					<%=(studentUser!=null)?studentUser.getAttendanceCount(): "0"%>
 																				</h5>
 																				<p class="mb-0">
 																					<span
@@ -156,7 +151,7 @@
 															</div>
 														</div>
 														<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-															<div class="card">
+															<div class="card style=" min-height: 250px;">
 																<div class="card-body p-3">
 																	<div class="row">
 																		<div class="col-8">
@@ -171,7 +166,7 @@
 																				<p class="mb-0">
 																					<span
 																						class="text-success text-sm font-weight-bolder"></span>
-																					<%=(average !=null) ? average+"	average going": "No data available" %>
+																					<%=(average !=null) ? average+" average going": "No data available" %>
 																						<a class="bg-gradient-warning btn text-light mt-1"
 																							href="/user/marks?id=<%=(user != null) ? user.getId() : null%>">View</a>
 																				</p>
@@ -189,7 +184,7 @@
 															</div>
 														</div>
 														<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-															<div class="card">
+															<div class="card style=" min-height: 250px;">
 																<div class="card-body p-3">
 																	<div class="row">
 																		<div class="col-8">
@@ -220,7 +215,7 @@
 															</div>
 														</div>
 														<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-															<div class="card ">
+															<div class="card style=" min-height: 250px;">
 																<div class="card-body p-3">
 																	<div class="row">
 																		<div class="col-8">
@@ -234,7 +229,7 @@
 																				<p class="mb-0">
 																					<span
 																						class="text-success text-sm font-weight-bolder"></span>
-																					<%=(average !=null)	? "Average of your marks": "No data available" %>
+																					<%=(average !=null)? "Average of your marks": "No data available" %>
 																				</p>
 																			</div>
 																		</div>
@@ -289,11 +284,11 @@
 													function findStudentBatches() {
 														var url = "http://localhost:9090/user/find/student/batch";
 														var xhttp = new XMLHttpRequest();
-														var batchList = document.getElementById('navmenu');
 														xhttp.onreadystatechange = function () {
 															if (this.readyState === XMLHttpRequest.DONE) {
 																if (this.status === 200) {
 																	try {
+																		var batchList = document.getElementById('navmenu');
 																		batchList.style.display = batchList.style.display === 'block' ? 'none' : 'block';
 																		// Attempt to parse the JSON response
 																		const response = JSON.parse(this.responseText);
@@ -301,18 +296,9 @@
 																	}
 																	catch (e) {
 																		// Handle JSON parsing error
-																		$('#batchList1').empty();
-																		var li = document.createElement('li');
-																		var a = document.createElement('a');
-																		a.textContent = 'No Batches'; // Assuming each batch object has a 'batchTopic' property
-																		a.href = '#'; // Set the URL to navigate to
-																		li.appendChild(a);
-																		// Append the <li> to the batchList
-																		batchList.appendChild(li);
-
-
+																		$('#navmenu').empty();
 																		console.error('Error parsing JSON:', e);
-																		// alert('Error: Unable to parse the response.');
+																		alert('Error: Unable to parse the response.');
 																	}
 																} else {
 																	alert('Error: ' + this.statusText);

@@ -53,8 +53,9 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> response = new HashMap<>();
 		user.setRole("Student");
 		user.setId(generateUserId(user));
-		user.setPassword(encode(user.getPassword()));
-		user.setContactNo(encode(user.getContactNo()));
+
+			user.setPassword(encode(user.getPassword()));
+			user.setContactNo(encode(user.getContactNo()));
 
 		if (finder(user)) {
 			response.put("message", "email or contact no already registered");
@@ -62,14 +63,15 @@ public class UserServiceImpl implements UserService {
 			return response;
 		}
 		userrepo.save(user);
-		user.setContactNo(decode(user.getContactNo()));
-		user.setPassword(decode(user.getPassword()));
-
+		try {
+			user.setContactNo(decode(user.getContactNo()));
+			user.setPassword(decode(user.getPassword()));
+		}
+		catch(Exception e){}
 		response.put("message", "User registered successfully");
 		response.put("user", user);
 		return response;
 	}
-
 	private String generateUserId(User user) {
 		StringBuilder id = new StringBuilder();
 		LocalDate local = LocalDate.now();
@@ -158,6 +160,8 @@ public class UserServiceImpl implements UserService {
 			student.setBatch(batch);
 			student.setUser(user);
 			student.setMarks(list);
+			user.setBatch(batch.getBatchTopic());
+			userrepo.save(user);
 			studentrepo.save(student);
 			return "your are successfully Enroll " + batch.getBatchTopic() + " batch";
 		} else {
@@ -375,6 +379,7 @@ public class UserServiceImpl implements UserService {
 		Student st = student.get();
 		return st.getMarks();
 	}
+
 	@Override
 	public String[] validation(User user) {
 //		String [] patternString = {"^(\\w+[@](gmail|yahoo)\\.(com|in))$" , "^(([+]91)?[6-9]\\d{9})$" ,"^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"};
@@ -386,7 +391,6 @@ public class UserServiceImpl implements UserService {
 //			Matcher matcher=pattern.matcher(matcherString[i]);
 //			if (matcher.matches()) count++;
 //		}
-
 //
 		Pattern emailValid=Pattern.compile("^(\\w+[@](gmail|yahoo)\\.(com|in))$");
 		Matcher emailMatcher=emailValid.matcher(user.getEmail());

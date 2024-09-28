@@ -45,7 +45,7 @@
 										const newRow = $('<tr>').attr('id', user.id);
 										newRow.append(
 											$('<td>').html('<p class="text-xs font-weight-bold mb-0">Current Role</p><h6 class="text-sm mb-0">' + user.role + '</h6>'),
-											$('<td>').html('<p class="text-xs font-weight-bold mb-0">batch</p><h6 class="text-sm mb-0">' + user.batch + '</h6>'),
+											$('<td>').html('<p class="text-xs font-weight-bold mb-0">batch</p><h6 class="text-sm mb-0">' + ( user.batch== null ?  "Not in Active Batch ":user.batch ) + '</h6>'),
 											$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + user.name + '</h6>'),
 											user.role != "Volunteer" ? $('<td>').html('<button type="button" class="btn btn-outline-success " onclick="allowVolunteer(\'' + user.id + '\' , \'' + name + '\')" >Approve</button>') : null,
 											user.role === "Volunteer" ? $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="blockVolunteer(\'' + user.id + '\' , \'' + name + '\')" >remove</button>') : null,

@@ -31,7 +31,7 @@
 
                                         <section class="col py-4 px-2">
                                             <!-- ---------------------------------------------=============================================== -->
-                                                                    <!-- ---------------------------------------------=============================================== -->
+                                            <!-- ---------------------------------------------=============================================== -->
                                             <div class="row">
                                                 <div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
                                                     <div class="card">
@@ -39,32 +39,31 @@
                                                             <div class="d-flex justify-content-center">
 
                                                                 <h6 class="text-capitalize text-center"
-                                                                id="batchandstudent"></h6>
+                                                                    id="batchandstudent"></h6>
                                                             </div>
                                                         </div>
 
-                                                         
 
-                                                                        <div class="table-responsive" id="completedbatchdiv"
-                                                                           style="display: none;">
-                                                                            <table class="table align-items-center ">
-                                                                                <tbody  id="batchListtableId">
-                    
-                                                                                </tbody> 
 
-                                                                            </table>
-                                                                            <table class="table align-items-center ">
-                                                                                <tbody  id="studentListtbody"></tbody>
-                                                                            </table>
-                                                                            <div class="card-body p-3" id="graphdiv"
-                                                                                style="display: none;">
-                                                                                <div class="chart">
-                                                                                    <canvas id="chart-line"
-                                                                                        class="chart-canvas"
-                                                                                        height="300"></canvas>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                        <div class="table-responsive" id="completedbatchdiv"
+                                                            style="display: none;">
+                                                            <table class="table align-items-center ">
+                                                                <tbody id="batchListtableId">
+
+                                                                </tbody>
+
+                                                            </table>
+                                                            <table class="table align-items-center ">
+                                                                <tbody id="studentListtbody"></tbody>
+                                                            </table>
+                                                            <div class="card-body p-3" id="graphdiv"
+                                                                style="display: none;">
+                                                                <div class="chart">
+                                                                    <canvas id="chart-line" class="chart-canvas"
+                                                                        height="300"></canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -138,12 +137,12 @@
                                         success: function (response) {
                                             $('#studentListtbody').empty(); // Clear the existing table body to prevent duplicates
                                             let requests = []; // To hold the AJAX requests for total students
-                                            var check=true;
+                                            var check = true;
                                             // Iterate over the response and append rows
                                             response.forEach(batch => {
                                                 if (batch.currentStatus === "Completed") {
                                                     // Create a request to get the number of students
-                                                    check=false;
+                                                    check = false;
                                                     const request = $.ajax({
                                                         url: 'http://localhost:9090/admin/getAllStudentByBatchId?batchId=' + batch.batchId,
                                                         type: 'GET',
@@ -152,25 +151,24 @@
                                                         return studentResponse.length; // Return the number of students
                                                     });
                                                     requests.push(request); // Store the request promise
-                                                }   
+                                                }
                                             });
-                                            if(check)
-                                            {
+                                            if (check) {
                                                 document.getElementById('batchandstudent').innerText = 'not Available Completed Batch...';
-                                                return ;
+                                                return;
                                             }
                                             Promise.all(requests).then(totalStudentsArray => {
                                                 response.forEach((batch, index) => {
                                                     // Append only if the batch is completed
                                                     if (batch.currentStatus === "Completed") {
                                                         document.getElementById('completedbatchdiv').style.display = 'block';
-                                                          $.ajax({
+                                                        $.ajax({
                                                             url: 'http://localhost:9090/admin/getAllStudentByBatchId?batchId=' + batch.batchId,
                                                             type: 'GET',
                                                             dataType: 'json',
                                                             success: function (studentResponse) {
                                                                 let totalStudents = studentResponse.length; // Update total student count
-                                                                 const newRow = $('<tr>').attr('id', batch.batchId);
+                                                                const newRow = $('<tr>').attr('id', batch.batchId);
                                                                 newRow.append(
                                                                     $('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + batch.batchTopic + '</h6>'),
                                                                     $('<td>').html('<p class="text-xs font-weight-bold mb-0">Batch ID</p><h6 class="text-sm mb-0">' + batch.batchId + '</h6>'),
@@ -297,7 +295,16 @@
                                         }
                                     });
                                 }
+                                var chartInstance;
                                 function granph(response) {
+                                    if (chartInstance) {
+                                        chartInstance.destroy();
+                                    }
+                                    var canvas = document.getElementById('chart-line');
+                                    var ctx = canvas.getContext('2d');
+                                    // Clear the entire canvas (x, y, width, height)
+                                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
                                     if (response.length <= 0) {
                                         $('#batchListtableId').empty();
                                         $('#studentListtbody').empty();
@@ -314,7 +321,7 @@
                                     gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
                                     gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
                                     gradientStroke1.addColorStop(0, 'rgba(94, 114, 228, 0)');
-                                    new Chart(ctx1, {
+                                    chartInstance = new Chart(ctx1, {
                                         type: "line",
                                         data: {
                                             labels: ["Week1", "Week2", "Week3", "Week4", "Week5",

@@ -16,7 +16,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-lg-12 mb-lg-0 mb-4">
+			<div class="col-lg-8 mb-lg-0 mb-4 mx-auto">
 				<div class="card ">
 					<div class="card-header pb-0 p-3">
 						<div class="d-flex justify-content-between">
