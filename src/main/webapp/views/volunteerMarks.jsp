@@ -155,16 +155,15 @@
 
 							var url = "http://localhost:9090/valunteer/setmarks?rollNo=";
 
-							if (marks === "" || rollNo === "" || batchId === "None" || testNo === "") {
-								Swal.fire({
-									icon: "error",
-									title: "Oops...",
-									timer: 2000,
-									text: "Please Enter Valid Data"
+							if (marks === "" || rollNo === "" || batchId === "" || testNo=== "") {
 
-								});
-							}
-							// Create XMLHttpRequest object
+								Swal.fire({
+                                			icon: "error",
+                        					title: "Not Valid ",
+                            				text: "Please Enter Valid Data !",
+                            				timer : 700
+								})
+							}					// Create XMLHttpRequest object
 							else {
 								var xhttp = new XMLHttpRequest();
 
@@ -175,9 +174,14 @@
 											var response = this.responseText;
 											if (response === null || response.trim() === "") {
 												// Handle the case where response is null or empty
-												console.log('Response is null or empty. Please try again.');
-											} else {
-
+												Swal.fire({
+													icon: "error",
+													title: "Error",
+													text: "Failed to upload marks",
+													timer : 700
+												});	
+												} else {
+												
 												// Handle a valid response
 
 												var student = JSON.parse(response); // Parse the JSON response
@@ -198,15 +202,12 @@
 											document.getElementById("testNo").value = "";
 										} else {
 											// Handle HTTP errors
-
 											Swal.fire({
-												icon: "success",
-												title: "Done",
-												timer: 700,
-												text: "Marks uploaded successfully!"
-											});
-											console.log('Failed to upload marks. Status: ' + this.status);
-										}
+												icon: "error",
+												title: "Error",
+												text: "Failed to upload marks",
+												timer : 700
+											});										}
 									}
 								};
 							}
