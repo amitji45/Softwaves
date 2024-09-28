@@ -18,6 +18,10 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 # Copy the WAR file to the Tomcat webapps directory
 COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/yourapp.war
 
+
+# Switch to the non-root user
+USER myuser
+
 # Expose the default Tomcat port
 EXPOSE 9090
 
