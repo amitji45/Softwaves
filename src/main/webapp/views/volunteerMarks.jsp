@@ -58,6 +58,7 @@
 												placeholder="Enter Marks" name="marks" id="marks" required>
 										</div>
 									</div>
+									 
 									<div class="col-md-12 text-center">
 										<button type="button" class="btn btn-outline-success"
 											onclick="uploadMarks()">Submit</button>
