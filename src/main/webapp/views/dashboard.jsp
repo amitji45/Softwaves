@@ -229,8 +229,12 @@
 																				<p class="mb-0">
 																					<span
 																						class="text-success text-sm font-weight-bolder"></span>
-																					<%=(average !=null)? "Average of your marks": "No data available" %>
+																					<%=(average !=null)? "Average of marks": "No data available" %>
 																				</p>
+																				<a class="bg-gradient-danger shadow-primary btn text-light mt-1"
+																					onclick='getProgress()'>View</a>
+
+																			
 																			</div>
 																		</div>
 																		<div class="col-4 text-end">

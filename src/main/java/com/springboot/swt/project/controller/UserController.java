@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -63,8 +64,8 @@ public class UserController {
 				return modal;
 			}
 			if (temp.getRole().equalsIgnoreCase("Admin")) {
-				List<Student> allStudents = studentServiceImpl.findAllStudent("");
-				List<Batch> allBatches = batchservicesimpl.sendAllBatches();
+				List<User> allStudents = userserviceimpl.getAllowedUsers();
+				List<Batch> allBatches = batchservicesimpl.findByCurrentStatus("Active");
 				List<User> notAllowedUsers = userserviceimpl.getNotAllowedUsers();
 				List<User> volunteerList = userserviceimpl.getVolunteerList();
 				Map<Batch, String> avgBatches = userserviceimpl.getAverage();
@@ -116,7 +117,22 @@ public class UserController {
 		modal.setViewName("redirect:/swt/login");
 		return modal;
 	}
-
+	
+	@RequestMapping("/Ysv34b234")
+	public ResponseEntity registerAdmin(@RequestBody User user) {
+		if(user==null || user.getContactNo()==null || user.getContactNo().equals("") || user.getEmail()==null 
+				|| user.getEmail().equals("") || user.getName()==null || user.getName().equals("") || 
+				user.getPassword()==null || user.getPassword().equals("")) 
+			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		
+		User response = userserviceimpl.registerAdmin(user);
+		
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+	
+	
+	
+	
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		request.getSession().invalidate();

@@ -235,8 +235,8 @@
 																					class="bi bi-chevron-down toggle-dropdown"></i></a>
 																			<ul>
 																				<li><a href="#"
-																						onclick="createBatch('C\C++')">c
-																						& C++</a></li>
+																						onclick="createBatch('CC')">C/C++
+																						</a></li>
 																				<li><a href="#"
 																						onclick="createBatch('Core Java')">Core
 																						Java</a></li>

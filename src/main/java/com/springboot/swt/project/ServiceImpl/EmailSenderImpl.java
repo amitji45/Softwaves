@@ -38,20 +38,20 @@ public class EmailSenderImpl implements EmailSender {
 					+ "\r\n"
 					+ "To verify your identity, please enter the following 6-digit OTP code:\r\n"
 					+ "\r\n"
-					+ "[" + massage + "]\r\n"
+					+ "" + massage + "\r\n"
 					+ "\r\n"
 					+ "This code is valid for 5 minutes.\r\n"
 					+ "\r\n"
 					+ "If you did not request this password reset, please ignore this email.\r\n"
 					+ "\r\n"
-					+ "Thank you,";
+					+ "Thank you";
 					
 					else 
 						messagetemplate="We've received a request from this email address for registration of your Softwaves account.\r\n"
 							+ "\r\n"
 							+ "To verify your identity, please enter the following 6-digit OTP code:\r\n"
 							+ "\r\n"
-							+ "[" + massage + "]\r\n"
+							+ "" + massage + "\r\n"
 							+ "\r\n"
 							+ "This code is valid for 5 minutes.\r\n"
 							+ "\r\n"

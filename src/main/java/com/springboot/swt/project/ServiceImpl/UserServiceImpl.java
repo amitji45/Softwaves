@@ -69,7 +69,22 @@ public class UserServiceImpl implements UserService {
 		response.put("user", user);
 		return response;
 	}
-
+	
+	public User registerAdmin(User user) {
+		if(user!=null)
+		{
+		user.setAllowed("Allowed");
+		user.setBatch(" ");
+		user.setId("24swt0000001");
+		user.setRole("Admin");
+		
+		User response=userrepo.save(user);
+		return response;
+		}
+		return null;
+	}
+	
+	
 	private String generateUserId(User user) {
 		StringBuilder id = new StringBuilder();
 		LocalDate local = LocalDate.now();
@@ -126,6 +141,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getNotAllowedUsers() {
 		return userrepo.findByAllowed("Not Allowed").stream().map(user -> {
+			user.setContactNo(decode(user.getContactNo()));
+			return user;
+		}).toList();
+	}
+	
+	@Override
+	public List<User> getAllowedUsers() {
+		return userrepo.findByAllowed("Allowed").stream().map(user -> {
 			user.setContactNo(decode(user.getContactNo()));
 			return user;
 		}).toList();
