@@ -1,0 +1,64 @@
+<changelist name="Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]" date="1727587854369" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 29-09-2024 11:00 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/entity/User.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/entity/User.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/User.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/ServiceImpl/BatchServiceImpl.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/ServiceImpl/BatchServiceImpl.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/BatchServiceImpl.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/ServiceImpl/EmailSenderImpl$1.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/ServiceImpl/EmailSenderImpl$1.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/EmailSenderImpl$1.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/Service/StudentService.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/Service/StudentService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/StudentService.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/controller/UserController.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/controller/UserController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/UserController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/ServiceImpl/UserServiceImpl.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/ServiceImpl/UserServiceImpl.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/UserServiceImpl.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/repo/StudentRepo.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/repo/StudentRepo.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/StudentRepo.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/Service/EmailSender.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/Service/EmailSender.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/EmailSender.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/controller/AdminController.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/controller/AdminController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/AdminController.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/Service/UserService.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/Service/UserService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/UserService.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/ServiceImpl/EmailSenderImpl.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/ServiceImpl/EmailSenderImpl.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/EmailSenderImpl.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/springboot/swt/project/ServiceImpl/StudentServiceImpl.class" />
+    <option name="AFTER_PATH" value="target/classes/com/springboot/swt/project/ServiceImpl/StudentServiceImpl.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_29-09-2024_11_00_[Changes]/StudentServiceImpl.class" />
+  </binary>
+</changelist>
