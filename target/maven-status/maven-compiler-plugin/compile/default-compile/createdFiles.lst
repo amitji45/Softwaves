@@ -9,6 +9,7 @@ com\springboot\swt\project\controller\UserController.class
 com\springboot\swt\project\repo\BatchRepo.class
 com\springboot\swt\project\controller\VolunteerController.class
 com\springboot\swt\project\controller\AdminController.class
+com\springboot\swt\project\controller\HomeController.class
 com\springboot\swt\project\controller\ViewController.class
 com\springboot\swt\project\Service\UserService.class
 com\springboot\swt\project\repo\TempUserRepo.class
