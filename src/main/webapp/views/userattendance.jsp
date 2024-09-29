@@ -33,8 +33,8 @@
 																	if (response == null || response.length === 0) {
 																		Swal.fire({
 																			icon: "error",
-																			title: "Error",
-																			text: "No Active batches"
+																			title: "Oops...",
+																			text: "Error: no Active batches.."
 																		});
 																	}
 																	updateBatchList(response);
@@ -43,8 +43,8 @@
 
 																	Swal.fire({
 																		icon: "error",
-																		title: "Error",
-																		text: "No Active batches"
+																		title: "Oops...",
+																		text: "Error: no Active batches.."
 
 																	});
 																	//    console.error('JSON parsing error:', e);
@@ -66,6 +66,7 @@
 														$('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>'),
 													);
 													$('#presenttableid').append(newRow);
+													sortTable('presenttableid');
 													return;
 
 												}
@@ -79,8 +80,14 @@
 														$('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')
 													);
 													$('#absenttableid').append(newRow);
-
-													return;	
+													sortTable('absenttableid');
+													return;
+												}
+												function sortTable(tableID) {
+													const table = document.getElementById(tableID);
+													const rows = Array.from(table.getElementsByTagName('tr'));
+													rows.sort((a, b) => a.id - b.id);
+													rows.forEach(row => table.appendChild(row));
 												}
 												function updateBatchList(batches1) {
 													var batchList = document.getElementById('batchList1');
@@ -101,8 +108,32 @@
 													});
 												}
 
-												function showStudentAttendance() {
+												function showStudentAttendance(returnoption) {
 													var batchList = document.getElementById('batchList1');
+													var bydefaultabsentvariable = document.getElementById('bydefaultabsent');
+													if (bydefaultabsentvariable.value != '' && (batchList.value != '' && bydefaultabsentvariable.value != batchList.value)) {
+														Swal.fire({
+															icon: "warning",
+															title: "Oops...",
+															text: "Changes will be discarded. Please save.",
+															showCancelButton: true,  // Show the "Reject" button
+															confirmButtonText: 'Save',  // Text for the "Save" button
+															cancelButtonText: 'Reject'  // Text for the "Reject" button
+														}).then((result) => {
+															if (result.isConfirmed) {
+																// Call the bydefaultabsent function if "Save" is clicked
+																bydefaultabsent();
+																console.log('Save clicked, bydefaultabsent function called.');
+															} else if (result.dismiss === Swal.DismissReason.cancel) {
+																console.log("User clicked Reject");
+															}
+														});
+													}
+
+													
+
+
+													bydefaultabsentvariable.value = batchList.value;
 
 													$('#presenttableid').empty();
 													$('#absenttableid').empty();
@@ -116,24 +147,21 @@
 
 															if (response.length >= 1) {
 																document.getElementById('NoAvailableStudentinthisBatch').style.display = 'none';
+																document.getElementById('bydefaultabsent').style.display = 'block';
 															}
 															else {
+																document.getElementById('bydefaultabsent').style.display = 'none';
 																document.getElementById('NoAvailableStudentinthisBatch').style.display = 'block';
 															}
 															let today = new Date().toISOString().split('T')[0];  // Get today's date in 'YYYY-MM-DD' format
 															response.forEach(function (student) {
-
-
 																var formattedAbsentDates = student.absent.map(date => new Date(date).toISOString().split('T')[0]);
-																var isAbsentToday = formattedAbsentDates.includes(today); 
-																alert(isAbsentToday);
+																var isAbsentToday = formattedAbsentDates.includes(today);
 																if (isAbsentToday) {
 																	presentrowappend(student);
-																	console.log("presentrowappend=> " + student.absent+ "=> "+isAbsentToday);
 																}
 																else {
 																	absentrowappend(student);
-																	console.log("absentrowappend=> " + student.absent+ "=> "+isAbsentToday);
 																}
 															});
 														},
@@ -147,9 +175,8 @@
 															$('#presenttableid').append(newRow);
 														}
 													});
-
-
 												}
+
 
 												function studentpresent(rollNo) {
 
@@ -164,7 +191,7 @@
 														return;
 													}
 													var url = "http://localhost:9090/valunteer/studentattendance/present?rollNo=" + rollNo + "&batchId=" + batchId;
-													markAttendence(rollNo, url, 'present');
+													markAttendence(rollNo, url, 'present', true);
 												}
 
 												function studentabsent(rollNo) {
@@ -180,17 +207,17 @@
 														return;
 													}
 													var url = "http://localhost:9090/valunteer/studentattendance/absent?rollNo=" + rollNo + "&batchId=" + batchId;
-													markAttendence(rollNo, url, 'absent');
+													markAttendence(rollNo, url, 'absent', true);
 												}
 
-												function markAttendence(rollNo, url, status) {
+												function markAttendence(rollNo, url, status, swalshowstatus) {
 													if (!rollNo) {
 														rollNo = document.getElementById('email-field').value;
 													}
 													if (!rollNo) {
 														Swal.fire({
 															icon: "error",
-															title: "Error",
+															title: "Oops...",
 															text: "Please Enter Roll Number"
 
 														});
@@ -211,29 +238,28 @@
 																		if (presentRow) {
 																			presentRow.remove(); // Remove from present table
 																		}
+																		// Append to the absent table
 																		absentrowappend(student);
 
 																		const trId = student.rollNo;
 																		$('#' + trId).append(
 																			$('<td>').html('<i class="bi bi-check2-circle"></i>')  // Example: Adding an icon or some content
 																		);
-																		// Append to the absent table
-																		Swal.fire({
-																			icon: "success",
-																			title: "Done",
-																			text: "Successfully marked " + student.rollNo + " as absent.",
-																			timer: 700
-																		});
-
+																		if (swalshowstatus) {
+																			Swal.fire({
+																				icon: "success",
+																				title: "Oops...",
+																				text: "Successfully marked " + student.rollNo + " as absent.",
+																				timer: 700
+																			});
+																		}
 																	} else if (status === 'present') {
-
-																		// Remove from absent table if exists
 																		const absentRow = document.getElementById(student.rollNo);
 																		if (absentRow) {
+																			// Remove from absent table if exists
 																			absentRow.remove(); // Remove from absent table
 																		}
 																		presentrowappend(student);
-
 																		const trId = student.rollNo;
 																		$('#' + trId).append(
 																			$('<td>').html('<i class="bi bi-check2-circle"></i>')  // Example: Adding an icon or some content
@@ -250,8 +276,8 @@
 															} else {
 																Swal.fire({
 																	icon: "error",
-																	title: "Error",
-																	text: "Please Insert Correct Roll No"
+																	title: "Oops...",
+																	text: "Please Insert Corect No. " + rollNo
 																});
 															}
 														}
@@ -259,8 +285,62 @@
 													xhttp.open("GET", url, true);
 													xhttp.send();
 												}
+												function bydefaultabsent() {
+													var bydefaultabsent = document.getElementById('bydefaultabsent');
+													$.ajax({
+														url: 'http://localhost:9090/valunteer/findallstudent?batchId=' + bydefaultabsent.value,
+														type: 'GET',
+														dataType: 'json',
+														success: function (response) {
+															if (response.length >= 1) {
+																document.getElementById('NoAvailableStudentinthisBatch').style.display = 'none';
+															} else {
+																document.getElementById('NoAvailableStudentinthisBatch').style.display = 'block';
+																document.getElementById('bydefaultabsent').style.display = 'none';
 
+															}
+															const today = new Date();  // Get today's date as a Date object
+															response.forEach(function (student) {
+																const startDate = new Date(student.batch.startDate);
+																const timeDifference = today.getTime() - startDate.getTime();
+																const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+																const totalattendance = student.absent.length + student.attendanceCount;
+																if (totalattendance < daysDifference) {
+																	appendbydefaultabsent(student);
+																}
+															});
+															Swal.fire({
+																icon: "success",
+																title: "Oops...",
+																text: "Attendance update.."
 
+															});
+														},
+														error: function (error) {
+															console.error('Error:---', error);
+															$('#presenttableid').empty();
+															const newRow = $('<tr>');
+															newRow.append(
+																$('<td>').html('<h3 class="text-sm mb-0">Error: Unable to fetch data. Please try again later.</h3>')
+															);
+															$('#presenttableid').append(newRow);
+														}
+													});
+												}
+												function appendbydefaultabsent(student) {
+
+													var batchId = student.batch.batchId;
+													if (!batchId) {
+														Swal.fire({
+															icon: "error",
+															title: "Oops...",
+															text: "Batch ID is not set."
+														});
+														return;
+													}
+													var url = "http://localhost:9090/valunteer/studentattendance/absent?rollNo=" + student.rollNo + "&batchId=" + student.batch.batchId;
+													markAttendence(student.rollNo, url, 'absent', false);
+												}
 											</script>
 
 											<%@ include file="component/navbar.jsp" %>
@@ -314,7 +394,7 @@
 														<div class="container section-title"
 															id="NoAvailableStudentinthisBatch" style="display: none;">
 
-															<h2>No Data Available for Students in this Batch</h2>
+															<h2>No Available Student in this Batch..</h2>
 
 
 														</div>
@@ -365,6 +445,13 @@
 														</div>
 
 													</section>
+													<div class="row gy-4 "></div>
+													<div class="col-md-12 text-center">
+														<button type="button" class="btn btn-outline-success"
+															style="display: none;" onclick="bydefaultabsent()"
+															id="bydefaultabsent" value="">Save</button>
+													</div>
+													</div>
 												</main>
 												<!-- /Contact Section -->
 												<%@ include file="component/footer.jsp" %>
