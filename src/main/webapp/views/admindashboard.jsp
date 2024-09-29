@@ -29,9 +29,9 @@
 							<div class="col-8">
 								<div class="numbers">
 									<p class="text-sm mb-0 text-sm font-weight-bold">All Students</p>
-									<h5 class="font-weight-bolder"><%=allStudents!=null?allStudents.size():"0" %></h5>
+									<h5 class="font-weight-bolder"><%=allStudents!=null?allStudents.size()-1:"0" %></h5>
 									<p class="mb-0">
-										<span class="text-success text-sm font-weight-bolder">students</span>
+										<span class="text-success text-sm font-weight-bolder">Students</span>
 										data available
 									</p>
 									<a	href="/admin/allStudent"

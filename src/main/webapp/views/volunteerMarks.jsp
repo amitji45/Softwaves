@@ -143,6 +143,12 @@
 						function showStudentMarks() {
 							var batchList = document.getElementById('batchList1');
 							var batchId = batchList.value;
+							
+							document.getElementById("rollNo").value = "";
+							document.getElementById("marks").value = "";
+							document.getElementById("testNo").value = "";
+						
+							
 							$('#markslistappend').empty();
 						}
 
@@ -199,7 +205,6 @@
 											// Clear the input fields
 											document.getElementById("rollNo").value = "";
 											document.getElementById("marks").value = "";
-											document.getElementById("testNo").value = "";
 										} else {
 											// Handle HTTP errors
 											Swal.fire({

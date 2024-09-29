@@ -33,8 +33,8 @@
 																	if (response == null || response.length === 0) {
 																		Swal.fire({
 																			icon: "error",
-																			title: "Oops...",
-																			text: "Error: no Active batches.."
+																			title: "Error",
+																			text: "No Active batches"
 																		});
 																	}
 																	updateBatchList(response);
@@ -43,8 +43,8 @@
 
 																	Swal.fire({
 																		icon: "error",
-																		title: "Oops...",
-																		text: "Error: no Active batches.."
+																		title: "Error",
+																		text: "No Active batches"
 
 																	});
 																	//    console.error('JSON parsing error:', e);
@@ -190,7 +190,7 @@
 													if (!rollNo) {
 														Swal.fire({
 															icon: "error",
-															title: "Oops...",
+															title: "Error",
 															text: "Please Enter Roll Number"
 
 														});
@@ -220,7 +220,7 @@
 																		// Append to the absent table
 																		Swal.fire({
 																			icon: "success",
-																			title: "Oops...",
+																			title: "Done",
 																			text: "Successfully marked " + student.rollNo + " as absent.",
 																			timer: 700
 																		});
@@ -250,8 +250,8 @@
 															} else {
 																Swal.fire({
 																	icon: "error",
-																	title: "Oops...",
-																	text: "Please Insert Corect No. " + rollNo
+																	title: "Error",
+																	text: "Please Insert Correct Roll No"
 																});
 															}
 														}
@@ -314,7 +314,7 @@
 														<div class="container section-title"
 															id="NoAvailableStudentinthisBatch" style="display: none;">
 
-															<h2>No Available Student in this Batch..</h2>
+															<h2>No Data Available for Students in this Batch</h2>
 
 
 														</div>

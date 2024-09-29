@@ -3,9 +3,7 @@ package com.springboot.swt.project.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -103,7 +101,14 @@ public class AdminController {
 
 			return new ResponseEntity<>("Something Went Wrong", HttpStatus.FORBIDDEN);
 		}
-		return new ResponseEntity<>("Batch Created SuccessFully ", HttpStatus.OK);
+		return new ResponseEntity<>("Batch Created Successfully ", HttpStatus.OK);
+	}
+
+	@ResponseBody
+	@RequestMapping("/sendemail")
+	public ResponseEntity<String> sendEmail(@RequestParam String to, @RequestParam String subject,
+			@RequestParam String massage, String purpose) {
+		return new ResponseEntity<>(emailsenderimp.sendEmail(to, subject, massage, purpose), HttpStatus.OK);
 	}
 
 	@RequestMapping("/VolunteerApproval")
@@ -177,7 +182,7 @@ public class AdminController {
 
 	@RequestMapping("/getAllStudentByUserId")
 	public ResponseEntity getAllStudentByUserId(String userId, HttpServletRequest session) {
-		List<Student> batchlist = studentServiceImpl.findByUser(userId);
+		List<Student> batchlist = studentServiceImpl.findByUserId(userId);
 		if (batchlist != null)
 			return new ResponseEntity(batchlist, HttpStatus.OK);
 		return new ResponseEntity(batchlist, HttpStatus.BAD_REQUEST);
@@ -199,7 +204,6 @@ public class AdminController {
 		int studentId = Integer.parseInt(id);
 		studentServiceImpl.removeStudentFromBatch(studentId);
 		List<Student> studentList = studentServiceImpl.findByBatch(id);
-
 		return new ResponseEntity(studentList, HttpStatus.OK);
 
 	}

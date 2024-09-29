@@ -52,4 +52,6 @@ public interface UserService {
 
 	List<Student> byDefaultAllStudentAbsent(Batch BatchId);
 
+	List<User> getAllowedUsers();
+
 }
