@@ -18,5 +18,4 @@ public interface StudentService {
 
 	Student setMarks(String rollNo, String batchId, Integer testNo, Integer marks);
 
-	List<Object> result(String batchId);
 }
