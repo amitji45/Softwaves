@@ -166,8 +166,6 @@
 	
 	
 	<script>
-
-		// ---------------
 	const canvas = document.getElementById('chart-line');
 	const ctx = canvas.getContext('2d');
 	const labelList = getLabel();
@@ -176,9 +174,9 @@
 	const data = {
 	  labels: labelList,
 	  datasets: [{
-	    label: <%=avgBatches!=null%>?'Average':'',
-	    data: dataList,
-	    backgroundColor: [
+		label: '<%= (avgBatches != null && !avgBatches.isEmpty()) ? "Average" : "" %>',
+		data: dataList,
+		backgroundColor: [
 	      'rgba(255, 99, 132, 0.2)',
 	      'rgba(54, 162, 235, 0.2)',
 	      'rgba(255, 206, 86, 0.2)',

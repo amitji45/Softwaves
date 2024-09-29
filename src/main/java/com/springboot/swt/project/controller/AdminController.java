@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -105,13 +106,6 @@ public class AdminController {
 		return new ResponseEntity<>("Batch Created SuccessFully ", HttpStatus.OK);
 	}
 
-	@ResponseBody
-	@RequestMapping("/sendemail")
-	public ResponseEntity<String> sendEmail(@RequestParam String to, @RequestParam String subject,
-			@RequestParam String massage) {
-		return new ResponseEntity<>(emailsenderimp.sendEmail(to, subject, massage), HttpStatus.OK);
-	}
-
 	@RequestMapping("/VolunteerApproval")
 	public String VApproval(Model model, HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null)
@@ -181,6 +175,15 @@ public class AdminController {
 		return new ResponseEntity(batchlist, HttpStatus.OK);
 	}
 
+	@RequestMapping("/getAllStudentByUserId")
+	public ResponseEntity getAllStudentByUserId(String userId, HttpServletRequest session) {
+		List<Student> batchlist = studentServiceImpl.findByUser(userId);
+		if (batchlist != null)
+			return new ResponseEntity(batchlist, HttpStatus.OK);
+		return new ResponseEntity(batchlist, HttpStatus.BAD_REQUEST);
+
+	}
+
 	@RequestMapping("/allStudent")
 	public String allStudent(Model model) {
 		return "allStudent";
@@ -189,5 +192,15 @@ public class AdminController {
 	@RequestMapping("/getcompletedmarks")
 	public ResponseEntity getcompletedmarks(@RequestParam("studId") String studId) {
 		return new ResponseEntity(userserviceimpl.getMarksListCompletedBatch(studId), HttpStatus.OK);
+	}
+
+	@RequestMapping("/removeStudent")
+	public ResponseEntity removeStudent(@RequestParam String id) {
+		int studentId = Integer.parseInt(id);
+		studentServiceImpl.removeStudentFromBatch(studentId);
+		List<Student> studentList = studentServiceImpl.findByBatch(id);
+
+		return new ResponseEntity(studentList, HttpStatus.OK);
+
 	}
 }

@@ -26,7 +26,6 @@
 						if (student != null && student.getBatch().getStartDate() != null)
 					 {	
 						Date date = student.getBatch().getStartDate();
-						System.out.println(date);
 						Calendar calendar = Calendar.getInstance();
 						 calendar.setTime(date);
 						

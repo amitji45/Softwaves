@@ -19,7 +19,7 @@ import com.springboot.swt.project.Service.EmailSender;
 public class EmailSenderImpl implements EmailSender {
 
 	@Override
-	public String sendEmail(String to, String subject, String massage) {
+	public String sendEmail(String to, String subject, String massage, String purpose) {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
@@ -32,9 +32,9 @@ public class EmailSenderImpl implements EmailSender {
 			}
 		});
 		try {
-			String messagetemplate = "Dear [User Name],\r\n"
-					+ "\r\n"
-					+ "We've received a request to reset your password for your Softwaves account.\r\n"
+			String messagetemplate = "";
+					if(!purpose.equals("regis"))
+						messagetemplate="We've received a request to reset your password for your Softwaves account.\r\n"
 					+ "\r\n"
 					+ "To verify your identity, please enter the following 6-digit OTP code:\r\n"
 					+ "\r\n"
@@ -45,6 +45,19 @@ public class EmailSenderImpl implements EmailSender {
 					+ "If you did not request this password reset, please ignore this email.\r\n"
 					+ "\r\n"
 					+ "Thank you,";
+					
+					else 
+						messagetemplate="We've received a request from this email address for registration of your Softwaves account.\r\n"
+							+ "\r\n"
+							+ "To verify your identity, please enter the following 6-digit OTP code:\r\n"
+							+ "\r\n"
+							+ "[" + massage + "]\r\n"
+							+ "\r\n"
+							+ "This code is valid for 5 minutes.\r\n"
+							+ "\r\n"
+							+ "If you did not request for registration, please ignore this email.\r\n"
+							+ "\r\n"
+							+ "Thank you";
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress("coachingswt@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
@@ -56,7 +69,7 @@ public class EmailSenderImpl implements EmailSender {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-		return "not send gmail...";
+		return "Email not sent!";
 	}
 
 }

@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import com.springboot.swt.project.Service.BatchService;
 import com.springboot.swt.project.entity.Batch;
 import com.springboot.swt.project.entity.Student;
+import com.springboot.swt.project.entity.User;
 import com.springboot.swt.project.repo.BatchRepo;
 import com.springboot.swt.project.repo.StudentRepo;
+import com.springboot.swt.project.repo.UserRepo;
 
 @Service
 public class BatchServiceImpl implements BatchService {
@@ -21,6 +23,8 @@ public class BatchServiceImpl implements BatchService {
 	private BatchRepo batchrepo;
 	@Autowired
 	private StudentRepo studentrepo;
+	@Autowired
+	private UserRepo userRepo;
 
 	private String generateUserId(Batch batch) {
 		StringBuilder id = new StringBuilder();
@@ -55,6 +59,9 @@ public class BatchServiceImpl implements BatchService {
 			List<Student> studentList = studentrepo.findByBatch(batch);
 			for (Student student : studentList) {
 				student.setRollNo("" + (++rollNo));
+				User user = student.getUser();
+				user.setBatch(batch.getBatchTopic());
+				userRepo.save(user);
 				studentrepo.save(student);
 			}
 		}
@@ -62,6 +69,7 @@ public class BatchServiceImpl implements BatchService {
 
 	public void endBatchByID(String batchId) {
 		Optional<Batch> optional = batchrepo.findById(batchId);
+
 		if (!optional.isEmpty()) {
 			Batch batch = optional.get();
 			batch.setCurrentStatus("Completed");
