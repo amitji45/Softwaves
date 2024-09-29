@@ -50,6 +50,6 @@ public interface UserService {
 
 	String[] validation(User user);
 
-	List<Student> byDefaultAllStudentAbsent(Batch BatchId);
+	
 
 }

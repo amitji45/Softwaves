@@ -177,7 +177,7 @@ public class AdminController {
 
 	@RequestMapping("/getAllStudentByUserId")
 	public ResponseEntity getAllStudentByUserId(String userId, HttpServletRequest session) {
-		List<Student> batchlist = studentServiceImpl.findByUser(userId);
+		List<Student> batchlist = studentServiceImpl.findByUserId(userId);
 		if (batchlist != null)
 			return new ResponseEntity(batchlist, HttpStatus.OK);
 		return new ResponseEntity(batchlist, HttpStatus.BAD_REQUEST);
@@ -202,5 +202,13 @@ public class AdminController {
 
 		return new ResponseEntity(studentList, HttpStatus.OK);
 
+	}
+	@RequestMapping("/getBatchMarks")
+	public String getBatchMarks(@RequestParam("id") String batchId, HttpServletRequest request) {
+		List<Student> studentList = studentServiceImpl.findByBatch(batchId);
+		HttpSession session = request.getSession();
+		session.setAttribute("studentList", studentList);
+		System.out.println(studentList);
+		return "result";
 	}
 }

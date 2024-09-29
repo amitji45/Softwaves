@@ -190,7 +190,7 @@
 													if (!rollNo) {
 														Swal.fire({
 															icon: "error",
-															title: "Oops...",
+															title: "",
 															text: "Please Enter Roll Number"
 
 														});
@@ -220,7 +220,7 @@
 																		// Append to the absent table
 																		Swal.fire({
 																			icon: "success",
-																			title: "Oops...",
+																			title: "Done",
 																			text: "Successfully marked " + student.rollNo + " as absent.",
 																			timer: 700
 																		});
@@ -251,7 +251,7 @@
 																Swal.fire({
 																	icon: "error",
 																	title: "Oops...",
-																	text: "Please Insert Corect No. " + rollNo
+																	text: "Please Insert Correct No. " + rollNo
 																});
 															}
 														}

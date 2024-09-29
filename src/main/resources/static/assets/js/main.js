@@ -212,3 +212,13 @@
 
 })();
 
+const toastLiveExample = document.getElementById('liveToast');
+  const toastBody = toastLiveExample.querySelector('.toast-body'); // Get the .toast-body element
+
+  // Define the toast function
+  function toast(message) {
+    toastBody.textContent = message; // Set the content of the toast body
+    const toastInstance = new bootstrap.Toast(toastLiveExample);
+    toastInstance.show();
+  }
+

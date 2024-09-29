@@ -215,7 +215,19 @@
 							xhttp.open("GET", url + rollNo + "&batchId=" + batchId + "&marks=" + marks + "&testNo=" + testNo, true);
 							xhttp.send();
 						}
+                        function editMarks(roll , marks , testNo)
+                        {
+                        console.log(roll, marks , testNo);
+                            const testNoInput = document.getElementById('testNo'); // Get the input field by its ID
+                                testNoInput.value = testNo;
+                            const testNoInput1 = document.getElementById('rollNo'); // Get the input field by its ID
+                                testNoInput1.value = roll;
+                            const testNoInput2 = document.getElementById('marks'); // Get the input field by its ID
+                                testNoInput2.value = marks;
+                                document.getElementById(roll).remove();
 
+
+                        }
 						function markslistappendfunction(student) {
 							const newRow = $('<tr>').attr('id', student.rollNo);
 							newRow.append(
@@ -223,7 +235,7 @@
 								$('<td>').html('<p class="text-xs font-weight-bold mb-0">Name:</p><h6 class="text-sm mb-0">' + student.user.name + '</h6>'),
 								$('<td>').html('<p class="text-xs font-weight-bold mb-0">testNo:</p><h6 class="text-sm mb-0">' + document.getElementById("testNo").value + '</h6>'),
 								$('<td>').html('<p class="text-xs font-weight-bold mb-0">Marks:</p><h6 class="text-sm mb-0">' + marks.value + '</h6>'),
-								$('<td>').html('<a class="btn btn-outline-success" >remove</a>'),
+								$('<td>').html('<a class="btn btn-outline-info" onclick="editMarks(\'' + student.rollNo + '\' , \'' + marks.value + '\', \'' + document.getElementById("testNo").value + '\')">edit</a>'),
 								// $('<td>').html('<p id="batchIdinlist" data-batch-id="' + student.batch.batchId + '" style="display:none;">' + student.batch.batchId + '</p>')
 							);
 							$('#markslistappend').append(newRow);
