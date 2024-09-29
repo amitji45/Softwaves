@@ -23,7 +23,7 @@
 								<p>We are team of talented developer making websites using
 									JAVA</p>
 								<div class="d-flex">
-									<a href="index.html#about" class="btn-get-started">Get
+									<a href="regis" class="btn-get-started">Get
 										Started</a> <a target="_blank"
 										href="https://youtu.be/13GqYhvDk-c?si=decvfwLXWjjwgjTm"
 										class="glightbox btn-watch-video d-flex align-items-center"><i
@@ -216,7 +216,7 @@
 												coaching institute for programming. Even though I come from a
 												non-technical background, after joining Softwaves coaching, all my
 												concepts became very clear. "Abhi Sir" explain everything from basic to
-												advanced levels, ensuring that students don’t face any difficulties. The
+												advanced levels, ensuring that students dont't face any difficulties. The
 												coaching Environment is so positive that seniors are always ready to
 												help.
 												I'm grateful to become a part of this institute.....
@@ -230,9 +230,9 @@
 												Abhi Sir stands out as an outstanding mentor. His approach goes beyond
 												just coding; he guides students on handling negativity, building a
 												positive mindset, and achieving success. The personalized attention and
-												the focus on character growth make this institute unique. Abhi Sir’s
+												the focus on character growth make this institute unique. Abhi Sir's
 												dedication to both technical and personal development ensures that
-												students gain both knowledge and confidence. If you’re serious about
+												students gain both knowledge and confidence. If you are serious about
 												learning coding while building your overall personality, Softwaves
 												Technology is the perfect place.</p>
 											<p class="text-muted mb-0">- Ankit Sahani</p>

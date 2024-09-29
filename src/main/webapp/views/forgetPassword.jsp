@@ -36,10 +36,11 @@
 						
 						<div class="row mb-4">
 							<div class="input-group mb-3">
-								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
-									Email</span> <input type="text" class="form-control"
-									placeholder="Enter your Email" name="email" required>
-							</div>
+								<div class="col-md-12">
+								<label for="email-field" class="pb-2">Your Email</label> <input
+									type="text" class="form-control" name="email" 
+									required>
+							</div></div>
 						</div>
 						<input type="hidden" name="purpose"  value="otp">
 						
