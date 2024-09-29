@@ -35,17 +35,19 @@
 						
 						<div class="row mb-4">
 							<div class="input-group mb-3">
-								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
-									new Password</span> <input type="password" class="form-control"
-									placeholder="password" name="pass1" required id="pass1" data-required-match="pass2" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$">
-							</div>
+								<div class="col-md-12">
+								<label for="password-field" class="pb-2">New Password</label> <input
+									type="password" class="form-control" name="pass1"
+									id="pass1" required>
+							</div></div>
 						</div>
 						<div class="row mb-4">
 							<div class="input-group mb-3">
-								<span class="col-lg-2 col-4 input-group-text" id="basic-addon1">
-									Re-enter new Password</span> <input type="password" class="form-control"
-									placeholder="Re-enter password" name="pass2" id="pass2" data-required-match="pass1">
-							</div>
+								<div class="col-md-12">
+								<label for="password-field" class="pb-2">Re- Enter New Password</label> <input
+									type="password" class="form-control" name="pass2"
+									id="pass2" required>
+							</div></div>
 						</div>
 
 						<div class="col-md-12 text-center">
