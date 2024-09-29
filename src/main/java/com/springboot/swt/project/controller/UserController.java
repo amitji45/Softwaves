@@ -192,7 +192,7 @@ public class UserController {
 			if (purpose.equals("regis")) {
 				userserviceimpl.register(user1);
 				response.put("success", "successfully registered");
-				response.put("redirectUrl", "/swt/login?success=Email is successfully registered");
+				response.put("redirectUrl", "/swt/login?success=Thanks for signing up. Your account has been created");
 			} else {
 
 				response.put("success", true);

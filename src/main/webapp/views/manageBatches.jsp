@@ -36,16 +36,16 @@
 			</section>
 			<script type="text/javascript">
 				function endbatch(batchId) {
-					url = "http://localhost:9090/admin/endbatch?id=" + batchId;
+					url = "<%=linkSetup%>admin/endbatch?id=" + batchId;
 					updatebatch(url);
 				}
 				function startbatch(batchId) {
-					url = "http://localhost:9090/admin/startbatch?id=" + batchId;
+					url = "<%=linkSetup%>admin/startbatch?id=" + batchId;
 					updatebatch(url);
 
 				}
 				function deletebatch(batchId) {
-					url = "http://localhost:9090/admin/deletebatch?id=" + batchId;
+					url = "<%=linkSetup%>admin/deletebatch?id=" + batchId;
 					updatebatch(url);
 					loadBatch();
 				}
@@ -74,7 +74,7 @@
 				function loadBatch() {
 
 					$.ajax({
-						url: 'http://localhost:9090/admin/getBatch',
+						url: '<%=linkSetup%>admin/getBatch',
 						type: 'GET',
 						dataType: 'json', // No need to parse the response manually
 						success: function (response) {
@@ -91,7 +91,8 @@
 									batch.currentStatus === "Enroll" ? $('<td>').html('<button type="button" class="btn btn-outline-success" onclick="startbatch(\'' + batch.batchId + '\')">Start</button>') : null,
 									batch.currentStatus === "Enroll" ? $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="deletebatch(\'' + batch.batchId + '\')">delete</button>') : null,
 									batch.currentStatus === "Active" ? $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="endbatch(\'' + batch.batchId + '\')">end</button>') : null,
-									$('<td>').html('<a class="btn btn-outline-primary" href="/admin/getBatchDetails?id=' + batch.batchId + '">Details</a>')
+									$('<td>').html('<a class="btn btn-outline-primary" href="/admin/getBatchDetails?id=' + batch.batchId + '">Details</a>'),
+								batch.currentStatus==="Active" ?	$('<td>').html('<a class="btn btn-outline-primary" href="/admin/getBatchMarks?id=' + batch.batchId + '"> marks</a>') : null
 								);
 								// Append the new row to the table
 								batch.currentStatus != "Completed" ? $('#tableid').append(newRow):null;

@@ -119,7 +119,7 @@
                                 function countActiveBatchStudent(batchId, callback) {
                           
                                     $.ajax({
-                                        url: 'http://localhost:9090/admin/getAllStudentByBatchId?batchId=' + batchId,
+                                        url: '<%=linkSetup%>admin/getAllStudentByBatchId?batchId=' + batchId,
                                         type: 'GET',
                                         dataType: 'json',
                                         success: function (response) {
@@ -144,7 +144,7 @@
                                     $('#batchListtableId').empty();
                                     $('#studentListtbody').empty();
                                     $.ajax({
-                                        url: 'http://localhost:9090/admin/getBatch',
+                                        url: '<%=linkSetup%>admin/getBatch',
                                         type: 'GET',
                                         dataType: 'json',
                                         success: function (response) {
@@ -157,7 +157,7 @@
                                                     // Create a request to get the number of students
                                                     check = false;
                                                     const request = $.ajax({
-                                                        url: 'http://localhost:9090/admin/getAllStudentByBatchId?batchId=' + batch.batchId,
+                                                        url: '<%=linkSetup%>admin/getAllStudentByBatchId?batchId=' + batch.batchId,
                                                         type: 'GET',
                                                         dataType: 'json'
                                                     }).then(studentResponse => {
@@ -176,7 +176,7 @@
                                                     if (batch.currentStatus === "Completed") {
                                                         document.getElementById('completedbatchdiv').style.display = 'block';
                                                         $.ajax({
-                                                            url: 'http://localhost:9090/admin/getAllStudentByBatchId?batchId=' + batch.batchId,
+                                                            url: '<%=linkSetup%>admin/getAllStudentByBatchId?batchId=' + batch.batchId,
                                                             type: 'GET',
                                                             dataType: 'json',
                                                             success: function (studentResponse) {
@@ -229,7 +229,7 @@
 
                                     // AJAX call to fetch students
                                     $.ajax({
-                                        url: 'http://localhost:9090/admin/getAllStudentByBatchId?batchId=' + batchId,
+                                        url: '<%=linkSetup%>admin/getAllStudentByBatchId?batchId=' + batchId,
                                         type: 'GET',
                                         dataType: 'json',
                                         success: function (response) {
@@ -286,7 +286,7 @@
                                     // Append the new row to the table
                                     $('#batchandstudent').append(backRow);
                                     $.ajax({
-                                        url: 'http://localhost:9090/admin/getcompletedmarks?studId=' + pkId,
+                                        url: '<%=linkSetup%>admin/getcompletedmarks?studId=' + pkId,
                                         type: 'GET',
                                         dataType: 'json', // No need to parse the response manually
                                         success: function (response) {

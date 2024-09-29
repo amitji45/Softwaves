@@ -1,0 +1,92 @@
+Index: src/main/java/com/springboot/swt/project/controller/AdminController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.springboot.swt.project.controller;\r\n\r\nimport java.util.List;\r\n\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.http.HttpRequest;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.HttpStatusCode;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.stereotype.Controller;\r\nimport org.springframework.ui.Model;\r\nimport org.springframework.web.bind.annotation.RequestMapping;\r\nimport org.springframework.web.bind.annotation.RequestParam;\r\nimport org.springframework.web.bind.annotation.ResponseBody;\r\n\r\nimport com.springboot.swt.project.ServiceImpl.BatchServiceImpl;\r\nimport com.springboot.swt.project.ServiceImpl.EmailSenderImpl;\r\nimport com.springboot.swt.project.ServiceImpl.StudentServiceImpl;\r\nimport com.springboot.swt.project.ServiceImpl.UserServiceImpl;\r\nimport com.springboot.swt.project.entity.Batch;\r\nimport com.springboot.swt.project.entity.Student;\r\n\r\nimport jakarta.servlet.http.HttpServletRequest;\r\nimport jakarta.servlet.http.HttpSession;\r\n\r\n@RequestMapping(\"/admin\")\r\n@Controller\r\npublic class AdminController {\r\n\r\n\t@Autowired\r\n\tprivate UserServiceImpl userserviceimpl;\r\n\r\n\t@Autowired\r\n\tprivate StudentServiceImpl studentServiceImpl;\r\n\r\n\t@Autowired\r\n\tprivate BatchServiceImpl batchservicesimpl;\r\n\r\n\t@Autowired\r\n\tEmailSenderImpl emailsenderimp;\r\n\r\n\t@RequestMapping(\"/dashboard\")\r\n\tpublic String getAdminDashboard(HttpServletRequest request) {\r\n\t\tif (request.getSession().getAttribute(\"admin\") == null)\r\n\t\t\treturn \"redirect:/swt/login\";\r\n\t\treturn \"admindashboard\";\r\n\t}\r\n\r\n\t@RequestMapping(\"/allBatches\")\r\n\tpublic String createBatchPage(Model model, HttpServletRequest request) {\r\n\t\tif (request.getSession().getAttribute(\"admin\") == null)\r\n\t\t\treturn \"redirect:/swt/login\";\r\n\t\tmodel.addAttribute(\"batches\", batchservicesimpl.getAllBatches());\r\n\t\treturn \"newbatch\";\r\n\t}\r\n\r\n\t@RequestMapping(\"/startbatch\")\r\n\tpublic ResponseEntity startbatch(@RequestParam(\"id\") String batchId, HttpServletRequest request, Model model) {\r\n\t\tbatchservicesimpl.startBatchByID(batchId);\r\n\t\treturn new ResponseEntity(batchservicesimpl.sendAllBatches(), HttpStatus.OK);\r\n\t}\r\n\r\n\t@RequestMapping(\"/endbatch\")\r\n\tpublic ResponseEntity endbatch(@RequestParam(\"id\") String batchId, HttpServletRequest request, Model model) {\r\n\t\tbatchservicesimpl.endBatchByID(batchId);\r\n\t\treturn new ResponseEntity(batchservicesimpl.sendAllBatches(), HttpStatus.OK);\r\n\t}\r\n\r\n\t@RequestMapping(\"/approval\")\r\n\tpublic String getNotAllowedUsers(Model model, HttpServletRequest request) {\r\n\t\tif (request.getSession().getAttribute(\"admin\") == null)\r\n\t\t\treturn \"redirect:/swt/login\";\r\n\t\tmodel.addAttribute(\"data\", userserviceimpl.getNotAllowedUsers());\r\n\t\treturn \"approval\";\r\n\t}\r\n\r\n\t@ResponseBody\r\n\t@RequestMapping(\"/approval/allow\")\r\n\tpublic String allowByID(@RequestParam(\"id\") String id, HttpServletRequest request) {\r\n\t\tif (request.getSession().getAttribute(\"admin\") == null)\r\n\t\t\treturn \"redirect:/swt/login\";\r\n\t\tuserserviceimpl.allowOrBlockUserByID(id, \"Allowed\");\r\n\t\treturn \"Allowed\";\r\n\t}\r\n\r\n\t@ResponseBody\r\n\t@RequestMapping(\"/approval/block\")\r\n\tpublic String blockByID(@RequestParam(\"id\") String id, HttpServletRequest request) {\r\n\t\tif (request.getSession().getAttribute(\"admin\") == null)\r\n\t\t\treturn \"redirect:/swt/login\";\r\n\t\tuserserviceimpl.allowOrBlockUserByID(id, \"Blocked\");\r\n\t\treturn \"Blocked\";\r\n\t}\r\n\r\n\t@ResponseBody\r\n\t@RequestMapping(\"/newbatch\")\r\n\tpublic ResponseEntity<String> newBatch(@RequestParam String name, HttpServletRequest request) {\r\n\r\n\t\tBatch batch = new Batch();\r\n\t\tbatch.setBatchTopic(name);\r\n\t\tBatch temp = batchservicesimpl.newBatch(batch);\r\n\t\tif (temp == null) {\r\n\r\n\t\t\treturn new ResponseEntity<>(\"Something Went Wrong\", HttpStatus.FORBIDDEN);\r\n\t\t}\r\n\t\treturn new ResponseEntity<>(\"Batch Created SuccessFully \", HttpStatus.OK);\r\n\t}\r\n\r\n\t@RequestMapping(\"/VolunteerApproval\")\r\n\tpublic String VApproval(Model model, HttpServletRequest request) {\r\n\t\tif (request.getSession().getAttribute(\"admin\") == null)\r\n\t\t\treturn \"redirect:/swt/login\";\r\n\t\t// model.addAttribute(\"data\", studentAttendanceServiceImpl.findAllStudent());\r\n\t\treturn \"VolunteerApproval\";\r\n\t}\r\n\r\n\t@RequestMapping(\"/ManageBatches\")\r\n\tpublic String ManageBatches(HttpServletRequest request, Model model) {\r\n\t\treturn \"manageBatches\";\r\n\t}\r\n\r\n\t@RequestMapping(\"/AllStudentDetails\")\r\n\tpublic String AllStudentDetail(HttpServletRequest request) {\r\n\t\treturn \"AllStudentDetails\";\r\n\t}\r\n\r\n\t@ResponseBody\r\n\t@RequestMapping(\"/VolunteerApproval/allow\")\r\n\tpublic String approveVolunteerByID(@RequestParam(\"id\") String id, HttpServletRequest request) {\r\n\t\tif (request.getSession().getAttribute(\"admin\") == null)\r\n\t\t\treturn \"redirect:/swt/login\";\r\n\t\tuserserviceimpl.allowOrBlockVolunteerByID(id, \"Volunteer\");\r\n\t\treturn \"Volunteer\";\r\n\t}\r\n\r\n\t@ResponseBody\r\n\t@RequestMapping(\"/VolunteerApproval/block\")\r\n\tpublic String blockVolunteerByID(@RequestParam(\"id\") String id, HttpServletRequest request) {\r\n\t\tif (request.getSession().getAttribute(\"admin\") == null)\r\n\t\t\treturn \"redirect:/swt/login\";\r\n\t\tuserserviceimpl.allowOrBlockVolunteerByID(id, \"Student\");\r\n\t\treturn \"Student\";\r\n\t}\r\n\r\n\t@RequestMapping(\"/getBatchDetails\")\r\n\tpublic String getBatchDetails(@RequestParam(\"id\") String batchId, HttpServletRequest request) {\r\n\t\tList<Student> studentList = studentServiceImpl.findByBatch(batchId);\r\n\t\tHttpSession session = request.getSession();\r\n\t\tsession.setAttribute(\"studentList\", studentList);\r\n\r\n\t\treturn \"batchDetails\";\r\n\t}\r\n\r\n\t@RequestMapping(\"/deletebatch\")\r\n\tpublic ResponseEntity deletebatch(@RequestParam(\"id\") String batchId, HttpServletRequest request) {\r\n\t\tbatchservicesimpl.deleteBatchByID(batchId);\r\n\t\treturn new ResponseEntity(HttpStatus.OK);\r\n\t}\r\n\r\n\t@RequestMapping(\"/getBatch\")\r\n\tpublic ResponseEntity getBatch(Model model, HttpServletRequest request) {\r\n\t\treturn new ResponseEntity<>(batchservicesimpl.sendAllBatches(), HttpStatus.OK);\r\n\t}\r\n\r\n\t@RequestMapping(\"/getAllStudentByBatchId\")\r\n\tpublic ResponseEntity getAllStudent(@RequestParam(\"batchId\") String batchId) {\r\n\r\n\t\treturn new ResponseEntity<>(studentServiceImpl.findByBatch(batchId), HttpStatus.OK);\r\n\t}\r\n\r\n\t@RequestMapping(\"/findActivebatches\")\r\n\tpublic ResponseEntity findActivebatches(HttpServletRequest session) {\r\n\t\tList<Batch> batchlist = batchservicesimpl.findByCurrentStatus(\"Active\");\r\n\r\n\t\treturn new ResponseEntity(batchlist, HttpStatus.OK);\r\n\t}\r\n\r\n\t@RequestMapping(\"/getAllStudentByUserId\")\r\n\tpublic ResponseEntity getAllStudentByUserId(String userId, HttpServletRequest session) {\r\n\t\tList<Student> batchlist = studentServiceImpl.findByUser(userId);\r\n\t\tif (batchlist != null)\r\n\t\t\treturn new ResponseEntity(batchlist, HttpStatus.OK);\r\n\t\treturn new ResponseEntity(batchlist, HttpStatus.BAD_REQUEST);\r\n\r\n\t}\r\n\r\n\t@RequestMapping(\"/allStudent\")\r\n\tpublic String allStudent(Model model) {\r\n\t\treturn \"allStudent\";\r\n\t}\r\n\r\n\t@RequestMapping(\"/getcompletedmarks\")\r\n\tpublic ResponseEntity getcompletedmarks(@RequestParam(\"studId\") String studId) {\r\n\t\treturn new ResponseEntity(userserviceimpl.getMarksListCompletedBatch(studId), HttpStatus.OK);\r\n\t}\r\n\r\n\t@RequestMapping(\"/removeStudent\")\r\n\tpublic ResponseEntity removeStudent(@RequestParam String id) {\r\n\t\tint studentId = Integer.parseInt(id);\r\n\t\tstudentServiceImpl.removeStudentFromBatch(studentId);\r\n\t\tList<Student> studentList = studentServiceImpl.findByBatch(id);\r\n\r\n\t\treturn new ResponseEntity(studentList, HttpStatus.OK);\r\n\r\n\t}\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/springboot/swt/project/controller/AdminController.java b/src/main/java/com/springboot/swt/project/controller/AdminController.java
+--- a/src/main/java/com/springboot/swt/project/controller/AdminController.java	(revision c82b93dc50a9e0df8a754f319163dbc362d7d241)
++++ b/src/main/java/com/springboot/swt/project/controller/AdminController.java	(date 1727568109348)
+@@ -3,9 +3,7 @@
+ import java.util.List;
+ 
+ import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.http.HttpRequest;
+ import org.springframework.http.HttpStatus;
+-import org.springframework.http.HttpStatusCode;
+ import org.springframework.http.ResponseEntity;
+ import org.springframework.stereotype.Controller;
+ import org.springframework.ui.Model;
+@@ -106,6 +104,13 @@
+ 		return new ResponseEntity<>("Batch Created SuccessFully ", HttpStatus.OK);
+ 	}
+ 
++	@ResponseBody
++	@RequestMapping("/sendemail")
++	public ResponseEntity<String> sendEmail(@RequestParam String to, @RequestParam String subject,
++											@RequestParam String massage, String purpose) {
++		return new ResponseEntity<>(emailsenderimp.sendEmail(to, subject, massage, purpose), HttpStatus.OK);
++	}
++
+ 	@RequestMapping("/VolunteerApproval")
+ 	public String VApproval(Model model, HttpServletRequest request) {
+ 		if (request.getSession().getAttribute("admin") == null)
+@@ -177,7 +182,7 @@
+ 
+ 	@RequestMapping("/getAllStudentByUserId")
+ 	public ResponseEntity getAllStudentByUserId(String userId, HttpServletRequest session) {
+-		List<Student> batchlist = studentServiceImpl.findByUser(userId);
++		List<Student> batchlist = studentServiceImpl.findByUserId(userId);
+ 		if (batchlist != null)
+ 			return new ResponseEntity(batchlist, HttpStatus.OK);
+ 		return new ResponseEntity(batchlist, HttpStatus.BAD_REQUEST);
+@@ -199,8 +204,6 @@
+ 		int studentId = Integer.parseInt(id);
+ 		studentServiceImpl.removeStudentFromBatch(studentId);
+ 		List<Student> studentList = studentServiceImpl.findByBatch(id);
+-
+ 		return new ResponseEntity(studentList, HttpStatus.OK);
+-
+ 	}
+-}
++}
+\ No newline at end of file
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.application.name=Softwaves\r\n\r\nspring.mvc.view.prefix=/views/\r\nspring.mvc.view.suffix=.jsp\r\n\r\nserver.port=9090 \r\n\r\nspring.datasource.url=jdbc:postgresql://localhost:4545/swt_db\r\nspring.datasource.username=root\r\nspring.datasource.password=root\r\n \r\n# spring.datasource.url=jdbc:postgresql://dpg-crojmal6l47c73fogmh0-a.oregon-postgres.render.com:5432/swt_db_5bsf\r\n# spring.datasource.username=root\r\n# spring.datasource.password=EsRLXJlS3OFJQPoApMDIE5tUE3s5iKCJ\r\n \r\n#spring.datasource.url=jdbc:postgresql://dpg-cro7qr1u0jms73c7gbig-a.oregon-postgres.render.com:5432/swt_db\r\n#spring.datasource.username=root\r\n#spring.datasource.password=zlHtX3UkZb7SkLEM7hlbTqQXqDLgJUmX                // amit bhaiya\r\n\r\n \r\n\r\n#spring.datasource.url=jdbc:postgresql://us-east-1.sql.xata.sh:5432/Softwaves:dev?sslmode=require\r\n#spring.datasource.username=c8kbgk\r\n#spring.datasource.password=xau_aHv0Q7lsphy2OVK2DHMnSGlefPtyeWpi0               // xata online\r\nspring.jpa.hibernate.ddl-auto=update
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+--- a/src/main/resources/application.properties	(revision c82b93dc50a9e0df8a754f319163dbc362d7d241)
++++ b/src/main/resources/application.properties	(date 1727568039320)
+@@ -5,7 +5,7 @@
+ 
+ server.port=9090 
+ 
+-spring.datasource.url=jdbc:postgresql://localhost:4545/swt_db
++spring.datasource.url=jdbc:postgresql://localhost:5432/swt_db
+ spring.datasource.username=root
+ spring.datasource.password=root
+  
+Index: target/classes/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.application.name=Softwaves\r\n\r\nspring.mvc.view.prefix=/views/\r\nspring.mvc.view.suffix=.jsp\r\n\r\nserver.port=9090 \r\n\r\nspring.datasource.url=jdbc:postgresql://localhost:4545/swt_db\r\nspring.datasource.username=root\r\nspring.datasource.password=root\r\n \r\n# spring.datasource.url=jdbc:postgresql://dpg-crojmal6l47c73fogmh0-a.oregon-postgres.render.com:5432/swt_db_5bsf\r\n# spring.datasource.username=root\r\n# spring.datasource.password=EsRLXJlS3OFJQPoApMDIE5tUE3s5iKCJ\r\n \r\n#spring.datasource.url=jdbc:postgresql://dpg-cro7qr1u0jms73c7gbig-a.oregon-postgres.render.com:5432/swt_db\r\n#spring.datasource.username=root\r\n#spring.datasource.password=zlHtX3UkZb7SkLEM7hlbTqQXqDLgJUmX                // amit bhaiya\r\n\r\n \r\n\r\n#spring.datasource.url=jdbc:postgresql://us-east-1.sql.xata.sh:5432/Softwaves:dev?sslmode=require\r\n#spring.datasource.username=c8kbgk\r\n#spring.datasource.password=xau_aHv0Q7lsphy2OVK2DHMnSGlefPtyeWpi0               // xata online\r\nspring.jpa.hibernate.ddl-auto=update
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/target/classes/application.properties b/target/classes/application.properties
+--- a/target/classes/application.properties	(revision c82b93dc50a9e0df8a754f319163dbc362d7d241)
++++ b/target/classes/application.properties	(date 1727568060374)
+@@ -5,7 +5,7 @@
+ 
+ server.port=9090 
+ 
+-spring.datasource.url=jdbc:postgresql://localhost:4545/swt_db
++spring.datasource.url=jdbc:postgresql://localhost:5432/swt_db
+ spring.datasource.username=root
+ spring.datasource.password=root
+  

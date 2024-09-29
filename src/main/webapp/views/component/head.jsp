@@ -3,6 +3,7 @@ String assetspath = "/assets/";
 String siteName = "SoftWaves Technologies";
 String address = "414, Shagun Tower Vijay Nagar";
 String phoneNo = "+91 9770397704";
+String linkSetup = "http://localhost:9090/";
 %>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">

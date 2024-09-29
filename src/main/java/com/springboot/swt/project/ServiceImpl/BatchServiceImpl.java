@@ -17,7 +17,7 @@ import com.springboot.swt.project.repo.BatchRepo;
 import com.springboot.swt.project.repo.StudentRepo;
 import com.springboot.swt.project.repo.UserRepo;
 
-@Service
+@Service	
 public class BatchServiceImpl implements BatchService {
 	@Autowired
 	private BatchRepo batchrepo;

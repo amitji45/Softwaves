@@ -101,14 +101,7 @@ public class AdminController {
 
 			return new ResponseEntity<>("Something Went Wrong", HttpStatus.FORBIDDEN);
 		}
-		return new ResponseEntity<>("Batch Created Successfully ", HttpStatus.OK);
-	}
-
-	@ResponseBody
-	@RequestMapping("/sendemail")
-	public ResponseEntity<String> sendEmail(@RequestParam String to, @RequestParam String subject,
-			@RequestParam String massage, String purpose) {
-		return new ResponseEntity<>(emailsenderimp.sendEmail(to, subject, massage, purpose), HttpStatus.OK);
+		return new ResponseEntity<>("Batch Created SuccessFully ", HttpStatus.OK);
 	}
 
 	@RequestMapping("/VolunteerApproval")
@@ -204,7 +197,16 @@ public class AdminController {
 		int studentId = Integer.parseInt(id);
 		studentServiceImpl.removeStudentFromBatch(studentId);
 		List<Student> studentList = studentServiceImpl.findByBatch(id);
+
 		return new ResponseEntity(studentList, HttpStatus.OK);
 
+	}
+	@RequestMapping("/getBatchMarks")
+	public String getBatchMarks(@RequestParam("id") String batchId, HttpServletRequest request) {
+		List<Student> studentList = studentServiceImpl.findByBatch(batchId);
+		HttpSession session = request.getSession();
+		session.setAttribute("studentList", studentList);
+		System.out.println(studentList);
+		return "result";
 	}
 }

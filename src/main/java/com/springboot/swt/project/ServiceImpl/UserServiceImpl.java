@@ -403,7 +403,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<Integer> getMarksListCompletedBatch(String studId) {
-		Optional<Student> student = studentrepo.findById(new Integer(studId));
+		Optional<Student> student = studentrepo.findById(Integer.parseInt(studId));
 		if (student == null)
 			return null;
 		Student st = student.get();
@@ -445,24 +445,4 @@ public class UserServiceImpl implements UserService {
 		return new String[] { "true", "sucess" };
 	}
 
-	// eske liye abhi controller pr mepping krni hai but amit bhaiya se puchhna h
-	// thoda fir krna hai
-
-	@Override
-	public List<Student> byDefaultAllStudentAbsent(Batch BatchId) {
-		// List<Student> studentList = studentrepo.findByBatch(BatchId);
-		// LocalDate local = LocalDate.now();
-		// StringBuilder currenttime = new StringBuilder();
-		// currenttime = currenttime.append(local.getYear() + "-");
-		// int month = local.getMonthValue();
-		// if (month <= 9)
-		// currenttime = currenttime.append("0" + local.getMonthValue() + "-");
-		// else
-		// currenttime = currenttime.append(local.getMonthValue() + "-");
-		// currenttime = currenttime.append(local.getDayOfMonth());
-		// for (Student studentTemp : studentList) {
-		// studentTemp.absent.add(currenttime.toString());
-		// }
-		return null;
-	}
 }
