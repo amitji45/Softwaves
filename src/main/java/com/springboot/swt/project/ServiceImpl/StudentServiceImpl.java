@@ -19,6 +19,8 @@ import com.springboot.swt.project.repo.UserRepo;
 public class StudentServiceImpl implements StudentService {
 
 	@Autowired
+	UserServiceImpl userServiceImpl;
+	@Autowired
 	StudentRepo studentRepo;
 
 	@Autowired
@@ -102,4 +104,7 @@ public class StudentServiceImpl implements StudentService {
 		List<Student> list = null;
 		return list;
 	}
+
+	
+
 }

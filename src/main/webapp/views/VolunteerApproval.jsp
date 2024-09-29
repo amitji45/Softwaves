@@ -7,8 +7,9 @@
 			<head>
 				<%@ include file="component/head.jsp" %>
 					<script>
+
 						window.onload = function () {
-							
+
 							// Call findAllVolunteer with the desired name (if applicable)
 							findAllVolunteer(""); // Replace with the actual name
 						};
@@ -129,6 +130,23 @@
 								</div>
 							</div>
 					</main>
+					<button hidden type="button" class="btn btn-primary" id="liveToastBtn" style="display:none;">Show live toast</button>
+
+                    <!-- Toast -->
+                    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                      <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                          <img src="..." class="rounded me-2" alt="...">
+                          <strong class="me-auto">Bootstrap</strong>
+                          <small>Just now</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          <!-- Toast message will appear here -->
+                          Hello, world! This is a toast message.
+                        </div>
+                      </div>
+                    </div>
 					<!-- /Contact Section -->
 					<%@ include file="component/footer.jsp" %>
 						<%@ include file="component/script.jsp" %>

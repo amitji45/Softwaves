@@ -130,7 +130,7 @@
 														});
 													}
 
-													
+
 
 
 													bydefaultabsentvariable.value = batchList.value;
@@ -155,6 +155,8 @@
 															}
 															let today = new Date().toISOString().split('T')[0];  // Get today's date in 'YYYY-MM-DD' format
 															response.forEach(function (student) {
+
+
 																var formattedAbsentDates = student.absent.map(date => new Date(date).toISOString().split('T')[0]);
 																var isAbsentToday = formattedAbsentDates.includes(today);
 																if (isAbsentToday) {
@@ -217,7 +219,7 @@
 													if (!rollNo) {
 														Swal.fire({
 															icon: "error",
-															title: "Oops...",
+															title: "",
 															text: "Please Enter Roll Number"
 
 														});
@@ -277,7 +279,7 @@
 																Swal.fire({
 																	icon: "error",
 																	title: "Oops...",
-																	text: "Please Insert Corect No. " + rollNo
+																	text: "Please Insert Correct No. " + rollNo
 																});
 															}
 														}
