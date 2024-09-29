@@ -123,20 +123,35 @@
 																				<h5 class="font-weight-bolder">
 																					<%=(studentUser!=null)?studentUser.getAttendanceCount(): "0"%>
 																				</h5>
-																				<p class="mb-0">
-																					<span
-																						class="text-success text-sm font-weight-bolder"></span>
-																					<%=(studentUser !=null) ?"Presents Till Today": "No data available" %>
-																				</p>
-																				<nav id="navmenu" class="navmenu">
-																					<li class="dropdown"><span
-																							onload="findStudentBatches()"
-																							class="bg-gradient-primary btn text-light mt-0">View</span>
-																						<ul id="batchList1">
-																							<!-- List items will be appended here -->
-																						</ul>
-																					</li>
-																				</nav>
+                                                                                    <style>
+                                                                                    #batchList1 option {
+                                                                                        background-color: white;
+                                                                                        color: black;
+                                                                                    }
+
+
+                                                                                    #batchList1 option:checked {
+                                                                                        background-color:white;
+                                                                                        color: black;
+                                                                                    }
+                                                                                    </style>
+
+  <p class="mb-0">
+                                                                                    <span
+                                                                                        class="text-success text-sm font-weight-bolder"></span>
+                                                                                    <%=(studentUser !=null) ?"PresentsTill Today": "No data available"%>
+                                                                                </p>
+<div class="row mb-4">
+                                                                                    <div class="col-md-5 " id="drop">
+                                                                                        <!-- <label for="batchList1" class="pb-2">Select Batch</label> -->
+                                                                                        <select
+                                                                                            class="form-control bg-primary text-light mt-0"
+                                                                                            name="batch" id="batchList1"
+                                                                                            onchange="findStudentBatches1()">
+                                                                                            <!-- Options will be dynamically added here -->
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
 																			</div>
 																		</div>
 																		<div class="col-4 text-end">
@@ -286,7 +301,7 @@
 														findStudentBatches();
 													});
 													function findStudentBatches() {
-														var url = "http://localhost:9090/user/find/student/batch";
+														var url = "<%=linkSetup%>user/find/student/batch";
 														var xhttp = new XMLHttpRequest();
 														xhttp.onreadystatechange = function () {
 															if (this.readyState === XMLHttpRequest.DONE) {
@@ -318,42 +333,42 @@
 
 													// Function to update the batch list
 
-													function updateBatchList(batches) 
-													{
-														var batchList = document.getElementById('batchList1');
-														// Check if the batchList element exists
-														if (!batchList) {
-															// alert('No batches available');
-															return;
-														}
-														// Clear existing items
-														batchList.innerHTML = '';
-														// Log batches for debugging
-														// Check if batches is an array and has elements
-														if (!Array.isArray(batches) || batches.length === 0) {
-															// alert('No batches available');
-															return;
-														}
-														// Iterate over the batches and create list items
-														batches
-															.forEach(function (student) {
-																// Create <li> element
-																var li = document.createElement('li');
-																// Create <a> element
-																var a = document.createElement('a');
+													function updateBatchList(batches1) {
+                                                        var batchList = document.getElementById('batchList1');
+                                                        batchList.innerHTML = ''; // Clear existing options
 
-																var studentJson = JSON.stringify(student);
-																var stud = encodeURIComponent(studentJson)
-																var url = 'http://localhost:9090/user/dashboard/attendance?student=' + stud; // You may want to set this to the actual URL if available
-																// Set the text and href of the <a> tag
-																a.textContent = student.batch.batchTopic; // Assuming each batch object has a 'batchTopic' property
-																a.href = url; // Set the URL to navigate to
-																// Append the <a> tag to the <li>
-																li.appendChild(a);
-																// Append the <li> to the batchList
-																batchList.appendChild(li);
-															});
-													}
+                                                        var op1 = document.createElement('option');
+                                                        op1.textContent = 'View'; // Default text
+                                                        op1.disabled = true; // Disable the default option
+                                                        op1.selected = true; // Set it as selected
+                                                        batchList.appendChild(op1);
+
+                                                        batches1.forEach(function (batch) {
+                                                            if (!batch.batch.batchId || !batch.batch.batchTopic) {
+                                                                console.warn('Batch object missing required properties:', batch);
+                                                                return;
+                                                            }
+
+                                                            var studentJson = JSON.stringify(batch);
+                                                            var stud = encodeURIComponent(studentJson);
+                                                            var url = 'http://localhost:9090/user/dashboard/attendance?student=' + stud;
+
+                                                            var op = document.createElement('option');
+                                                            op.textContent = batch.batch.batchTopic; // Set display text
+                                                            op.setAttribute('data-url', url); // Store the URL
+                                                            batchList.appendChild(op); // Append the option to the select element
+                                                        });
+                                                    }
+                                                    function findStudentBatches1() {
+                                                                                                            var batchList = document.getElementById('batchList1');
+                                                                                                            var selectedOption = batchList.options[batchList.selectedIndex];
+
+                                                                                                            // Get the URL from the selected option's data-url attribute
+                                                                                                            var selectedUrl = selectedOption.getAttribute('data-url');
+                                                                                                            if (selectedUrl) {
+                                                                                                                window.location.href = selectedUrl; // Navigate to the URL
+                                                                                                            }
+                                                                                                        }
 
 													var ctx1 = document.getElementById("chart-line").getContext("2d");
 													var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);

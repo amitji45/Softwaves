@@ -24,7 +24,7 @@
 							// 	$('<td>').attr('colspan', 2).html('<button type="button" class="btn btn-outline-secondary" style="width: 100%;" onclick="findAllVolunteer(\'' + name + '\')">Back to all Students</button>')
 							// );
 							// $('#studentdetails').append(backRow);
-							// var url='http://localhost:9090/admin/getAllStudentByUserId?userId=' + userId;
+							// var url='<%=linkSetup%>admin/getAllStudentByUserId?userId=' + userId;
 							// var xhttp = new XMLHttpRequest();
                             //         xhttp.open("GET", url , true);
 
@@ -42,7 +42,7 @@
 
                             //         xhttp.send();
 							// $.ajax({
-							// 	url: 'http://localhost:9090/admin/getAllStudentByUserId?userId=' + userId,
+							// 	url: '<%=linkSetup%>admin/getAllStudentByUserId?userId=' + userId,
 							// 	type: 'GET',
 							// 	dataType: 'json',
 							// 	success: function (response) {
@@ -91,7 +91,7 @@
 						function findAllVolunteer(name) {
 
 							$.ajax({
-								url: 'http://localhost:9090/user/findVolunteer?name=' + name,
+								url: '<%=linkSetup%>user/findVolunteer?name=' + name,
 								type: 'GET',
 								dataType: 'json', // No need to parse the response manually
 								success: function (response) {

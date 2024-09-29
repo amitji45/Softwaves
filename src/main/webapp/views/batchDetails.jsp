@@ -85,7 +85,7 @@
                         function removeStudentFromBatch(id,rollNo) {
 									console.log(id);
                             $.ajax({
-                                url: 'http://localhost:9090/admin/removeStudent?id=' + id,
+                                url: '<%=linkSetup%>admin/removeStudent?id=' + id,
                                 type: 'GET',
                                 dataType: 'json', // No need to parse the response manually
                                 success: function (response) {

@@ -84,11 +84,11 @@
 	</section>
 	<script type="text/javascript">
 		function allowUser(id) {
-			url = "http://localhost:9090/admin/approval/allow?id=";
+			url = "<%=linkSetup%>admin/approval/allow?id=";
 			allowOrBlockUser(id, url);
 		}
 		function blockUser(id) {
-			url = "http://localhost:9090/admin/approval/block?id=";
+			url = "<%=linkSetup%>admin/approval/block?id=";
 			allowOrBlockUser(id, url);
 		}
 

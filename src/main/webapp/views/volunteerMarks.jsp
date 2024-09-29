@@ -113,7 +113,7 @@
 							batchList.appendChild(op1);
 
 							$.ajax({
-								url: "http://localhost:9090/valunteer/findActivebatches",
+								url: "<%=linkSetup%>valunteer/findActivebatches",
 								type: 'GET',
 								dataType: 'json',
 								success: function (batches1) {
@@ -160,7 +160,7 @@
 							var batchId = "" + document.getElementById("batchList1").value;
 							var testNo = "" + document.getElementById("testNo").value;
 
-							var url = "http://localhost:9090/valunteer/setmarks?rollNo=";
+							var url = "<%=linkSetup%>valunteer/setmarks?rollNo=";
 
 							if (marks === "" || rollNo === "" || batchId === "" || testNo=== "") {
 

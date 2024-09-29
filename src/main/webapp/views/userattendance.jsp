@@ -22,7 +22,7 @@
 												});
 												//      function for  Active batch list 
 												function findActiveBatches() {
-													var url = "http://localhost:9090/valunteer/findActivebatches";
+													var url = "<%=linkSetup%>valunteer/findActivebatches";
 													var xhttp = new XMLHttpRequest();
 													xhttp.onreadystatechange = function () {
 														if (this.readyState === XMLHttpRequest.DONE) {
@@ -140,7 +140,7 @@
 													var batchId = batchList.value;
 
 													$.ajax({
-														url: 'http://localhost:9090/valunteer/findallstudent?batchId=' + batchId,
+														url: '<%=linkSetup%>valunteer/findallstudent?batchId=' + batchId,
 														type: 'GET',
 														dataType: 'json',
 														success: function (response) {
@@ -192,7 +192,7 @@
 														});
 														return;
 													}
-													var url = "http://localhost:9090/valunteer/studentattendance/present?rollNo=" + rollNo + "&batchId=" + batchId;
+													var url = "<%=linkSetup%>valunteer/studentattendance/present?rollNo=" + rollNo + "&batchId=" + batchId;
 													markAttendence(rollNo, url, 'present', true);
 												}
 
@@ -208,7 +208,7 @@
 														});
 														return;
 													}
-													var url = "http://localhost:9090/valunteer/studentattendance/absent?rollNo=" + rollNo + "&batchId=" + batchId;
+													var url = "<%=linkSetup%>valunteer/studentattendance/absent?rollNo=" + rollNo + "&batchId=" + batchId;
 													markAttendence(rollNo, url, 'absent', true);
 												}
 
@@ -290,7 +290,7 @@
 												function bydefaultabsent() {
 													var bydefaultabsent = document.getElementById('bydefaultabsent');
 													$.ajax({
-														url: 'http://localhost:9090/valunteer/findallstudent?batchId=' + bydefaultabsent.value,
+														url: '<%=linkSetup%>valunteer/findallstudent?batchId=' + bydefaultabsent.value,
 														type: 'GET',
 														dataType: 'json',
 														success: function (response) {
@@ -340,7 +340,7 @@
 														});
 														return;
 													}
-													var url = "http://localhost:9090/valunteer/studentattendance/absent?rollNo=" + student.rollNo + "&batchId=" + student.batch.batchId;
+													var url = "<%=linkSetup%>valunteer/studentattendance/absent?rollNo=" + student.rollNo + "&batchId=" + student.batch.batchId;
 													markAttendence(student.rollNo, url, 'absent', false);
 												}
 											</script>

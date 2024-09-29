@@ -36,16 +36,16 @@
 			</section>
 			<script type="text/javascript">
 				function endbatch(batchId) {
-					url = "http://localhost:9090/admin/endbatch?id=" + batchId;
+					url = "<%=linkSetup%>admin/endbatch?id=" + batchId;
 					updatebatch(url);
 				}
 				function startbatch(batchId) {
-					url = "http://localhost:9090/admin/startbatch?id=" + batchId;
+					url = "<%=linkSetup%>admin/startbatch?id=" + batchId;
 					updatebatch(url);
 
 				}
 				function deletebatch(batchId) {
-					url = "http://localhost:9090/admin/deletebatch?id=" + batchId;
+					url = "<%=linkSetup%>admin/deletebatch?id=" + batchId;
 					updatebatch(url);
 					loadBatch();
 				}
@@ -74,7 +74,7 @@
 				function loadBatch() {
 
 					$.ajax({
-						url: 'http://localhost:9090/admin/getBatch',
+						url: '<%=linkSetup%>admin/getBatch',
 						type: 'GET',
 						dataType: 'json', // No need to parse the response manually
 						success: function (response) {

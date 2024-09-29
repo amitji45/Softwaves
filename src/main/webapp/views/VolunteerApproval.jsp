@@ -14,11 +14,11 @@
 							findAllVolunteer(""); // Replace with the actual name
 						};
 						function allowVolunteer(id, name) {
-							url = "http://localhost:9090/admin/VolunteerApproval/allow?id=";
+							url = "<%=linkSetup%>admin/VolunteerApproval/allow?id=";
 							allowOrBlockVolunteer(id, url, name);
 						}
 						function blockVolunteer(id, name) {
-							url = "http://localhost:9090/admin/VolunteerApproval/block?id=";
+							url = "<%=linkSetup%>admin/VolunteerApproval/block?id=";
 							allowOrBlockVolunteer(id, url, name);
 						}
 
@@ -33,7 +33,7 @@
 						function findAllVolunteer(name) {
 
 							$.ajax({
-								url: 'http://localhost:9090/user/findVolunteer?name=' + name,
+								url: '<%=linkSetup%>user/findVolunteer?name=' + name,
 								type: 'GET',
 								dataType: 'json', // No need to parse the response manually
 								success: function (response) {

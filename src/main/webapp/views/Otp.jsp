@@ -88,7 +88,7 @@
 									// this is the ajax call
 									$.ajax({
 
-										url: "http://localhost:9090/user/verify",
+										url: "<%=linkSetup%>user/verify",
 										type: "POST",
 										data: {
 											otp: otpValue,
