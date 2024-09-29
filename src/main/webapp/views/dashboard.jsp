@@ -142,7 +142,7 @@
                                                                                     <%=(studentUser !=null) ?"PresentsTill Today": "No data available"%>
                                                                                 </p>
 <div class="row mb-4">
-                                                                                    <div class="col-md-5 " id="drop">
+                                                                                    <div class="col-md-6 " id="drop">
                                                                                         <!-- <label for="batchList1" class="pb-2">Select Batch</label> -->
                                                                                         <select
                                                                                             class="form-control bg-primary text-light mt-0"
