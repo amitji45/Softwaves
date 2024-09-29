@@ -447,13 +447,16 @@
 														</div>
 
 													</section>
-													<div class="row gy-4 "></div>
-													<div class="col-md-12 text-center">
-														<button type="button" class="btn btn-outline-success"
-															style="display: none;" onclick="bydefaultabsent()"
-															id="bydefaultabsent" value="">Save</button>
-													</div>
-													</div>
+
+													<div class="row gy-4">
+                                                        <div class="col-md-12 d-flex justify-content-center">
+                                                            <button type="button" class="btn btn-outline-success"
+                                                                    style="display: none;"
+                                                                    onclick="bydefaultabsent()"
+                                                                    id="bydefaultabsent" value="">Save</button>
+                                                        </div>
+                                                    </div>
+
 												</main>
 												<!-- /Contact Section -->
 												<%@ include file="component/footer.jsp" %>
