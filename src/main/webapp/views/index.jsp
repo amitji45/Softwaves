@@ -23,7 +23,7 @@
 								<p>We are team of talented developer making websites using
 									JAVA</p>
 								<div class="d-flex">
-									<a href="regis" class="btn-get-started">Get
+									<a href="swt/regis" class="btn-get-started">Get
 										Started</a> <a target="_blank"
 										href="https://youtu.be/13GqYhvDk-c?si=decvfwLXWjjwgjTm"
 										class="glightbox btn-watch-video d-flex align-items-center"><i
