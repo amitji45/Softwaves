@@ -351,7 +351,7 @@
 
                                                             var studentJson = JSON.stringify(batch);
                                                             var stud = encodeURIComponent(studentJson);
-                                                            var url = 'http://localhost:9090/user/dashboard/attendance?student=' + stud;
+                                                            var url = '<%=linkSetup%>user/dashboard/attendance?student=' + stud;
 
                                                             var op = document.createElement('option');
                                                             op.textContent = batch.batch.batchTopic; // Set display text

@@ -22,7 +22,7 @@
 									findActiveBatchesnavbar();
 								});
 								function createBatch(batch_name) {
-									url = "http://localhost:9090/admin/newbatch?name=";
+									url = "<%=linkSetup%>admin/newbatch?name=";
 									var xhttp = new XMLHttpRequest();
 									xhttp.onreadystatechange = function (response) {
 										if (this.readyState == 4 && this.status == 200) {
@@ -40,7 +40,7 @@
 								}
 
 								function findEnrollBatche() {
-									var url = "http://localhost:9090/user/allbatches"; // Your API endpoint
+									var url = "<%=linkSetup%>user/allbatches"; // Your API endpoint
 									var xhttp = new XMLHttpRequest();
 
 									xhttp.onreadystatechange = function () {
@@ -112,7 +112,7 @@
 															a.textContent = batch.batchTopic;
 
 															a.addEventListener('click', function (event) {												// Prevent the default link behavior
-																var url = "http://localhost:9090/user/enrollstudent?batchId=" + batch.batchId;
+																var url = "<%=linkSetup%>user/enrollstudent?batchId=" + batch.batchId;
 																var xhr = new XMLHttpRequest();
 																xhr.onreadystatechange = function () {
 																	if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -136,7 +136,7 @@
 								// Function to toggle the visibility of the batch list
 								// Function to handle batch enrollment
 								function enrollInBatch(batchId) {
-									var url = "http://localhost:9090/user/enrollstudent?batchId=" + batchId;
+									var url = "<%=linkSetup%>user/enrollstudent?batchId=" + batchId;
 									var xhr = new XMLHttpRequest();
 									xhr.onreadystatechange = function () {
 										if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -164,7 +164,7 @@
 								}
 								//      function for  Active batch list 
 								function findActiveBatchesnavbar() {
-									var url = "http://localhost:9090/valunteer/findActivebatches";
+									var url = "<%=linkSetup%>valunteer/findActivebatches";
 									var xhttp = new XMLHttpRequest();
 
 									xhttp.onreadystatechange = function () {
