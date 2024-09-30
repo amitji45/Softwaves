@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.springboot.swt.project.utilities.Permision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -89,7 +90,7 @@ public class UserController {
 			modal.addObject("error", "Account Blocked Contact Admin Portal");
 		}
 //		modal.setViewName("redirect:/swt/login");
-		modal.setViewName("redirect:https://59a6440a-32ed-49e2-87fb-12dad7e3a1bd.e1-us-east-azure.choreoapps.dev/swt/login");
+		modal.setViewName(Permision.redirectLink+"/swt/login");
 		return modal;
 	}
 
