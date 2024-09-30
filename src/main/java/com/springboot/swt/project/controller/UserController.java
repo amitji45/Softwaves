@@ -46,6 +46,7 @@ public class UserController {
 	// Login Controller
 	@PostMapping("/login")
 	public ModelAndView login(HttpServletRequest request, @RequestParam String email, String password) {
+		String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), "");
 		ModelAndView modal = new ModelAndView();
 		User temp = userserviceimpl.login(email, password);
 		if (temp != null && temp.getAllowed().equals("Allowed")) {
@@ -55,7 +56,8 @@ public class UserController {
 				session.setAttribute("user", temp);
 				Student student = studentServiceImpl.getActiveStudent(temp);
 				session.setAttribute("activeStudentUser", student);
-				modal.setViewName("redirect:dashboard");
+				modal.setViewName("redirect:" + baseUrl + "/dashboard");
+//				modal.setViewName("redirect:dashboard");
 
 				List<Integer> studentMarks = userserviceimpl.getMarksList(temp.getId());
 				session.setAttribute("studentMarks", studentMarks);
@@ -76,7 +78,10 @@ public class UserController {
 				session.setAttribute("volunteerList", volunteerList);
 				session.setAttribute("avgBatches", avgBatches);
 				session.setAttribute("admin", temp);
-				modal.setViewName("redirect:/admin/dashboard");
+
+
+//				modal.setViewName("redirect:/admin/dashboard");
+				modal.setViewName("redirect:" + baseUrl + "/admin/dashboard");
 				return modal;
 			}
 		}
