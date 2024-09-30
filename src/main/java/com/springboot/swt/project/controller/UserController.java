@@ -88,7 +88,8 @@ public class UserController {
 		} else {
 			modal.addObject("error", "Account Blocked Contact Admin Portal");
 		}
-		modal.setViewName("redirect:/swt/login");
+//		modal.setViewName("redirect:/swt/login");
+		modal.setViewName("redirect:https://59a6440a-32ed-49e2-87fb-12dad7e3a1bd.e1-us-east-azure.choreoapps.dev/swt/login");
 		return modal;
 	}
 
