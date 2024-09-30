@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.springboot.swt.project.utilities.Permision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,7 +89,8 @@ public class UserController {
 		} else {
 			modal.addObject("error", "Account Blocked Contact Admin Portal");
 		}
-		modal.setViewName("redirect:/swt/login");
+//		modal.setViewName("redirect:/swt/login");
+		modal.setViewName(Permision.redirectLink+"/swt/login");
 		return modal;
 	}
 
