@@ -3,7 +3,7 @@ String assetspath = "/assets/";
 String siteName = "SoftWaves Technologies";
 String address = "414, Shagun Tower Vijay Nagar";
 String phoneNo = "+91 9770397704";
-String linkSetup = "https://59a6440a-32ed-49e2-87fb-12dad7e3a1bd.e1-us-east-azure.choreoapps.dev/";
+String linkSetup = "https://96f09319-d4f4-407c-8550-6663d27474d1.e1-us-east-azure.choreoapps.dev/";
 %>
 <meta charset="utf-8">
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
