@@ -90,7 +90,7 @@ public class UserController {
 			modal.addObject("error", "Account Blocked Contact Admin Portal");
 		}
 //		modal.setViewName("redirect:/swt/login");
-		modal.setViewName(Permision.redirectLink+"/swt/login");
+		modal.setViewName("redirect:/swt/login");
 		return modal;
 	}
 
