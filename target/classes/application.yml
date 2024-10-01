@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: Softwaves
+
+  mvc:
+    view:
+      prefix: /views/
+      suffix: .jsp
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://193.203.184.159:3306/u509202055_swt_db
+    username: u509202055_swtdb
+    password: Swt@97703
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 9090
