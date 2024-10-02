@@ -90,7 +90,7 @@ public class UserController {
 			modal.addObject("error", "Account Blocked Contact Admin Portal");
 		}
 //		modal.setViewName("redirect:/swt/login");
-		modal.setViewName("redirect:/swt/login");
+		modal.setViewName("redirect:https://d970cd84-6da2-4608-9620-6f7cf53d725c.e1-us-east-azure.choreoapps.dev/swt/login");
 		return modal;
 	}
 

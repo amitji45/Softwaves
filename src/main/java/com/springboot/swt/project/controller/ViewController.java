@@ -17,6 +17,7 @@ public class ViewController {
 
 	@RequestMapping("/login")
 	public String getLoginPage() {
+		System.out.println("login worked");
 		return "login";
 	}
 
