@@ -2,6 +2,7 @@ package com.springboot.swt.project.controller;
 
 import java.util.List;
 
+import com.springboot.swt.project.utilities.Permision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,14 +41,14 @@ public class AdminController {
 	@RequestMapping("/dashboard")
 	public String getAdminDashboard(HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:/swt/login";
+			return "redirect:"+Permision.redirectLink+"/swt/login";
 		return "admindashboard";
 	}
 
 	@RequestMapping("/allBatches")
 	public String createBatchPage(Model model, HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:/swt/login";
+			return "redirect:"+Permision.redirectLink+"/swt/login";
 		model.addAttribute("batches", batchservicesimpl.getAllBatches());
 		return "newbatch";
 	}
@@ -67,7 +68,7 @@ public class AdminController {
 	@RequestMapping("/approval")
 	public String getNotAllowedUsers(Model model, HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:/swt/login";
+			return "redirect:"+Permision.redirectLink+"/swt/login";
 		model.addAttribute("data", userserviceimpl.getNotAllowedUsers());
 		return "approval";
 	}
@@ -76,7 +77,7 @@ public class AdminController {
 	@RequestMapping("/approval/allow")
 	public String allowByID(@RequestParam("id") String id, HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:/swt/login";
+			return "redirect:"+Permision.redirectLink+"/swt/login";
 		userserviceimpl.allowOrBlockUserByID(id, "Allowed");
 		return "Allowed";
 	}
@@ -85,7 +86,7 @@ public class AdminController {
 	@RequestMapping("/approval/block")
 	public String blockByID(@RequestParam("id") String id, HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:/swt/login";
+			return "redirect:"+Permision.redirectLink+"/swt/login";
 		userserviceimpl.allowOrBlockUserByID(id, "Blocked");
 		return "Blocked";
 	}
@@ -107,7 +108,7 @@ public class AdminController {
 	@RequestMapping("/VolunteerApproval")
 	public String VApproval(Model model, HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:/swt/login";
+			return "redirect:"+Permision.redirectLink+"/swt/login";
 		// model.addAttribute("data", studentAttendanceServiceImpl.findAllStudent());
 		return "VolunteerApproval";
 	}
@@ -126,7 +127,7 @@ public class AdminController {
 	@RequestMapping("/VolunteerApproval/allow")
 	public String approveVolunteerByID(@RequestParam("id") String id, HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:/swt/login";
+			return "redirect:"+Permision.redirectLink+"/swt/login";
 		userserviceimpl.allowOrBlockVolunteerByID(id, "Volunteer");
 		return "Volunteer";
 	}
@@ -135,7 +136,7 @@ public class AdminController {
 	@RequestMapping("/VolunteerApproval/block")
 	public String blockVolunteerByID(@RequestParam("id") String id, HttpServletRequest request) {
 		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:/swt/login";
+			return "redirect:"+Permision.redirectLink+"/swt/login";
 		userserviceimpl.allowOrBlockVolunteerByID(id, "Student");
 		return "Student";
 	}

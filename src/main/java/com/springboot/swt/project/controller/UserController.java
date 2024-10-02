@@ -56,7 +56,7 @@ public class UserController {
 				session.setAttribute("user", temp);
 				Student student = studentServiceImpl.getActiveStudent(temp);
 				session.setAttribute("activeStudentUser", student);
-				modal.setViewName("redirect:dashboard");
+				modal.setViewName("redirect:"+Permision.redirectLink+"/user/dashboard");
 
 				List<Integer> studentMarks = userserviceimpl.getMarksList(temp.getId());
 				session.setAttribute("studentMarks", studentMarks);
@@ -77,7 +77,7 @@ public class UserController {
 				session.setAttribute("volunteerList", volunteerList);
 				session.setAttribute("avgBatches", avgBatches);
 				session.setAttribute("admin", temp);
-				modal.setViewName("redirect:/admin/dashboard");
+				modal.setViewName("redirect:"+Permision.redirectLink+"/admin/dashboard");
 				return modal;
 			}
 		}
@@ -90,14 +90,15 @@ public class UserController {
 			modal.addObject("error", "Account Blocked Contact Admin Portal");
 		}
 //		modal.setViewName("redirect:/swt/login");
-		modal.setViewName("redirect:https://d970cd84-6da2-4608-9620-6f7cf53d725c.e1-us-east-azure.choreoapps.dev/swt/login");
+		modal.setViewName("redirect:"+Permision.redirectLink+"/swt/login");
 		return modal;
 	}
 
 	@RequestMapping("/dashboard")
 	public String getDashBoard(HttpServletRequest request) {
 		if (request.getSession().getAttribute("user") == null)
-			return "redirect:/swt/login";
+			return "redirect:"+Permision.redirectLink+"/swt/login";
+		System.out.println("dashboard worked fine");
 		return "dashboard";
 	}
 
@@ -112,11 +113,11 @@ public class UserController {
 
 		if (temp == null) {
 			modal.addObject("error", message); // Using the message from the map
-			modal.setViewName("redirect:/swt/regis");
+			modal.setViewName("redirect:"+Permision.redirectLink+"/swt/regis");
 			return modal;
 		}
 		modal.addObject("success", message);
-		modal.setViewName("redirect:/swt/login");
+		modal.setViewName("redirect:"+Permision.redirectLink+"/swt/login");
 		return modal;
 	}
 	
@@ -138,13 +139,13 @@ public class UserController {
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request) {
 		request.getSession().invalidate();
-		return "redirect:/swt/";
+		return "redirect:"+Permision.redirectLink+"/swt/";
 	}
 
 	@RequestMapping("/dashboard/attendance")
 	public String getAttendance(@RequestParam("student") String encodedJson, Model model, HttpServletRequest request) {
 		if (request.getSession().getAttribute("user") == null)
-			return "redirect:/swt/login";
+			return "redirect:"+Permision.redirectLink+"/swt/login";
 		HttpSession session = request.getSession();
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -167,7 +168,7 @@ public class UserController {
 			modal.addObject("purpose", purpose);
 			modal.setViewName("forward:/views/Otp.jsp");
 		} else {
-			modal.setViewName("redirect:/views/forgetPassword.jsp");
+			modal.setViewName("redirect:"+Permision.redirectLink+"/views/forgetPassword.jsp");
 			modal.addObject("error", "email is not registered");
 		}
 
@@ -214,14 +215,14 @@ public class UserController {
 	public ModelAndView resetPassword(@RequestParam("email") String email, String pass1, String pass2) {
 
 		userserviceimpl.resetPassword(email, pass1);
-		return new ModelAndView("redirect:/swt/login", "success", "password successfully is changed ");
+		return new ModelAndView("redirect:"+Permision.redirectLink+"/swt/login", "success", "password successfully is changed ");
 
 	}
 
 	@RequestMapping("/marks")
 	public String getStudentMarks(HttpServletRequest request, @RequestParam String id) {
 		if (request.getSession().getAttribute("user") == null)
-			return "redirect:/swt/login";
+			return "redirect:"+Permision.redirectLink+"/swt/login";
 		List<Integer> marksList = userserviceimpl.getMarksList(id);
 		HttpSession session = request.getSession();
 		session.setAttribute("marksList", marksList);
@@ -269,7 +270,7 @@ public class UserController {
 		ModelAndView modalValid = new ModelAndView();
 		if (out[0].equals("false")) {
 			modalValid.addObject("error", out[1]);
-			modalValid.setViewName("redirect:/swt/regis");
+			modalValid.setViewName("redirect:"+Permision.redirectLink+"/swt/regis");
 			return modalValid;
 		}
 
@@ -280,7 +281,7 @@ public class UserController {
 		User temp = (User) result.get("user");
 		if (temp == null) {
 			modal.addObject("error", message);
-			modal.setViewName("redirect:/swt/regis");
+			modal.setViewName("redirect:"+Permision.redirectLink+"/swt/regis");
 			return modal;
 		}
 		modal.addObject("user", user);
