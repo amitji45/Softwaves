@@ -264,7 +264,14 @@ public class UserServiceImpl implements UserService {
             currenttime = currenttime.append("0" + local.getMonthValue() + "-");
         else
             currenttime = currenttime.append(local.getMonthValue() + "-");
+
+        if(local.getDayOfMonth()<=9)
+        {
+            currenttime = currenttime.append("0" +local.getDayOfMonth());
+        }
+        else
         currenttime = currenttime.append(local.getDayOfMonth());
+
         Date date = student.getBatch().getStartDate();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -299,12 +306,8 @@ public class UserServiceImpl implements UserService {
         StringBuilder currenttime = new StringBuilder();
         currenttime = currenttime.append(local.getYear() + "-");
         int month = local.getMonthValue();
-        if (month <= 9)
-            currenttime = currenttime.append("0" + local.getMonthValue() + "-");
-        else
-            currenttime = currenttime.append(local.getMonthValue() + "-");
-        currenttime = currenttime.append(local.getDayOfMonth());
-
+        currenttime=(month <= 9)?currenttime.append("0" + local.getMonthValue() + "-"):currenttime.append(local.getMonthValue() + "-");
+        currenttime=(local.getDayOfMonth()<=9)?currenttime.append("0" + local.getDayOfMonth()):currenttime.append(local.getDayOfMonth());
         if (student.absent.contains(currenttime.toString()))// mana galti se pehle pesent lag gai to
             return student;
         Date date = student.getBatch().getStartDate();
@@ -312,10 +315,10 @@ public class UserServiceImpl implements UserService {
         calendar.setTime(date);
         // Correctly create LocalDate using month and day
         LocalDate sqllocalDate = LocalDate.of(calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
-                calendar.get(Calendar.DAY_OF_MONTH));
+        calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
+        calendar.get(Calendar.DAY_OF_MONTH));
         long totalday = ChronoUnit.DAYS.between(sqllocalDate, local) + 1;
-        if (totalday != 0 && (totalday == student.absent.size() + student.getAttendanceCount()
+        if (totalday != 0 &&(totalday == student.absent.size() + student.getAttendanceCount()
                 && student.getAttendanceCount() >= 1)) {
             student.setAttendanceCount(student.getAttendanceCount() - 1);
         }

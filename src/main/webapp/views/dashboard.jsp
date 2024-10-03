@@ -12,7 +12,8 @@
 					</head>
 
 					<body>
-						<% User user=(User) session.getAttribute("user"); Student studentUser=(Student)
+						<% User user=(User) session.getAttribute("user");
+						 Student studentUser=(Student)
 							session.getAttribute("activeStudentUser"); List<Integer> marksList=(List<Integer>
 								)session.getAttribute("studentMarks");
 
@@ -123,7 +124,7 @@
 																				<h5 class="font-weight-bolder">
 																					<%=(studentUser!=null)?studentUser.getAttendanceCount(): "0"%>
 																				</h5>
-                                                                                    
+
 
   <p class="mb-0">
                                                                                     <span
@@ -131,7 +132,7 @@
                                                                                     <%=(studentUser !=null) ?"PresentsTill Today": "No data available"%>
                                                                                 </p>
 	                                                                            <a class="bg-gradient-primary shadow-primary btn text-light mt-1"
-                                                                                    href="/user/marks?id=<%=(user != null) ? user.getId() : null%>">View</a>
+                                                                                    href="/user/dashboard/attendance?student=null">View</a>
 																			</div>
 																		</div>
 																		<div class="col-4 text-end">
@@ -156,7 +157,7 @@
 																					TEST</p>
 																				<h5 class="font-weight-bolder">
 																					<%=marksList!=null?marksList.size():0
-																						%>
+																				%>
 																				</h5>
 																				<p class="mb-0">
 																					<span
@@ -279,78 +280,7 @@
 												<script src="<%=assetspath%>js/main.js"></script>
 												<script src="<%=assetspath%>js/chartjs.min.js"></script>
 												<script>
-													document.addEventListener('DOMContentLoaded', function () {
-														findStudentBatches();
-													});
-													function findStudentBatches() {
-														var url = "<%=linkSetup%>user/find/student/batch";
-														var xhttp = new XMLHttpRequest();
-														xhttp.onreadystatechange = function () {
-															if (this.readyState === XMLHttpRequest.DONE) {
-																if (this.status === 200) {
-																	try {
-																		var batchList = document.getElementById('navmenu');
-																		batchList.style.display = batchList.style.display === 'block' ? 'none' : 'block';
-																		// Attempt to parse the JSON response
-																		const response = JSON.parse(this.responseText);
-																		updateBatchList(response);
-																	}
-																	catch (e) {
-																		// Handle JSON parsing error
-																		$('#navmenu').empty();
-																		console.error('Error parsing JSON:', e);
-																		alert('Error: Unable to parse the response.');
-																	}
-																} else {
-																	alert('Error: ' + this.statusText);
-																	console.error('Request failed. Status:', this.status,
-																		'Status text:', this.statusText);
-																}
-															}
-														};
 
-														xhttp.open("GET", url, true);
-														xhttp.send();
-													}
-
-													// Function to update the batch list
-
-													function updateBatchList(batches1) {
-                                                        var batchList = document.getElementById('batchList1');
-                                                        batchList.innerHTML = ''; // Clear existing options
-
-                                                        var op1 = document.createElement('option');
-                                                        op1.textContent = 'View'; // Default text
-                                                        op1.disabled = true; // Disable the default option
-                                                        op1.selected = true; // Set it as selected
-                                                        batchList.appendChild(op1);
-
-                                                        batches1.forEach(function (batch) {
-                                                            if (!batch.batch.batchId || !batch.batch.batchTopic) {
-                                                                console.warn('Batch object missing required properties:', batch);
-                                                                return;
-                                                            }
-
-                                                            var studentJson = JSON.stringify(batch);
-                                                            var stud = encodeURIComponent(studentJson);
-                                                            var url = '<%=linkSetup%>user/dashboard/attendance?student=' + stud;
-
-                                                            var op = document.createElement('option');
-                                                            op.textContent = batch.batch.batchTopic; // Set display text
-                                                            op.setAttribute('data-url', url); // Store the URL
-                                                            batchList.appendChild(op); // Append the option to the select element
-                                                        });
-                                                    }
-                                                    function findStudentBatches1() {
-                                                                                                            var batchList = document.getElementById('batchList1');
-                                                                                                            var selectedOption = batchList.options[batchList.selectedIndex];
-
-                                                                                                            // Get the URL from the selected option's data-url attribute
-                                                                                                            var selectedUrl = selectedOption.getAttribute('data-url');
-                                                                                                            if (selectedUrl) {
-                                                                                                                window.location.href = selectedUrl; // Navigate to the URL
-                                                                                                            }
-                                                                                                        }
 
 													var ctx1 = document.getElementById("chart-line").getContext("2d");
 													var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
@@ -441,7 +371,7 @@
     %>
 																list.push(0);
     <%}%>
-															console.log(list);
+
 														return list;
 													}
 

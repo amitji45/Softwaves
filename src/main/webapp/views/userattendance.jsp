@@ -305,6 +305,7 @@
 															response.forEach(function (student) {
 																const startDate = new Date(student.batch.startDate);
 																const timeDifference = today.getTime() - startDate.getTime();
+																console.log(startDate+'     '+today.getDate());
 																const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
 																const totalattendance = student.absent.length + student.attendanceCount;
 																if (totalattendance < daysDifference) {

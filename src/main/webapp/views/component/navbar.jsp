@@ -16,7 +16,7 @@
 						List<Batch> batches = (List<Batch>) request.getAttribute("temp");
 							%>
 							<script type="text/javascript">
-								 
+
 								document.addEventListener('DOMContentLoaded', function () {
 									findEnrollBatche();
 									findActiveBatchesnavbar();
@@ -26,12 +26,12 @@
 									var xhttp = new XMLHttpRequest();
 									xhttp.onreadystatechange = function (response) {
 										if (this.readyState == 4 && this.status == 200) {
-											
+
 											Swal.fire({
 												icon: "success",
 												title: "Done",
 												text: response.target.responseText,
-												
+
 											});
 										}
 									};
@@ -50,7 +50,7 @@
 													var response = JSON.parse(this.responseText); // Parse the JSON response
 													handleResponse(response);
 												} catch (error) {
-													console.log("Error parsing JSON:", error);
+													console.log("Error batch  fetch problem parsing JSON:", error);
 
 												}
 											} else {
@@ -66,29 +66,24 @@
 
 								// Function to handle the response and update the dropdown
 								function handleResponse(response) {
-									// Clear previous dropdown if it exists
+
 									var dropdownContainer = document.getElementById('dropdownContainer');
-									dropdownContainer.innerHTML =' '; // Clear existing dropdown
-									// Only proceed if response length is >= 1
+									dropdownContainer.innerHTML = ''; // Clear existing dropdown
+
 									if (Array.isArray(response) && response.length >= 1) {
-										// Create the dropdown structure
+
+										document.getElementById('findenrollbatchnoneblock').style.display = 'block'
 										var enrollBatch = document.createElement('li');
 										enrollBatch.className = 'dropdown';
 										enrollBatch.id = 'enrollBatch';
-										// Add the anchor tag
-										enrollBatch.innerHTML = `
-														<a href="#">
-															<span>Enroll</span>
-															<i class="bi bi-chevron-down toggle-dropdown"></i>
-														</a>
-														<ul id="batchList">
-															</ul>
-													`;
+
+										enrollBatch.innerHTML = `<li id="batchList" class="dropdown"></li>`;
 										// Append the dropdown to the container
 										dropdownContainer.appendChild(enrollBatch);
 										// Update the batch list with the response data
 										updateEnrollBatchList(response);
 									} else {
+										document.getElementById('findenrollbatchnoneblock').style.display = 'none'
 										// Handle the case when no batches are found
 										// console.log("No batches found.");
 										// showError("No batches available for Enroll");
@@ -97,42 +92,42 @@
 								}
 
 								// Function to update the batch list with the response data
-								
-												function updateEnrollBatchList(batches) {
-													var batchList = document.getElementById('batchList');
 
-													// Clear existing items
-													batchList.innerHTML = '';
+								function updateEnrollBatchList(batches) {
+									var batchList = document.getElementById('batchList');
 
-													// Iterate over the batches and create list items
-													batches
-														.forEach(function (batch) {
-															var li = document.createElement('li');
-															var a = document.createElement('a');
-															a.textContent = batch.batchTopic;
+									// Clear existing items
+									batchList.innerHTML = '';
 
-															a.addEventListener('click', function (event) {												// Prevent the default link behavior
-																var url = "<%=linkSetup%>user/enrollstudent?batchId=" + batch.batchId;
-																var xhr = new XMLHttpRequest();
-																xhr.onreadystatechange = function () {
-																	if (xhr.readyState === XMLHttpRequest.DONE) {
-																		if (this.status === 200) {
-																			showError(xhr.responseText);
-																		} else {
-																			showError(xhr.statusText);
-																			$('#enrollBatch').empty();
-																			location.reload();
-																		}
-																	}
-																};
-																xhr.open('GET', url, true);
-																xhr.send();
-															});
-															li.appendChild(a);
-															batchList.appendChild(li);
-														});
+									// Iterate over the batches and create list items
+									batches
+										.forEach(function (batch) {
+											var li = document.createElement('li');
+											var a = document.createElement('a');
+											a.textContent = batch.batchTopic;
 
-												}
+											a.addEventListener('click', function (event) {												// Prevent the default link behavior
+												var url = "<%=linkSetup%>user/enrollstudent?batchId=" + batch.batchId;
+												var xhr = new XMLHttpRequest();
+												xhr.onreadystatechange = function () {
+													if (xhr.readyState === XMLHttpRequest.DONE) {
+														if (this.status === 200) {
+															showError(xhr.responseText);
+														} else {
+															showError(xhr.statusText);
+															$('#enrollBatch').empty();
+															location.reload();
+														}
+													}
+												};
+												xhr.open('GET', url, true);
+												xhr.send();
+											});
+											li.appendChild(a);
+											batchList.appendChild(li);
+										});
+
+								}
 								// Function to toggle the visibility of the batch list
 								// Function to handle batch enrollment
 								function enrollInBatch(batchId) {
@@ -143,9 +138,9 @@
 											if (xhr.status === 200) {
 												showError(xhr.responseText); // Show success message
 												// Optionally refresh the list or take other actions
-											 // Reload batches to reflect any changes
+												// Reload batches to reflect any changes
 											} else {
-												showError("Error enrolling in batch: " + xhr.statusText); // Show error message
+												//	showError("Error enrolling in batch: " + xhr.statusText); // Show error message
 												console.error("Error enrolling in batch:", xhr.statusText);
 											}
 										}
@@ -156,19 +151,19 @@
 								// Function to show error messages to the user
 								function showError(message) {
 									Swal.fire({
-									                                                   icon : "info",
-                                    												title: "Message:",
-                                    												text: message,
-                                                                                    timer : 2000
-                                    											});// You can replace this with a more sophisticated UI element
+										icon: "info",
+										title: "Message:",
+										text: message,
+										timer: 2000
+									});// You can replace this with a more sophisticated UI element
 								}
-								//      function for  Active batch list 
+								//      function for  Active batch list
 								function findActiveBatchesnavbar() {
 									var url = "<%=linkSetup%>valunteer/findActivebatches";
 									var xhttp = new XMLHttpRequest();
 
 									xhttp.onreadystatechange = function () {
-										
+
 										var userattendanceli = document.getElementById('userattendanceli');
 										if (this.readyState === XMLHttpRequest.DONE) {
 											if (this.status === 200) {
@@ -180,7 +175,7 @@
 												} catch (e) {
 													userattendanceli.style.display = 'none';
 												}
-											} 
+											}
 										}
 									};
 									xhttp.open("GET", url, true);
@@ -194,27 +189,37 @@
 									<% if (user1 !=null && user1.getRole().equalsIgnoreCase("volunteer") || user1 !=null
 										&& user1.getRole().equalsIgnoreCase("Student")) { %>
 										<li><a href="/user/dashboard" class="active">Home</a></li>
+										<li class="dropdown" id="findenrollbatchnoneblock" style="display:none;">
+											<a href="#" onclick="findEnrollBatche()"><span>Enroll</span>
+												<i class="bi bi-chevron-down toggle-dropdown"></i>
+											</a>
+											<ul id="dropdownContainer">
+
+											</ul>
+										</li>
 
 										<% if (user1 !=null && user1.getRole().equalsIgnoreCase("volunteer")) { %>
 											<li id="userattendanceli" style="display: none;"><a
 													href="/valunteer/userattendance">Attendance</a></li>
-											<li id="usermarksli" style="display: none;"><a href="/valunteer/volunteerMarks">Marking</a></li>
+											<li id="usermarksli" style="display: none;"><a
+													href="/valunteer/volunteerMarks">Marking</a></li>
 											<% } %>
 												<% } else if (admin !=null && admin.getRole().equalsIgnoreCase("Admin"))
 													{ %>
 													<li><a href="/admin/dashboard" class="active">Home</a></li>
-													
+
 													<% } else { %>
-														<li><a href="#home" class="active">Home</a></li>
-														<li><a href="#about">About</a></li>
-														<li><a href="#rules">Rules</a></li>
-														<li><a href="#review">Review</a></li>
-														<li><a href="#contact">Contact</a></li>
+														<li><a href="/swt/" class="active">Home</a></li>
+														<li><a href="/swt/#about">About</a></li>
+														<li><a href="/swt/#rules">Rules</a></li>
+														<li><a href="/swt/#review">Review</a></li>
+														<li><a href="/swt/#contact">Contact</a></li>
 														<% } %>
-															<% if (admin !=null &&admin.getRole().equalsIgnoreCase("Admin")) { %>
+															<% if (admin !=null
+																&&admin.getRole().equalsIgnoreCase("Admin")) { %>
 																<li class="dropdown"><a href="#"><span>Students</span>
-																		<i
-																			class="bi bi-chevron-down toggle-dropdown"></i></a>
+																		<i class="bi bi-chevron-down toggle-dropdown">
+																		</i></a>
 																	<ul>
 																		<li><a href="/admin/approval">Approval</a></li>
 
@@ -235,8 +240,9 @@
 																					class="bi bi-chevron-down toggle-dropdown"></i></a>
 																			<ul>
 																				<li><a href="#"
-																						onclick="createBatch('C Programming')">C Programming
-																						</a></li>
+																						onclick="createBatch('C Programming')">C
+																						Programming
+																					</a></li>
 																				<li><a href="#"
 																						onclick="createBatch('Core Java')">Core
 																						Java</a></li>
@@ -254,21 +260,7 @@
 
 																	</ul>
 																</li>
-
 																<% } %>
-																	<% if (user1 !=null) { %>
-																		<div id="dropdownContainer">
-
-																			<!-- <li class="dropdown" id="enrollBatch" style="display: none;"><a href="#"><span>Enroll</span>
-																				<i
-																				class="bi bi-chevron-down toggle-dropdown"></i></a>
-																				<ul>
-																					<li id="batchList" id="batchId" />
-
-																				</ul>
-																			</li> -->
-																		</div>
-																		<% } %>
 								</ul>
 								<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 							</nav>

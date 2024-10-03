@@ -1,4 +1,5 @@
 <%@ page import="com.springboot.swt.project.entity.Student"%>
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ page import="java.time.LocalDate"%>
 <%@ page import="java.sql.Date"%>
@@ -13,29 +14,118 @@
 <link href="<%=assetspath%>css/attendance.css" rel="stylesheet">
 </head>
 <body>
+<%
+   String encodedJson = request.getParameter("student");
+    Student studentUser =null;
+try {
+       ObjectMapper objectMapper = new ObjectMapper();
+         studentUser = objectMapper.readValue(encodedJson, Student.class);
+
+   } catch (Exception e) {
+   }
+%>
+<script>
+
+    	function findStudentBatches() {
+
+    	var url = "<%=linkSetup%>user/find/student/batch";
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === XMLHttpRequest.DONE) {
+                if (this.status === 200) {
+                    try {
+                        const response = JSON.parse(this.responseText);
+                        updateBatchList(response);
+                    }
+                    catch (e) {
+                        console.error('Error parsing JSON:', e);
+
+                    }
+                } else {
+
+                    console.error('Request failed. Status:', this.status,
+                        'Status text:', this.statusText);
+                }
+            }
+        };
+
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+
+    function updateBatchList(batches1) {
+
+        var batchList = document.getElementById('batchList1');
+        batchList.innerHTML = ''; // Clear existing options
+
+        var op1 = document.createElement('option');
+        op1.textContent = 'None'; // Default text
+        op1.disabled = true; // Disable the default option
+        op1.selected = true; // Set it as selected
+        batchList.appendChild(op1);
+
+        batches1.forEach(function (batch) {
+            if (!batch.batch.batchId || !batch.batch.batchTopic) {
+                console.warn('Batch object missing required properties:', batch);
+                return;
+            }
+
+            var studentJson = JSON.stringify(batch);
+            var stud = encodeURIComponent(studentJson);
+            var url = '<%=linkSetup%>user/dashboard/attendance?student=' + stud;
+
+            var op = document.createElement('option');
+            op.textContent = batch.batch.batchTopic; // Set display text
+            op.setAttribute('data-url', url); // Store the URL
+            batchList.appendChild(op); // Append the option to the select element
+        });
+    }
+    function findStudentBatches1() {
+
+        var batchList = document.getElementById('batchList1');
+        var selectedOption = batchList.options[batchList.selectedIndex];
+
+        // Get the URL from the selected option's data-url attribute
+        var selectedUrl = selectedOption.getAttribute('data-url');
+        if (selectedUrl) {
+            window.location.replace(selectedUrl); // Navigate to the URL
+        }
+    }
+	document.addEventListener('DOMContentLoaded', function () {
+        findStudentBatches();
+        });
+
+</script>
     <%@ include file="component/navbar.jsp"%>
     <%
-    Student student = (Student) request.getAttribute("studentdecodedobject");
+     Student student = (Student) request.getAttribute("studentdecodedobject");
     %>
     <div class="container text-center">
+    <div class="col-md-12">
+        <label for="email-field" class="pb-2">Select
+            Batch:- 	<%=(studentUser !=null) ?studentUser.getBatch().getBatchTopic():""%></label>
+        <select class="form-control" name="batch"
+            id="batchList1" selected="selected"
+            onchange="findStudentBatches1()">
+        </select>
+    </div>
         <div id="calendar" class="">
             <table class="table">
                 <tbody>
-                    <%
-                    if (student != null && student.getBatch().getStartDate() != null) {
+                    <%if(student != null && student.getBatch().getStartDate() != null) {
                         Date date = student.getBatch().getStartDate();
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTime(date);
-
                         LocalDate localDate = LocalDate.of(calendar.get(Calendar.YEAR),
                             calendar.get(Calendar.MONTH) + 1,
                             calendar.get(Calendar.DAY_OF_MONTH));
-
                         boolean isAbsent = false;
                         int totalDays = student.getAttendanceCount() + student.absent.size();
 
                         if (totalDays >= 1) {
-                            for (int i = 1; i <= totalDays; i++) {
+                            for (int i = 1; i <= totalDays; i++)
+                            {
+
                                 DayOfWeek dayOfWeek = localDate.getDayOfWeek();
                                 String dayName = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault());
                                 isAbsent = false;
@@ -96,11 +186,12 @@
                         <div class="container">
                             <div class="row justify-content-center text-center">
                                 <div class="col-lg-6">
-                                    <h1>Batch is Not Started Yet</h1>
+                                    <h1>Please select Active batch or Completed batch</h1>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <%
                     }
                     %>
