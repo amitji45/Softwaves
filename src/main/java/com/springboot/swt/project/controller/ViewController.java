@@ -10,38 +10,38 @@ import com.springboot.swt.project.entity.User;
 @RequestMapping("/swt")
 public class ViewController {
 
-	@RequestMapping({ "", "/", "/home", "/index" })
-	public String getLandingPage() {
-		return "index";
-	}
+    @RequestMapping({"", "/", "/home", "/index"})
+    public String getLandingPage() {
+        return "index";
+    }
 
-	@RequestMapping("/login")
-	public String getLoginPage() {
-		System.out.println("login worked");
-		return "login";
-	}
+    @RequestMapping("/login")
+    public String getLoginPage() {
+        System.out.println("login worked");
+        return "login";
+    }
 
-	@RequestMapping("/regis")
-	public String getRegistrationPage(Model model) {
-		model.addAttribute("user", new User());
-		return "regis";
-	}
+    @RequestMapping("/regis")
+    public String getRegistrationPage(Model model) {
+        model.addAttribute("user", new User());
+        return "regis";
+    }
 
-	@RequestMapping("/forget")
-	public String forget(Model model) {
-		model.addAttribute("user", new User());
-		return "forgetPassword";// this will redirect us to forget password page
-	}
+    @RequestMapping("/forget")
+    public String forget(Model model) {
+        model.addAttribute("user", new User());
+        return "forgetPassword";// this will redirect us to forget password page
+    }
 
-	@RequestMapping("/reset")
-	public String reset(Model model) {
-		model.addAttribute("user", new User());
-		return "PasswordReset";
-	}
+    @RequestMapping("/reset")
+    public String reset(Model model) {
+        model.addAttribute("user", new User());
+        return "PasswordReset";
+    }
 
-	@RequestMapping("/otp")
-	public String Otp(Model model) {
-		return "Otp";
-	}
+    @RequestMapping("/otp")
+    public String Otp(Model model) {
+        return "Otp";
+    }
 
 }

@@ -112,7 +112,7 @@
 												<section class="col py-4">
 													<div class="row">
 														<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-															<div class="card style=" min-height: 250px;">
+															<div class="card  d-flex align-items-stretch" style="min-height: 150px;">
 																<div class=" card-body p-3">
 																	<div class="row">
 																		<div class="col-8">
@@ -123,35 +123,15 @@
 																				<h5 class="font-weight-bolder">
 																					<%=(studentUser!=null)?studentUser.getAttendanceCount(): "0"%>
 																				</h5>
-                                                                                    <style>
-                                                                                    #batchList1 option {
-                                                                                        background-color: white;
-                                                                                        color: black;
-                                                                                    }
-
-
-                                                                                    #batchList1 option:checked {
-                                                                                        background-color:white;
-                                                                                        color: black;
-                                                                                    }
-                                                                                    </style>
+                                                                                    
 
   <p class="mb-0">
                                                                                     <span
                                                                                         class="text-success text-sm font-weight-bolder"></span>
                                                                                     <%=(studentUser !=null) ?"PresentsTill Today": "No data available"%>
                                                                                 </p>
-<div class="row mb-4">
-                                                                                    <div class="col-md-6 " id="drop">
-                                                                                        <!-- <label for="batchList1" class="pb-2">Select Batch</label> -->
-                                                                                        <select
-                                                                                            class="form-control bg-primary text-light mt-0"
-                                                                                            name="batch" id="batchList1"
-                                                                                            onchange="findStudentBatches1()">
-                                                                                            <!-- Options will be dynamically added here -->
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
+	                                                                            <a class="bg-gradient-primary shadow-primary btn text-light mt-1"
+                                                                                    href="/user/marks?id=<%=(user != null) ? user.getId() : null%>">View</a>
 																			</div>
 																		</div>
 																		<div class="col-4 text-end">
@@ -166,7 +146,7 @@
 															</div>
 														</div>
 														<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-															<div class="card style=" min-height: 250px;">
+															<div class="card  d-flex align-items-stretch" style="min-height: 150px;">
 																<div class="card-body p-3">
 																	<div class="row">
 																		<div class="col-8">
@@ -182,9 +162,11 @@
 																					<span
 																						class="text-success text-sm font-weight-bolder"></span>
 																					<%=(average !=null) ? average+" average going": "No data available" %>
-																						<a class="bg-gradient-warning btn text-light mt-1"
-																							href="/user/marks?id=<%=(user != null) ? user.getId() : null%>">View</a>
+
 																				</p>
+																				<a class="bg-gradient-warning btn text-light mt-1"
+                                                                                    href="/user/marks?id=<%=(user != null) ? user.getId() : null%>">View</a>
+
 																			</div>
 																		</div>
 																		<div class="col-4 text-end">
@@ -199,7 +181,7 @@
 															</div>
 														</div>
 														<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-															<div class="card style=" min-height: 250px;">
+															<div class="card  d-flex align-items-stretch" style="min-height: 150px;">
 																<div class="card-body p-3">
 																	<div class="row">
 																		<div class="col-8">
@@ -230,7 +212,7 @@
 															</div>
 														</div>
 														<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-															<div class="card style=" min-height: 250px;">
+															<div class="card  d-flex align-items-stretch" style="min-height: 150px;">
 																<div class="card-body p-3">
 																	<div class="row">
 																		<div class="col-8">

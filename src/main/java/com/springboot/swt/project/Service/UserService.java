@@ -8,50 +8,49 @@ import com.springboot.swt.project.entity.Student;
 import com.springboot.swt.project.entity.User;
 
 public interface UserService {
-	Map<String, Object> register(User user);
+    Map<String, Object> register(User user);
 
-	User login(String email, String password);
+    User login(String email, String password);
 
-	String encode(String s);
+    String encode(String s);
 
-	String decode(String s);
+    String decode(String s);
 
-	boolean finder(User user);
+    boolean finder(User user);
 
-	public void otpSend(String email, String purpose);
+    public void otpSend(String email, String purpose);
 
-	public User resetPassword(String email, String password);
+    public User resetPassword(String email, String password);
 
-	String allowOrBlockUserByID(String id, String allowed);
+    String allowOrBlockUserByID(String id, String allowed);
 
-	public List<User> getNotAllowedUsers();
+    public List<User> getNotAllowedUsers();
 
-	public List<Integer> getMarksList(String id);
+    public List<Integer> getMarksList(String id);
 
-	public String enrollstudent(String batchId, User user);
+    public String enrollstudent(String batchId, User user);
 
-	public Student markAttendancepresent(String rollNo, String batchId);
+    public Student markAttendancepresent(String rollNo, String batchId);
 
-	public Student markAttendanceAbsent(String rollNo, String batchId);
+    public Student markAttendanceAbsent(String rollNo, String batchId);
 
-	public List<Student> findStudentBatch(User user);
+    public List<Student> findStudentBatch(User user);
 
-	public List<Student> getAllStudent(String name);
+    public List<Student> getAllStudent(String name);
 
-	String allowOrBlockVolunteerByID(String id, String allowed);
+    String allowOrBlockVolunteerByID(String id, String allowed);
 
-	Map<String, Object> tempRegister(User user);
+    Map<String, Object> tempRegister(User user);
 
-	Object getUser(String email, String purpose);
+    Object getUser(String email, String purpose);
 
-	List<User> getVolunteerList();
+    List<User> getVolunteerList();
 
-	public List<Integer> getMarksListCompletedBatch(String studId);
+    public List<Integer> getMarksListCompletedBatch(String studId);
 
-	String[] validation(User user);
+    String[] validation(User user);
 
-	
 
-	List<User> getAllowedUsers();
+    List<User> getAllowedUsers();
 
 }

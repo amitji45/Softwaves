@@ -81,7 +81,7 @@
 															<span>Enroll</span>
 															<i class="bi bi-chevron-down toggle-dropdown"></i>
 														</a>
-														<ul id="batchList">											
+														<ul id="batchList">
 															</ul>
 													`;
 										// Append the dropdown to the container
@@ -264,7 +264,7 @@
 																				class="bi bi-chevron-down toggle-dropdown"></i></a>
 																				<ul>
 																					<li id="batchList" id="batchId" />
-																					
+
 																				</ul>
 																			</li> -->
 																		</div>

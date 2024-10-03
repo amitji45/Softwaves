@@ -36,269 +36,267 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class UserController {
 
-	@Autowired
-	private UserServiceImpl userserviceimpl;
-	@Autowired
-	private BatchServiceImpl batchservicesimpl;
+    @Autowired
+    private UserServiceImpl userserviceimpl;
+    @Autowired
+    private BatchServiceImpl batchservicesimpl;
 
-	@Autowired
-	private StudentServiceImpl studentServiceImpl;
+    @Autowired
+    private StudentServiceImpl studentServiceImpl;
 
-	// Login Controller
-	@PostMapping("/login")
-	public ModelAndView login(HttpServletRequest request, @RequestParam String email, String password) {
-		ModelAndView modal = new ModelAndView();
-		User temp = userserviceimpl.login(email, password);
-		if (temp != null && temp.getAllowed().equals("Allowed")) {
-			HttpSession session = request.getSession();
+    // Login Controller
+    @PostMapping("/login")
+    public ModelAndView login(HttpServletRequest request, @RequestParam String email, String password) {
+        ModelAndView modal = new ModelAndView();
+        User temp = userserviceimpl.login(email, password);
+        if (temp != null && temp.getAllowed().equals("Allowed")) {
+            HttpSession session = request.getSession();
 
-			if (temp.getRole().equalsIgnoreCase("Student") || temp.getRole().equalsIgnoreCase("Volunteer")) {
-				session.setAttribute("user", temp);
-				Student student = studentServiceImpl.getActiveStudent(temp);
-				session.setAttribute("activeStudentUser", student);
-				modal.setViewName("redirect:"+Permision.redirectLink+"/user/dashboard");
+            if (temp.getRole().equalsIgnoreCase("Student") || temp.getRole().equalsIgnoreCase("Volunteer")) {
+                session.setAttribute("user", temp);
+                Student student = studentServiceImpl.getActiveStudent(temp);
+                session.setAttribute("activeStudentUser", student);
+                modal.setViewName("redirect:" + Permision.redirectLink + "/user/dashboard");
 
-				List<Integer> studentMarks = userserviceimpl.getMarksList(temp.getId());
-				session.setAttribute("studentMarks", studentMarks);
-				int x = studentMarks != null ? studentMarks.size() : 0;
-				// System.out.println(studentMarks);
-				return modal;
-			}
-			if (temp.getRole().equalsIgnoreCase("Admin")) {
-				List<User> allStudents = userserviceimpl.getAllowedUsers();
-				List<Batch> allBatches = batchservicesimpl.findByCurrentStatus("Active");
-				List<User> notAllowedUsers = userserviceimpl.getNotAllowedUsers();
-				List<User> volunteerList = userserviceimpl.getVolunteerList();
-				Map<Batch, String> avgBatches = userserviceimpl.getAverage();
+                List<Integer> studentMarks = userserviceimpl.getMarksList(temp.getId());
+                session.setAttribute("studentMarks", studentMarks);
+                int x = studentMarks != null ? studentMarks.size() : 0;
+                // System.out.println(studentMarks);
+                return modal;
+            }
+            if (temp.getRole().equalsIgnoreCase("Admin")) {
+                List<User> allStudents = userserviceimpl.getAllowedUsers();
+                List<Batch> allBatches = batchservicesimpl.findByCurrentStatus("Active");
+                List<User> notAllowedUsers = userserviceimpl.getNotAllowedUsers();
+                List<User> volunteerList = userserviceimpl.getVolunteerList();
+                Map<Batch, String> avgBatches = userserviceimpl.getAverage();
 
-				session.setAttribute("allStudents", allStudents);
-				session.setAttribute("allBatches", allBatches);
-				session.setAttribute("notAllowedUsers", notAllowedUsers);
-				session.setAttribute("volunteerList", volunteerList);
-				session.setAttribute("avgBatches", avgBatches);
-				session.setAttribute("admin", temp);
-				modal.setViewName("redirect:"+Permision.redirectLink+"/admin/dashboard");
-				return modal;
-			}
-		}
+                session.setAttribute("allStudents", allStudents);
+                session.setAttribute("allBatches", allBatches);
+                session.setAttribute("notAllowedUsers", notAllowedUsers);
+                session.setAttribute("volunteerList", volunteerList);
+                session.setAttribute("avgBatches", avgBatches);
+                session.setAttribute("admin", temp);
+                modal.setViewName("redirect:" + Permision.redirectLink + "/admin/dashboard");
+                return modal;
+            }
+        }
 
-		if (temp == null) {
-			modal.addObject("error", "Incorrect Email or password ");
-		} else if (temp.getAllowed().equals("Not Allowed")) {
-			modal.addObject("error", "Wait For Approval");
-		} else {
-			modal.addObject("error", "Account Blocked Contact Admin Portal");
-		}
+        if (temp == null) {
+            modal.addObject("error", "Incorrect Email or password ");
+        } else if (temp.getAllowed().equals("Not Allowed")) {
+            modal.addObject("error", "Wait For Approval");
+        } else {
+            modal.addObject("error", "Account Blocked Contact Admin Portal");
+        }
 //		modal.setViewName("redirect:/swt/login");
-		modal.setViewName("redirect:"+Permision.redirectLink+"/swt/login");
-		return modal;
-	}
+        modal.setViewName("redirect:" + Permision.redirectLink + "/swt/login");
+        return modal;
+    }
 
-	@RequestMapping("/dashboard")
-	public String getDashBoard(HttpServletRequest request) {
-		if (request.getSession().getAttribute("user") == null)
-			return "redirect:"+Permision.redirectLink+"/swt/login";
-		System.out.println("dashboard worked fine");
-		return "dashboard";
-	}
+    @RequestMapping("/dashboard")
+    public String getDashBoard(HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null)
+            return "redirect:" + Permision.redirectLink + "/swt/login";
+        System.out.println("dashboard worked fine");
+        return "dashboard";
+    }
 
-	@RequestMapping("/regis")
-	public ModelAndView registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
+    @RequestMapping("/regis")
+    public ModelAndView registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
 
-		Map<String, Object> result = userserviceimpl.register(user); // Using the map returned from the service
-		ModelAndView modal = new ModelAndView();
+        Map<String, Object> result = userserviceimpl.register(user); // Using the map returned from the service
+        ModelAndView modal = new ModelAndView();
 
-		String message = (String) result.get("message");
-		User temp = (User) result.get("user");
+        String message = (String) result.get("message");
+        User temp = (User) result.get("user");
 
-		if (temp == null) {
-			modal.addObject("error", message); // Using the message from the map
-			modal.setViewName("redirect:"+Permision.redirectLink+"/swt/regis");
-			return modal;
-		}
-		modal.addObject("success", message);
-		modal.setViewName("redirect:"+Permision.redirectLink+"/swt/login");
-		return modal;
-	}
-	
-	@RequestMapping("/Ysv34b234")
-	public ResponseEntity registerAdmin(@RequestBody User user) {
-		if(user==null || user.getContactNo()==null || user.getContactNo().equals("") || user.getEmail()==null 
-				|| user.getEmail().equals("") || user.getName()==null || user.getName().equals("") || 
-				user.getPassword()==null || user.getPassword().equals("")) 
-			return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
-		
-		User response = userserviceimpl.registerAdmin(user);
-		
-		return new ResponseEntity<>(response,HttpStatus.OK);
-	}
-	
-	
-	
-	
-	@RequestMapping("/logout")
-	public String logout(HttpServletRequest request) {
-		request.getSession().invalidate();
-		return "redirect:"+Permision.redirectLink+"/swt/";
-	}
+        if (temp == null) {
+            modal.addObject("error", message); // Using the message from the map
+            modal.setViewName("redirect:" + Permision.redirectLink + "/swt/regis");
+            return modal;
+        }
+        modal.addObject("success", message);
+        modal.setViewName("redirect:" + Permision.redirectLink + "/swt/login");
+        return modal;
+    }
 
-	@RequestMapping("/dashboard/attendance")
-	public String getAttendance(@RequestParam("student") String encodedJson, Model model, HttpServletRequest request) {
-		if (request.getSession().getAttribute("user") == null)
-			return "redirect:"+Permision.redirectLink+"/swt/login";
-		HttpSession session = request.getSession();
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			Student studentObject = objectMapper.readValue(encodedJson, Student.class);
-			model.addAttribute("studentdecodedobject", studentObject);
-		} catch (Exception e) {
-		}
-		return "attendance";
-	}
+    @RequestMapping("/Ysv34b234")
+    public ResponseEntity registerAdmin(@RequestBody User user) {
+        if (user == null || user.getContactNo() == null || user.getContactNo().equals("") || user.getEmail() == null
+                || user.getEmail().equals("") || user.getName() == null || user.getName().equals("") ||
+                user.getPassword() == null || user.getPassword().equals(""))
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 
-	// finding user by email for otp verification
-	@RequestMapping("/otp")
-	public ModelAndView demo(@ModelAttribute("user") User user, String purpose) { // purpose string is added for otp and
-																					// regis
-		ModelAndView modal = new ModelAndView();
+        User response = userserviceimpl.registerAdmin(user);
 
-		if (purpose.equals("regis") || userserviceimpl.finder(user)) {
-			userserviceimpl.otpSend(user.getEmail(), purpose); // otp sending according to purpose
-			modal.addObject("user69", user);
-			modal.addObject("purpose", purpose);
-			modal.setViewName("forward:/views/Otp.jsp");
-		} else {
-			modal.setViewName("redirect:"+Permision.redirectLink+"/views/forgetPassword.jsp");
-			modal.addObject("error", "email is not registered");
-		}
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
-		return modal;
-	}
 
-	@RequestMapping("/verify")
-	public ResponseEntity<Map<String, Object>> otpVerify(@ModelAttribute("user") User user1,
-			@RequestParam String otp, String purpose) {
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return "redirect:" + Permision.redirectLink + "/swt/";
+    }
 
-		Map<String, Object> response = new HashMap<>();
-		Object user = userserviceimpl.getUser(user1.getEmail(), purpose); // retriving user for otp check using purpose
-		String userOtp = (user instanceof TempUser) ? ((TempUser) user).getOtp() : ((User) user).getOtp(); // getting
-																											// the otp
-																											// from
-																											// corresponding
-																											// user
-																											// weather
-																											// it is
-																											// tempuser
-																											// of User
+    @RequestMapping("/dashboard/attendance")
+    public String getAttendance(@RequestParam("student") String encodedJson, Model model, HttpServletRequest request) {
+        if (request.getSession().getAttribute("user") == null)
+            return "redirect:" + Permision.redirectLink + "/swt/login";
+        HttpSession session = request.getSession();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Student studentObject = objectMapper.readValue(encodedJson, Student.class);
+            model.addAttribute("studentdecodedobject", studentObject);
+        } catch (Exception e) {
+        }
+        return "attendance";
+    }
 
-		if (userOtp.equals(otp)) {
-			if (purpose.equals("regis")) {
-				userserviceimpl.register(user1);
-				response.put("success", "successfully registered");
-				response.put("redirectUrl", "/swt/login?success=Thanks for signing up. Your account has been created");
-			} else {
+    // finding user by email for otp verification
+    @RequestMapping("/otp")
+    public ModelAndView demo(@ModelAttribute("user") User user, String purpose) { // purpose string is added for otp and
+        // regis
+        ModelAndView modal = new ModelAndView();
 
-				response.put("success", true);
-				response.put("redirectUrl", "/views/PasswordReset.jsp?email=" + user1.getEmail());
-			}
-			response.put("email", user1.getEmail());
-			return ResponseEntity.ok(response);
-		} else {
-			response.put("success", false);
-			response.put("errorMessage", "OTP is wrong");
-			response.put("email", user1.getEmail());
-			return ResponseEntity.badRequest().body(response);
-		}
-	}
+        if (purpose.equals("regis") || userserviceimpl.finder(user)) {
+            userserviceimpl.otpSend(user.getEmail(), purpose); // otp sending according to purpose
+            modal.addObject("user69", user);
+            modal.addObject("purpose", purpose);
+            modal.setViewName("forward:/views/Otp.jsp");
+        } else {
+            modal.setViewName("redirect:" + Permision.redirectLink + "/views/forgetPassword.jsp");
+            modal.addObject("error", "email is not registered");
+        }
 
-	@RequestMapping("/resetpass")
-	public ModelAndView resetPassword(@RequestParam("email") String email, String pass1, String pass2) {
+        return modal;
+    }
 
-		userserviceimpl.resetPassword(email, pass1);
-		return new ModelAndView("redirect:"+Permision.redirectLink+"/swt/login", "success", "password successfully is changed ");
+    @RequestMapping("/verify")
+    public ResponseEntity<Map<String, Object>> otpVerify(@ModelAttribute("user") User user1,
+                                                         @RequestParam String otp, String purpose) {
 
-	}
+        Map<String, Object> response = new HashMap<>();
+        Object user = userserviceimpl.getUser(user1.getEmail(), purpose); // retriving user for otp check using purpose
+        String userOtp = (user instanceof TempUser) ? ((TempUser) user).getOtp() : ((User) user).getOtp(); // getting
+        // the otp
+        // from
+        // corresponding
+        // user
+        // weather
+        // it is
+        // tempuser
+        // of User
 
-	@RequestMapping("/marks")
-	public String getStudentMarks(HttpServletRequest request, @RequestParam String id) {
-		if (request.getSession().getAttribute("user") == null)
-			return "redirect:"+Permision.redirectLink+"/swt/login";
-		List<Integer> marksList = userserviceimpl.getMarksList(id);
-		HttpSession session = request.getSession();
-		session.setAttribute("marksList", marksList);
+        if (userOtp.equals(otp)) {
+            if (purpose.equals("regis")) {
+                userserviceimpl.register(user1);
+                response.put("success", "successfully registered");
+                response.put("redirectUrl", "/swt/login?success=Thanks for signing up. Your account has been created");
+            } else {
 
-		return "studentmarks";
-	}
+                response.put("success", true);
+                response.put("redirectUrl", "/views/PasswordReset.jsp?email=" + user1.getEmail());
+            }
+            response.put("email", user1.getEmail());
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success", false);
+            response.put("errorMessage", "OTP is wrong");
+            response.put("email", user1.getEmail());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 
-	@RequestMapping("/allbatches")
-	public ResponseEntity createBatchPage(HttpServletRequest request, Model model) {
+    @RequestMapping("/resetpass")
+    public ModelAndView resetPassword(@RequestParam("email") String email, String pass1, String pass2) {
 
-		List<Batch> batches = batchservicesimpl.getAllBatches();
-		return new ResponseEntity<>(batches, HttpStatus.OK);
-	}
+        userserviceimpl.resetPassword(email, pass1);
+        return new ModelAndView("redirect:" + Permision.redirectLink + "/swt/login", "success", "password successfully is changed ");
 
-	@RequestMapping("/enrollstudent")
-	public ResponseEntity enrollstudent(@RequestParam String batchId, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		User session1 = (User) session.getAttribute("user");
-		if (session1 != null) {
-			String cuurentstatus = userserviceimpl.enrollstudent(batchId, session1);
-			return new ResponseEntity<>(cuurentstatus, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-	}
+    }
 
-	@RequestMapping("/findVolunteer")
-	public ResponseEntity findVolunteer(@RequestParam String name, HttpServletRequest request) {
-		List<Student> list = (List<Student>) userserviceimpl.getAllStudent(name);
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
+    @RequestMapping("/marks")
+    public String getStudentMarks(HttpServletRequest request, @RequestParam String id) {
+        if (request.getSession().getAttribute("user") == null)
+            return "redirect:" + Permision.redirectLink + "/swt/login";
+        List<Integer> marksList = userserviceimpl.getMarksList(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("marksList", marksList);
 
-	@RequestMapping("/find/student/batch")
-	public ResponseEntity findStudentBatch(HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
-		User session1 = (User) session.getAttribute("user");
-		List<Student> batches = userserviceimpl.findStudentBatch(session1);
-		return new ResponseEntity<>(batches, HttpStatus.OK);
-	}
+        return "studentmarks";
+    }
 
-	@RequestMapping("/tempregis")
-	public ModelAndView tempRegistration(@ModelAttribute("user") User user,
-			RedirectAttributes redirectAttributes) {
+    @RequestMapping("/allbatches")
+    public ResponseEntity createBatchPage(HttpServletRequest request, Model model) {
 
-		String[] out = userserviceimpl.validation(user);
-		ModelAndView modalValid = new ModelAndView();
-		if (out[0].equals("false")) {
-			modalValid.addObject("error", out[1]);
-			modalValid.setViewName("redirect:"+Permision.redirectLink+"/swt/regis");
-			return modalValid;
-		}
+        List<Batch> batches = batchservicesimpl.getAllBatches();
+        return new ResponseEntity<>(batches, HttpStatus.OK);
+    }
 
-		Map<String, Object> result = userserviceimpl.tempRegister(user); // saves the data in temprory table
-		ModelAndView modal = new ModelAndView();
+    @RequestMapping("/enrollstudent")
+    public ResponseEntity enrollstudent(@RequestParam String batchId, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User session1 = (User) session.getAttribute("user");
+        if (session1 != null) {
+            String cuurentstatus = userserviceimpl.enrollstudent(batchId, session1);
+            return new ResponseEntity<>(cuurentstatus, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+    }
 
-		String message = (String) result.get("message");
-		User temp = (User) result.get("user");
-		if (temp == null) {
-			modal.addObject("error", message);
-			modal.setViewName("redirect:"+Permision.redirectLink+"/swt/regis");
-			return modal;
-		}
-		modal.addObject("user", user);
-		modal.addObject("success", message);
+    @RequestMapping("/findVolunteer")
+    public ResponseEntity findVolunteer(@RequestParam String name, HttpServletRequest request) {
+        List<Student> list = (List<Student>) userserviceimpl.getAllStudent(name);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 
-		redirectAttributes.addFlashAttribute("user", user); // used flash attributes to transfer the data from one
-															// controller to other
-		redirectAttributes.addFlashAttribute("success", message);
-		return demo(user, "regis"); // another controller is called
-	}
+    @RequestMapping("/find/student/batch")
+    public ResponseEntity findStudentBatch(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        User session1 = (User) session.getAttribute("user");
+        List<Student> batches = userserviceimpl.findStudentBatch(session1);
+        return new ResponseEntity<>(batches, HttpStatus.OK);
+    }
 
-	@RequestMapping("/getmarks")
-	public ResponseEntity getMarks(@RequestParam String id) {
+    @RequestMapping("/tempregis")
+    public ModelAndView tempRegistration(@ModelAttribute("user") User user,
+                                         RedirectAttributes redirectAttributes) {
 
-		List<Integer> marksList = userserviceimpl.getMarksList(id);
+        String[] out = userserviceimpl.validation(user);
+        ModelAndView modalValid = new ModelAndView();
+        if (out[0].equals("false")) {
+            modalValid.addObject("error", out[1]);
+            modalValid.setViewName("redirect:" + Permision.redirectLink + "/swt/regis");
+            return modalValid;
+        }
 
-		return new ResponseEntity(marksList, HttpStatus.OK);
-	}
+        Map<String, Object> result = userserviceimpl.tempRegister(user); // saves the data in temprory table
+        ModelAndView modal = new ModelAndView();
+
+        String message = (String) result.get("message");
+        User temp = (User) result.get("user");
+        if (temp == null) {
+            modal.addObject("error", message);
+            modal.setViewName("redirect:" + Permision.redirectLink + "/swt/regis");
+            return modal;
+        }
+        modal.addObject("user", user);
+        modal.addObject("success", message);
+
+        redirectAttributes.addFlashAttribute("user", user); // used flash attributes to transfer the data from one
+        // controller to other
+        redirectAttributes.addFlashAttribute("success", message);
+        return demo(user, "regis"); // another controller is called
+    }
+
+    @RequestMapping("/getmarks")
+    public ResponseEntity getMarks(@RequestParam String id) {
+
+        List<Integer> marksList = userserviceimpl.getMarksList(id);
+
+        return new ResponseEntity(marksList, HttpStatus.OK);
+    }
 
 }

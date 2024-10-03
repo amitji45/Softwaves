@@ -26,188 +26,189 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class AdminController {
 
-	@Autowired
-	private UserServiceImpl userserviceimpl;
+    @Autowired
+    private UserServiceImpl userserviceimpl;
 
-	@Autowired
-	private StudentServiceImpl studentServiceImpl;
+    @Autowired
+    private StudentServiceImpl studentServiceImpl;
 
-	@Autowired
-	private BatchServiceImpl batchservicesimpl;
+    @Autowired
+    private BatchServiceImpl batchservicesimpl;
 
-	@Autowired
-	EmailSenderImpl emailsenderimp;
+    @Autowired
+    EmailSenderImpl emailsenderimp;
 
-	@RequestMapping("/dashboard")
-	public String getAdminDashboard(HttpServletRequest request) {
-		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:"+Permision.redirectLink+"/swt/login";
-		return "admindashboard";
-	}
+    @RequestMapping("/dashboard")
+    public String getAdminDashboard(HttpServletRequest request) {
+        if (request.getSession().getAttribute("admin") == null)
+            return "redirect:" + Permision.redirectLink + "/swt/login";
+        return "admindashboard";
+    }
 
-	@RequestMapping("/allBatches")
-	public String createBatchPage(Model model, HttpServletRequest request) {
-		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:"+Permision.redirectLink+"/swt/login";
-		model.addAttribute("batches", batchservicesimpl.getAllBatches());
-		return "newbatch";
-	}
+    @RequestMapping("/allBatches")
+    public String createBatchPage(Model model, HttpServletRequest request) {
+        if (request.getSession().getAttribute("admin") == null)
+            return "redirect:" + Permision.redirectLink + "/swt/login";
+        model.addAttribute("batches", batchservicesimpl.getAllBatches());
+        return "newbatch";
+    }
 
-	@RequestMapping("/startbatch")
-	public ResponseEntity startbatch(@RequestParam("id") String batchId, HttpServletRequest request, Model model) {
-		batchservicesimpl.startBatchByID(batchId);
-		return new ResponseEntity(batchservicesimpl.sendAllBatches(), HttpStatus.OK);
-	}
+    @RequestMapping("/startbatch")
+    public ResponseEntity startbatch(@RequestParam("id") String batchId, HttpServletRequest request, Model model) {
+        batchservicesimpl.startBatchByID(batchId);
+        return new ResponseEntity(batchservicesimpl.sendAllBatches(), HttpStatus.OK);
+    }
 
-	@RequestMapping("/endbatch")
-	public ResponseEntity endbatch(@RequestParam("id") String batchId, HttpServletRequest request, Model model) {
-		batchservicesimpl.endBatchByID(batchId);
-		return new ResponseEntity(batchservicesimpl.sendAllBatches(), HttpStatus.OK);
-	}
+    @RequestMapping("/endbatch")
+    public ResponseEntity endbatch(@RequestParam("id") String batchId, HttpServletRequest request, Model model) {
+        batchservicesimpl.endBatchByID(batchId);
+        return new ResponseEntity(batchservicesimpl.sendAllBatches(), HttpStatus.OK);
+    }
 
-	@RequestMapping("/approval")
-	public String getNotAllowedUsers(Model model, HttpServletRequest request) {
-		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:"+Permision.redirectLink+"/swt/login";
-		model.addAttribute("data", userserviceimpl.getNotAllowedUsers());
-		return "approval";
-	}
+    @RequestMapping("/approval")
+    public String getNotAllowedUsers(Model model, HttpServletRequest request) {
+        if (request.getSession().getAttribute("admin") == null)
+            return "redirect:" + Permision.redirectLink + "/swt/login";
+        model.addAttribute("data", userserviceimpl.getNotAllowedUsers());
+        return "approval";
+    }
 
-	@ResponseBody
-	@RequestMapping("/approval/allow")
-	public String allowByID(@RequestParam("id") String id, HttpServletRequest request) {
-		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:"+Permision.redirectLink+"/swt/login";
-		userserviceimpl.allowOrBlockUserByID(id, "Allowed");
-		return "Allowed";
-	}
+    @ResponseBody
+    @RequestMapping("/approval/allow")
+    public String allowByID(@RequestParam("id") String id, HttpServletRequest request) {
+        if (request.getSession().getAttribute("admin") == null)
+            return "redirect:" + Permision.redirectLink + "/swt/login";
+        userserviceimpl.allowOrBlockUserByID(id, "Allowed");
+        return "Allowed";
+    }
 
-	@ResponseBody
-	@RequestMapping("/approval/block")
-	public String blockByID(@RequestParam("id") String id, HttpServletRequest request) {
-		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:"+Permision.redirectLink+"/swt/login";
-		userserviceimpl.allowOrBlockUserByID(id, "Blocked");
-		return "Blocked";
-	}
+    @ResponseBody
+    @RequestMapping("/approval/block")
+    public String blockByID(@RequestParam("id") String id, HttpServletRequest request) {
+        if (request.getSession().getAttribute("admin") == null)
+            return "redirect:" + Permision.redirectLink + "/swt/login";
+        userserviceimpl.allowOrBlockUserByID(id, "Blocked");
+        return "Blocked";
+    }
 
-	@ResponseBody
-	@RequestMapping("/newbatch")
-	public ResponseEntity<String> newBatch(@RequestParam String name, HttpServletRequest request) {
+    @ResponseBody
+    @RequestMapping("/newbatch")
+    public ResponseEntity<String> newBatch(@RequestParam String name, HttpServletRequest request) {
 
-		Batch batch = new Batch();
-		batch.setBatchTopic(name);
-		Batch temp = batchservicesimpl.newBatch(batch);
-		if (temp == null) {
+        Batch batch = new Batch();
+        batch.setBatchTopic(name);
+        Batch temp = batchservicesimpl.newBatch(batch);
+        if (temp == null) {
 
-			return new ResponseEntity<>("Something Went Wrong", HttpStatus.FORBIDDEN);
-		}
-		return new ResponseEntity<>("Batch Created SuccessFully ", HttpStatus.OK);
-	}
+            return new ResponseEntity<>("Something Went Wrong", HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<>("Batch Created SuccessFully ", HttpStatus.OK);
+    }
 
-	@RequestMapping("/VolunteerApproval")
-	public String VApproval(Model model, HttpServletRequest request) {
-		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:"+Permision.redirectLink+"/swt/login";
-		// model.addAttribute("data", studentAttendanceServiceImpl.findAllStudent());
-		return "VolunteerApproval";
-	}
+    @RequestMapping("/VolunteerApproval")
+    public String VApproval(Model model, HttpServletRequest request) {
+        if (request.getSession().getAttribute("admin") == null)
+            return "redirect:" + Permision.redirectLink + "/swt/login";
+        // model.addAttribute("data", studentAttendanceServiceImpl.findAllStudent());
+        return "VolunteerApproval";
+    }
 
-	@RequestMapping("/ManageBatches")
-	public String ManageBatches(HttpServletRequest request, Model model) {
-		return "manageBatches";
-	}
+    @RequestMapping("/ManageBatches")
+    public String ManageBatches(HttpServletRequest request, Model model) {
+        return "manageBatches";
+    }
 
-	@RequestMapping("/AllStudentDetails")
-	public String AllStudentDetail(HttpServletRequest request) {
-		return "AllStudentDetails";
-	}
+    @RequestMapping("/AllStudentDetails")
+    public String AllStudentDetail(HttpServletRequest request) {
+        return "AllStudentDetails";
+    }
 
-	@ResponseBody
-	@RequestMapping("/VolunteerApproval/allow")
-	public String approveVolunteerByID(@RequestParam("id") String id, HttpServletRequest request) {
-		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:"+Permision.redirectLink+"/swt/login";
-		userserviceimpl.allowOrBlockVolunteerByID(id, "Volunteer");
-		return "Volunteer";
-	}
+    @ResponseBody
+    @RequestMapping("/VolunteerApproval/allow")
+    public String approveVolunteerByID(@RequestParam("id") String id, HttpServletRequest request) {
+        if (request.getSession().getAttribute("admin") == null)
+            return "redirect:" + Permision.redirectLink + "/swt/login";
+        userserviceimpl.allowOrBlockVolunteerByID(id, "Volunteer");
+        return "Volunteer";
+    }
 
-	@ResponseBody
-	@RequestMapping("/VolunteerApproval/block")
-	public String blockVolunteerByID(@RequestParam("id") String id, HttpServletRequest request) {
-		if (request.getSession().getAttribute("admin") == null)
-			return "redirect:"+Permision.redirectLink+"/swt/login";
-		userserviceimpl.allowOrBlockVolunteerByID(id, "Student");
-		return "Student";
-	}
+    @ResponseBody
+    @RequestMapping("/VolunteerApproval/block")
+    public String blockVolunteerByID(@RequestParam("id") String id, HttpServletRequest request) {
+        if (request.getSession().getAttribute("admin") == null)
+            return "redirect:" + Permision.redirectLink + "/swt/login";
+        userserviceimpl.allowOrBlockVolunteerByID(id, "Student");
+        return "Student";
+    }
 
-	@RequestMapping("/getBatchDetails")
-	public String getBatchDetails(@RequestParam("id") String batchId, HttpServletRequest request) {
-		List<Student> studentList = studentServiceImpl.findByBatch(batchId);
-		HttpSession session = request.getSession();
-		session.setAttribute("studentList", studentList);
+    @RequestMapping("/getBatchDetails")
+    public String getBatchDetails(@RequestParam("id") String batchId, HttpServletRequest request) {
+        List<Student> studentList = studentServiceImpl.findByBatch(batchId);
+        HttpSession session = request.getSession();
+        session.setAttribute("studentList", studentList);
 
-		return "batchDetails";
-	}
+        return "batchDetails";
+    }
 
-	@RequestMapping("/deletebatch")
-	public ResponseEntity deletebatch(@RequestParam("id") String batchId, HttpServletRequest request) {
-		batchservicesimpl.deleteBatchByID(batchId);
-		return new ResponseEntity(HttpStatus.OK);
-	}
+    @RequestMapping("/deletebatch")
+    public ResponseEntity deletebatch(@RequestParam("id") String batchId, HttpServletRequest request) {
+        batchservicesimpl.deleteBatchByID(batchId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
-	@RequestMapping("/getBatch")
-	public ResponseEntity getBatch(Model model, HttpServletRequest request) {
-		return new ResponseEntity<>(batchservicesimpl.sendAllBatches(), HttpStatus.OK);
-	}
+    @RequestMapping("/getBatch")
+    public ResponseEntity getBatch(Model model, HttpServletRequest request) {
+        return new ResponseEntity<>(batchservicesimpl.sendAllBatches(), HttpStatus.OK);
+    }
 
-	@RequestMapping("/getAllStudentByBatchId")
-	public ResponseEntity getAllStudent(@RequestParam("batchId") String batchId) {
+    @RequestMapping("/getAllStudentByBatchId")
+    public ResponseEntity getAllStudent(@RequestParam("batchId") String batchId) {
 
-		return new ResponseEntity<>(studentServiceImpl.findByBatch(batchId), HttpStatus.OK);
-	}
+        return new ResponseEntity<>(studentServiceImpl.findByBatch(batchId), HttpStatus.OK);
+    }
 
-	@RequestMapping("/findActivebatches")
-	public ResponseEntity findActivebatches(HttpServletRequest session) {
-		List<Batch> batchlist = batchservicesimpl.findByCurrentStatus("Active");
+    @RequestMapping("/findActivebatches")
+    public ResponseEntity findActivebatches(HttpServletRequest session) {
+        List<Batch> batchlist = batchservicesimpl.findByCurrentStatus("Active");
 
-		return new ResponseEntity(batchlist, HttpStatus.OK);
-	}
+        return new ResponseEntity(batchlist, HttpStatus.OK);
+    }
 
-	@RequestMapping("/getAllStudentByUserId")
-	public ResponseEntity getAllStudentByUserId(String userId, HttpServletRequest session) {
-		List<Student> batchlist = studentServiceImpl.findByUserId(userId);
-		if (batchlist != null)
-			return new ResponseEntity(batchlist, HttpStatus.OK);
-		return new ResponseEntity(batchlist, HttpStatus.BAD_REQUEST);
+    @RequestMapping("/getAllStudentByUserId")
+    public ResponseEntity getAllStudentByUserId(String userId, HttpServletRequest session) {
+        List<Student> batchlist = studentServiceImpl.findByUserId(userId);
+        if (batchlist != null)
+            return new ResponseEntity(batchlist, HttpStatus.OK);
+        return new ResponseEntity(batchlist, HttpStatus.BAD_REQUEST);
 
-	}
+    }
 
-	@RequestMapping("/allStudent")
-	public String allStudent(Model model) {
-		return "allStudent";
-	}
+    @RequestMapping("/allStudent")
+    public String allStudent(Model model) {
+        return "allStudent";
+    }
 
-	@RequestMapping("/getcompletedmarks")
-	public ResponseEntity getcompletedmarks(@RequestParam("studId") String studId) {
-		return new ResponseEntity(userserviceimpl.getMarksListCompletedBatch(studId), HttpStatus.OK);
-	}
+    @RequestMapping("/getcompletedmarks")
+    public ResponseEntity getcompletedmarks(@RequestParam("studId") String studId) {
+        return new ResponseEntity(userserviceimpl.getMarksListCompletedBatch(studId), HttpStatus.OK);
+    }
 
-	@RequestMapping("/removeStudent")
-	public ResponseEntity removeStudent(@RequestParam String id) {
-		int studentId = Integer.parseInt(id);
-		studentServiceImpl.removeStudentFromBatch(studentId);
-		List<Student> studentList = studentServiceImpl.findByBatch(id);
+    @RequestMapping("/removeStudent")
+    public ResponseEntity removeStudent(@RequestParam String id) {
+        int studentId = Integer.parseInt(id);
+        studentServiceImpl.removeStudentFromBatch(studentId);
+        List<Student> studentList = studentServiceImpl.findByBatch(id);
 
-		return new ResponseEntity(studentList, HttpStatus.OK);
+        return new ResponseEntity(studentList, HttpStatus.OK);
 
-	}
-	@RequestMapping("/getBatchMarks")
-	public String getBatchMarks(@RequestParam("id") String batchId, HttpServletRequest request) {
-		List<Student> studentList = studentServiceImpl.findByBatch(batchId);
-		HttpSession session = request.getSession();
-		session.setAttribute("studentList", studentList);
-		System.out.println(studentList);
-		return "result";
-	}
+    }
+
+    @RequestMapping("/getBatchMarks")
+    public String getBatchMarks(@RequestParam("id") String batchId, HttpServletRequest request) {
+        List<Student> studentList = studentServiceImpl.findByBatch(batchId);
+        HttpSession session = request.getSession();
+        session.setAttribute("studentList", studentList);
+        System.out.println(studentList);
+        return "result";
+    }
 }

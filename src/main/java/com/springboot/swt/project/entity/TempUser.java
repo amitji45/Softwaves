@@ -18,14 +18,16 @@ public class TempUser {
     private String otp;
 
     // Default constructor
-    public TempUser() {}
+    public TempUser() {
+    }
 
     // Constructor with fields
     public TempUser(String email, String otp) {
         this.email = email;
         this.otp = otp;
-     
+
     }
+
     public String getEmail() {
         return email;
     }
@@ -47,6 +49,6 @@ public class TempUser {
         return "TempUser [email=" + email + ", otp=" + otp + "]";
     }
 
-   
+
 }
 

@@ -20,90 +20,90 @@ import jakarta.persistence.Table;
 
 public class Student {
 
-	@Override
-	public String toString() {
-		return "Student [Id=" + Id + ", batch=" + batch + ", user=" + user + ", rollNo=" + rollNo + ", attendanceCount="
-				+ attendanceCount + ", marks=" + marks + ", absent=" + absent + "]";
-	}
+    @Override
+    public String toString() {
+        return "Student [Id=" + Id + ", batch=" + batch + ", user=" + user + ", rollNo=" + rollNo + ", attendanceCount="
+                + attendanceCount + ", marks=" + marks + ", absent=" + absent + "]";
+    }
 
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Id
-	private Integer Id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
+    private Integer Id;
 
-	@ManyToOne
-	private Batch batch;
+    @ManyToOne
+    private Batch batch;
 
-	@ManyToOne
-	private User user;
+    @ManyToOne
+    private User user;
 
-	@Column
-	private String rollNo;
+    @Column
+    private String rollNo;
 
-	@Column
-	private int attendanceCount;
+    @Column
+    private int attendanceCount;
 
-	@CollectionTable
-	@ElementCollection
-	private List<Integer> marks;
+    @CollectionTable
+    @ElementCollection
+    private List<Integer> marks;
 
-	@Autowired
-	@ElementCollection
-	public Set<String> absent;
+    @Autowired
+    @ElementCollection
+    public Set<String> absent;
 
-	public Integer getId() {
-		return Id;
-	}
+    public Integer getId() {
+        return Id;
+    }
 
-	public void setId(Integer id) {
-		Id = id;
-	}
+    public void setId(Integer id) {
+        Id = id;
+    }
 
-	public Set<String> getAbsent() {
-		return absent;
-	}
+    public Set<String> getAbsent() {
+        return absent;
+    }
 
-	public void setAbsent(Set<String> absent) {
-		this.absent = absent;
-	}
+    public void setAbsent(Set<String> absent) {
+        this.absent = absent;
+    }
 
-	public Batch getBatch() {
-		return batch;
-	}
+    public Batch getBatch() {
+        return batch;
+    }
 
-	public void setBatch(Batch batch) {
-		this.batch = batch;
-	}
+    public void setBatch(Batch batch) {
+        this.batch = batch;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public String getRollNo() {
-		return rollNo;
-	}
+    public String getRollNo() {
+        return rollNo;
+    }
 
-	public void setRollNo(String rollNo) {
-		this.rollNo = rollNo;
-	}
+    public void setRollNo(String rollNo) {
+        this.rollNo = rollNo;
+    }
 
-	public int getAttendanceCount() {
-		return attendanceCount;
-	}
+    public int getAttendanceCount() {
+        return attendanceCount;
+    }
 
-	public void setAttendanceCount(int attendanceCount) {
-		this.attendanceCount = attendanceCount;
-	}
+    public void setAttendanceCount(int attendanceCount) {
+        this.attendanceCount = attendanceCount;
+    }
 
-	public List<Integer> getMarks() {
-		return marks;
-	}
+    public List<Integer> getMarks() {
+        return marks;
+    }
 
-	public void setMarks(List<Integer> marks) {
-		this.marks = marks;
-	}
+    public void setMarks(List<Integer> marks) {
+        this.marks = marks;
+    }
 
 }

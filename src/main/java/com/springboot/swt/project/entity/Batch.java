@@ -11,76 +11,76 @@ import jakarta.persistence.Table;
 @Table(name = "batch")
 public class Batch {
 
-	@Id
-	private String batchId;
+    @Id
+    private String batchId;
 
-	@Column(nullable = false)
-	private String batchTopic;
+    @Column(nullable = false)
+    private String batchTopic;
 
-	@Column
-	private Date startDate;
+    @Column
+    private Date startDate;
 
-	@Column
-	private Date endDate;
+    @Column
+    private Date endDate;
 
-	@Column(nullable = false)
-	private String currentStatus = "Enroll";
+    @Column(nullable = false)
+    private String currentStatus = "Enroll";
 
-	@Column
-	private int numberOfStudents;
+    @Column
+    private int numberOfStudents;
 
-	public String getBatchId() {
-		return batchId;
-	}
+    public String getBatchId() {
+        return batchId;
+    }
 
-	public void setBatchId(String batchId) {
-		this.batchId = batchId;
-	}
+    public void setBatchId(String batchId) {
+        this.batchId = batchId;
+    }
 
-	public String getBatchTopic() {
-		return batchTopic;
-	}
+    public String getBatchTopic() {
+        return batchTopic;
+    }
 
-	public void setBatchTopic(String batchTopic) {
-		this.batchTopic = batchTopic;
-	}
+    public void setBatchTopic(String batchTopic) {
+        this.batchTopic = batchTopic;
+    }
 
-	public Date getStartDate() {
-		 
-		return startDate;
-	}
+    public Date getStartDate() {
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+        return startDate;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	public String getCurrentStatus() {
-		return currentStatus;
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public void setCurrentStatus(String currentStatus) {
-		this.currentStatus = currentStatus;
-	}
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
 
-	public int getNumberOfStudents() {
-		return numberOfStudents;
-	}
+    public void setCurrentStatus(String currentStatus) {
+        this.currentStatus = currentStatus;
+    }
 
-	public void setNumberOfStudents(int numberOfStudents) {
-		this.numberOfStudents = numberOfStudents;
-	}
+    public int getNumberOfStudents() {
+        return numberOfStudents;
+    }
 
-	@Override
-	public String toString() {
-		return "Batch [batchId=" + batchId + ", batchTopic=" + batchTopic + "]";
-	}
+    public void setNumberOfStudents(int numberOfStudents) {
+        this.numberOfStudents = numberOfStudents;
+    }
+
+    @Override
+    public String toString() {
+        return "Batch [batchId=" + batchId + ", batchTopic=" + batchTopic + "]";
+    }
 
 }

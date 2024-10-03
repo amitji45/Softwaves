@@ -34,415 +34,414 @@ import com.springboot.swt.project.repo.UserRepo;
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private TempUserRepo tempUserRepo;
+    @Autowired
+    private TempUserRepo tempUserRepo;
 
-	@Autowired
-	private UserRepo userrepo;
+    @Autowired
+    private UserRepo userrepo;
 
-	@Autowired
-	private StudentRepo studentrepo;
+    @Autowired
+    private StudentRepo studentrepo;
 
-	@Autowired
-	private EmailSenderImpl emailSenderImpl;
-	@Autowired
-	private BatchRepo batchrepo;
+    @Autowired
+    private EmailSenderImpl emailSenderImpl;
+    @Autowired
+    private BatchRepo batchrepo;
 
-	@Override
-	public Map<String, Object> register(User user) {
-		Map<String, Object> response = new HashMap<>();
-		user.setRole("Student");
-		user.setId(generateUserId(user));
-		user.setPassword(encode(user.getPassword()));
-		user.setContactNo(encode(user.getContactNo()));
+    @Override
+    public Map<String, Object> register(User user) {
+        Map<String, Object> response = new HashMap<>();
+        user.setRole("Student");
+        user.setId(generateUserId(user));
+        user.setPassword(encode(user.getPassword()));
+        user.setContactNo(encode(user.getContactNo()));
 
-		if (finder(user)) {
-			response.put("message", "email or contact no already registered");
-			response.put("user", null);
-			return response;
-		}
-		userrepo.save(user);
-		user.setContactNo(decode(user.getContactNo()));
-		user.setPassword(decode(user.getPassword()));
+        if (finder(user)) {
+            response.put("message", "email or contact no already registered");
+            response.put("user", null);
+            return response;
+        }
+        userrepo.save(user);
+        user.setContactNo(decode(user.getContactNo()));
+        user.setPassword(decode(user.getPassword()));
 
-		response.put("message", "User registered successfully");
-		response.put("user", user);
-		return response;
-	}
-	
-	public User registerAdmin(User user) {
-		if(user!=null)
-		{
-		user.setAllowed("Allowed");
-		user.setBatch(" ");
-		user.setId("24swt0000001");
-		user.setRole("Admin");
-		
-		User response=userrepo.save(user);
-		return response;
-		}
-		return null;
-	}
-	
-	
-	private String generateUserId(User user) {
-		StringBuilder id = new StringBuilder();
-		LocalDate local = LocalDate.now();
-		id = id.append(("" + local.getYear()).substring(2));
-		id = id.append("swt");
-		id = id.append(user.getContactNo().substring(0, 3));
-		Random rand = new Random();
-		id = id.append(String.format("%04d", rand.nextInt(10000)));
-		return id.toString();
-	}
+        response.put("message", "User registered successfully");
+        response.put("user", user);
+        return response;
+    }
 
-	@Override
-	public String encode(String s) {
-		// return Base64.getEncoder().encodeToString(s.getBytes());
-		return s;
-	}
+    public User registerAdmin(User user) {
+        if (user != null) {
+            user.setAllowed("Allowed");
+            user.setBatch(" ");
+            user.setId("24swt0000001");
+            user.setRole("Admin");
 
-	@Override
-	public String decode(String s) {
-		// return new String(Base64.getDecoder().decode(s));
-		return s;
-	}
+            User response = userrepo.save(user);
+            return response;
+        }
+        return null;
+    }
 
-	@Override
-	public boolean finder(User user) {
-		return userrepo.findByContactNoOrEmail(user.getContactNo(), user.getEmail()) != null;
-	}
 
-	@Override
-	public User login(String email, String password) {
-		try {
+    private String generateUserId(User user) {
+        StringBuilder id = new StringBuilder();
+        LocalDate local = LocalDate.now();
+        id = id.append(("" + local.getYear()).substring(2));
+        id = id.append("swt");
+        id = id.append(user.getContactNo().substring(0, 3));
+        Random rand = new Random();
+        id = id.append(String.format("%04d", rand.nextInt(10000)));
+        return id.toString();
+    }
 
-			User tempEmail = userrepo.findByEmailAndPassword(email, encode(password));
-			if (tempEmail != null) {
-				tempEmail.setContactNo(decode(tempEmail.getContactNo()));
-				return tempEmail;
-			}
-		} catch (Exception e) {
+    @Override
+    public String encode(String s) {
+        // return Base64.getEncoder().encodeToString(s.getBytes());
+        return s;
+    }
 
-			return null;
-		}
-		return null;
-	}
+    @Override
+    public String decode(String s) {
+        // return new String(Base64.getDecoder().decode(s));
+        return s;
+    }
 
-	@Override
-	public String allowOrBlockUserByID(String id, String allowed) {
-		Optional<User> optional = userrepo.findById(id);
-		User user = optional.get();
-		user.setAllowed(allowed);
-		userrepo.save(user);
-		return allowed;
-	}
+    @Override
+    public boolean finder(User user) {
+        return userrepo.findByContactNoOrEmail(user.getContactNo(), user.getEmail()) != null;
+    }
 
-	@Override
-	public List<User> getNotAllowedUsers() {
-		return userrepo.findByAllowed("Not Allowed").stream().map(user -> {
-			user.setContactNo(decode(user.getContactNo()));
-			return user;
-		}).toList();
-	}
-	
-	@Override
-	public List<User> getAllowedUsers() {
-		return userrepo.findByAllowed("Allowed").stream().map(user -> {
-			user.setContactNo(decode(user.getContactNo()));
-			return user;
-		}).toList();
-	}
+    @Override
+    public User login(String email, String password) {
+        try {
 
-	@Override
-	@Transactional
-	public String enrollstudent(String batchId, User user) {
+            User tempEmail = userrepo.findByEmailAndPassword(email, encode(password));
+            if (tempEmail != null) {
+                tempEmail.setContactNo(decode(tempEmail.getContactNo()));
+                return tempEmail;
+            }
+        } catch (Exception e) {
 
-		Random rand = new Random();
-		Optional<Batch> optional = batchrepo.findById(batchId);
-		Batch batch = optional.get();
+            return null;
+        }
+        return null;
+    }
 
-		Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
-		List<Student> studybatch = studentrepo.findByuser(user);
+    @Override
+    public String allowOrBlockUserByID(String id, String allowed) {
+        Optional<User> optional = userrepo.findById(id);
+        User user = optional.get();
+        user.setAllowed(allowed);
+        userrepo.save(user);
+        return allowed;
+    }
 
-		for (Student stud : studybatch) {
-			if (stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())
-					&& stud.getBatch().getCurrentStatus().equals("Completed")) {
-				return "Already studied that-:" + batch.getBatchTopic() + " batch";
-			}
-		}
-		int oldbatchstatus = 0;
-		String old = null;
-		for (Student stud : studybatch) {
-			if (stud.getBatch().getCurrentStatus().equals("Enroll")
-					&& !stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())) {
-				old = "" + stud.getBatch().getBatchTopic();
-				stud.setBatch(batch);
-				studentrepo.save(stud);
-				return "remove " + old + " batch And Enroll batch" + batch.getBatchTopic();
-			}
-		}
+    @Override
+    public List<User> getNotAllowedUsers() {
+        return userrepo.findByAllowed("Not Allowed").stream().map(user -> {
+            user.setContactNo(decode(user.getContactNo()));
+            return user;
+        }).toList();
+    }
 
-		if (oldbatch == null) {
-			Student student = new Student();
-			ArrayList<Integer> list = new ArrayList<Integer>(10);
-			student.setBatch(batch);
-			student.setMarks(list);
-			student.setUser(user);
-			studentrepo.save(student);
-			return "your are successfully Enroll " + batch.getBatchTopic() + " batch";
-		} else {
-			return " Student is Already Enrolled for " + batch.getBatchTopic();
-		}
+    @Override
+    public List<User> getAllowedUsers() {
+        return userrepo.findByAllowed("Allowed").stream().map(user -> {
+            user.setContactNo(decode(user.getContactNo()));
+            return user;
+        }).toList();
+    }
 
-	}
+    @Override
+    @Transactional
+    public String enrollstudent(String batchId, User user) {
 
-	@Override
-	public List<Integer> getMarksList(String id) {
-		List<Student> studentList = studentrepo.findByuser(userrepo.findById(id).get());
-		Student student = null;
-		for (Student studentTemp : studentList) {
-			if (studentTemp.getBatch().getCurrentStatus().equals("Active")) {
-				student = studentTemp;
-				break;
-			}
-		}
-		if (student != null)
-			return student.getMarks();
-		return null;
-	}
+        Random rand = new Random();
+        Optional<Batch> optional = batchrepo.findById(batchId);
+        Batch batch = optional.get();
 
-	@Override
-	public void otpSend(String email, String purpose) {
-		// it will generate 6 digit no and we will find the user by the email to set the
-		// otp in the attribute
-		int min = 100000; // Minimum 6-digit number
-		int max = 999999; // Maximum 6-digit number
+        Student oldbatch = studentrepo.findByUserAndBatch(user, batch);
+        List<Student> studybatch = studentrepo.findByuser(user);
 
-		Random random = new Random();
-		int randomNumber = random.nextInt(max - min + 1) + min;
+        for (Student stud : studybatch) {
+            if (stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())
+                    && stud.getBatch().getCurrentStatus().equals("Completed")) {
+                return "Already studied that-:" + batch.getBatchTopic() + " batch";
+            }
+        }
+        int oldbatchstatus = 0;
+        String old = null;
+        for (Student stud : studybatch) {
+            if (stud.getBatch().getCurrentStatus().equals("Enroll")
+                    && !stud.getBatch().getBatchTopic().equals(batch.getBatchTopic())) {
+                old = "" + stud.getBatch().getBatchTopic();
+                stud.setBatch(batch);
+                studentrepo.save(stud);
+                return "remove " + old + " batch And Enroll batch" + batch.getBatchTopic();
+            }
+        }
 
-		if (purpose.equals("regis")) { // if the request is from regis it wil save otp in temprory table other wise in
-										// primary table
-			TempUser tempUser = tempUserRepo.findByEmail(email);
-			tempUser.setOtp("" + randomNumber);
-			tempUserRepo.save(tempUser); // we will update the otp in the database
-			emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber, purpose);
-		} else {
-			User user = userrepo.findByContactNoOrEmail(null, email);
-			user.setOtp("" + randomNumber);
-			userrepo.save(user); // we will update the otp in the database
-			emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber, purpose);
-		}
-	}
+        if (oldbatch == null) {
+            Student student = new Student();
+            ArrayList<Integer> list = new ArrayList<Integer>(10);
+            student.setBatch(batch);
+            student.setMarks(list);
+            student.setUser(user);
+            studentrepo.save(student);
+            return "your are successfully Enroll " + batch.getBatchTopic() + " batch";
+        } else {
+            return " Student is Already Enrolled for " + batch.getBatchTopic();
+        }
 
-	public Object getUser(String email, String purpose) {
-		if (purpose.equals("regis"))
-			return tempUserRepo.findByEmail(email); // if the purpose is regis then we will find the user in temprory
-													// table
-		return userrepo.findByContactNoOrEmail(null, email); // otherwise in primary table
-	}
+    }
 
-	@Override
-	public User resetPassword(String email, String password) {
+    @Override
+    public List<Integer> getMarksList(String id) {
+        List<Student> studentList = studentrepo.findByuser(userrepo.findById(id).get());
+        Student student = null;
+        for (Student studentTemp : studentList) {
+            if (studentTemp.getBatch().getCurrentStatus().equals("Active")) {
+                student = studentTemp;
+                break;
+            }
+        }
+        if (student != null)
+            return student.getMarks();
+        return null;
+    }
 
-		User user = userrepo.findByContactNoOrEmail(null, email);
-		user.setPassword(encode(password));
-		return userrepo.save(user);
-	}
+    @Override
+    public void otpSend(String email, String purpose) {
+        // it will generate 6 digit no and we will find the user by the email to set the
+        // otp in the attribute
+        int min = 100000; // Minimum 6-digit number
+        int max = 999999; // Maximum 6-digit number
 
-	public Student markAttendancepresent(String rollNo, String batchId) {
+        Random random = new Random();
+        int randomNumber = random.nextInt(max - min + 1) + min;
 
-		Batch batch = (batchrepo.findById(batchId)).get();
-		Student student = studentrepo.findByRollNoAndBatch(rollNo, batch);
-		if (student == null)
-			return null;
-		LocalDate local = LocalDate.now();
-		StringBuilder currenttime = new StringBuilder();
-		currenttime = currenttime.append(local.getYear() + "-");
-		int month = local.getMonthValue();
-		if (month <= 9)
-			currenttime = currenttime.append("0" + local.getMonthValue() + "-");
-		else
-			currenttime = currenttime.append(local.getMonthValue() + "-");
-		currenttime = currenttime.append(local.getDayOfMonth());
-		Date date = student.getBatch().getStartDate();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		// Correctly create LocalDate using month and day
-		LocalDate sqllocalDate = LocalDate.of(calendar.get(Calendar.YEAR),
-				calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
-				calendar.get(Calendar.DAY_OF_MONTH));
-		long totalday = ChronoUnit.DAYS.between(sqllocalDate, local) + 1;
-		if (student.absent.contains(currenttime.toString()))// by chanc galti se agar absent lag to ye sahi kr dega
-		{
-			student.absent.remove(currenttime.toString());
-			student.setAttendanceCount(student.getAttendanceCount() + 1);
-			studentrepo.save(student);
-			return student;
-		} else if ((totalday == student.absent.size() + student.getAttendanceCount()
-				&& student.getAttendanceCount() >= 1)) {
-			studentrepo.save(student);
-			return student;
-		} else
-			student.setAttendanceCount(student.getAttendanceCount() + 1);
-		studentrepo.save(student);
-		return student;
-	}
+        if (purpose.equals("regis")) { // if the request is from regis it wil save otp in temprory table other wise in
+            // primary table
+            TempUser tempUser = tempUserRepo.findByEmail(email);
+            tempUser.setOtp("" + randomNumber);
+            tempUserRepo.save(tempUser); // we will update the otp in the database
+            emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber, purpose);
+        } else {
+            User user = userrepo.findByContactNoOrEmail(null, email);
+            user.setOtp("" + randomNumber);
+            userrepo.save(user); // we will update the otp in the database
+            emailSenderImpl.sendEmail(email, "Password Reset OTP - Softwaves", "" + randomNumber, purpose);
+        }
+    }
 
-	@Override
-	public Student markAttendanceAbsent(String rollNo, String batchId) {
-		Batch batch = (batchrepo.findById(batchId)).get();
-		Student student = studentrepo.findByRollNoAndBatch(rollNo, batch);
-		if (student == null)
-			return null;
-		LocalDate local = LocalDate.now();
-		StringBuilder currenttime = new StringBuilder();
-		currenttime = currenttime.append(local.getYear() + "-");
-		int month = local.getMonthValue();
-		if (month <= 9)
-			currenttime = currenttime.append("0" + local.getMonthValue() + "-");
-		else
-			currenttime = currenttime.append(local.getMonthValue() + "-");
-		currenttime = currenttime.append(local.getDayOfMonth());
+    public Object getUser(String email, String purpose) {
+        if (purpose.equals("regis"))
+            return tempUserRepo.findByEmail(email); // if the purpose is regis then we will find the user in temprory
+        // table
+        return userrepo.findByContactNoOrEmail(null, email); // otherwise in primary table
+    }
 
-		if (student.absent.contains(currenttime.toString()))// mana galti se pehle pesent lag gai to
-			return student;
-		Date date = student.getBatch().getStartDate();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		// Correctly create LocalDate using month and day
-		LocalDate sqllocalDate = LocalDate.of(calendar.get(Calendar.YEAR),
-				calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
-				calendar.get(Calendar.DAY_OF_MONTH));
-		long totalday = ChronoUnit.DAYS.between(sqllocalDate, local) + 1;
-		if (totalday != 0 && (totalday == student.absent.size() + student.getAttendanceCount()
-				&& student.getAttendanceCount() >= 1)) {
-			student.setAttendanceCount(student.getAttendanceCount() - 1);
-		}
-		student.absent.add(currenttime.toString());
-		studentrepo.save(student);
+    @Override
+    public User resetPassword(String email, String password) {
 
-		return student;
-	}
+        User user = userrepo.findByContactNoOrEmail(null, email);
+        user.setPassword(encode(password));
+        return userrepo.save(user);
+    }
 
-	@Override
-	public List<Student> findStudentBatch(User user) {
-		if (user != null) {
-			List<Student> studentlist = studentrepo.findByUserId(user.getId());
-			return studentlist;
-		}
-		return null;
-	}
+    public Student markAttendancepresent(String rollNo, String batchId) {
 
-	@Override
-	public List getAllStudent(String name) {
-		List<User> allStudentList = userrepo.findAll().stream()
-				.filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase())
-						&& !"Admin".equals(user.getRole()))
-				.sorted(Comparator.comparing(User::getName)) // Sort by name
-				.collect(Collectors.toList());
+        Batch batch = (batchrepo.findById(batchId)).get();
+        Student student = studentrepo.findByRollNoAndBatch(rollNo, batch);
+        if (student == null)
+            return null;
+        LocalDate local = LocalDate.now();
+        StringBuilder currenttime = new StringBuilder();
+        currenttime = currenttime.append(local.getYear() + "-");
+        int month = local.getMonthValue();
+        if (month <= 9)
+            currenttime = currenttime.append("0" + local.getMonthValue() + "-");
+        else
+            currenttime = currenttime.append(local.getMonthValue() + "-");
+        currenttime = currenttime.append(local.getDayOfMonth());
+        Date date = student.getBatch().getStartDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        // Correctly create LocalDate using month and day
+        LocalDate sqllocalDate = LocalDate.of(calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
+                calendar.get(Calendar.DAY_OF_MONTH));
+        long totalday = ChronoUnit.DAYS.between(sqllocalDate, local) + 1;
+        if (student.absent.contains(currenttime.toString()))// by chanc galti se agar absent lag to ye sahi kr dega
+        {
+            student.absent.remove(currenttime.toString());
+            student.setAttendanceCount(student.getAttendanceCount() + 1);
+            studentrepo.save(student);
+            return student;
+        } else if ((totalday == student.absent.size() + student.getAttendanceCount()
+                && student.getAttendanceCount() >= 1)) {
+            studentrepo.save(student);
+            return student;
+        } else
+            student.setAttendanceCount(student.getAttendanceCount() + 1);
+        studentrepo.save(student);
+        return student;
+    }
 
-		return allStudentList;
-	}
+    @Override
+    public Student markAttendanceAbsent(String rollNo, String batchId) {
+        Batch batch = (batchrepo.findById(batchId)).get();
+        Student student = studentrepo.findByRollNoAndBatch(rollNo, batch);
+        if (student == null)
+            return null;
+        LocalDate local = LocalDate.now();
+        StringBuilder currenttime = new StringBuilder();
+        currenttime = currenttime.append(local.getYear() + "-");
+        int month = local.getMonthValue();
+        if (month <= 9)
+            currenttime = currenttime.append("0" + local.getMonthValue() + "-");
+        else
+            currenttime = currenttime.append(local.getMonthValue() + "-");
+        currenttime = currenttime.append(local.getDayOfMonth());
 
-	@Override
-	public String allowOrBlockVolunteerByID(String id, String allowed) {
-		Optional<User> optional = userrepo.findById(id);
-		User user = optional.get();
-		user.setRole(allowed);
-		userrepo.save(user);
-		return allowed;
-	}
+        if (student.absent.contains(currenttime.toString()))// mana galti se pehle pesent lag gai to
+            return student;
+        Date date = student.getBatch().getStartDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        // Correctly create LocalDate using month and day
+        LocalDate sqllocalDate = LocalDate.of(calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH) + 1, // Month is 1-based in LocalDate
+                calendar.get(Calendar.DAY_OF_MONTH));
+        long totalday = ChronoUnit.DAYS.between(sqllocalDate, local) + 1;
+        if (totalday != 0 && (totalday == student.absent.size() + student.getAttendanceCount()
+                && student.getAttendanceCount() >= 1)) {
+            student.setAttendanceCount(student.getAttendanceCount() - 1);
+        }
+        student.absent.add(currenttime.toString());
+        studentrepo.save(student);
 
-	@Override
-	public Map<String, Object> tempRegister(User user) {
-		Map<String, Object> response = new HashMap<>();
-		if (finder(user)) {
-			response.put("message", "email or contact no already registered");
-			response.put("user", null);
-			return response;
-		}
+        return student;
+    }
 
-		tempUserRepo.save(new TempUser(user.getEmail(), null));
+    @Override
+    public List<Student> findStudentBatch(User user) {
+        if (user != null) {
+            List<Student> studentlist = studentrepo.findByUserId(user.getId());
+            return studentlist;
+        }
+        return null;
+    }
 
-		response.put("message", "User registered successfully");
-		response.put("user", user);
-		return response;
-	}
+    @Override
+    public List getAllStudent(String name) {
+        List<User> allStudentList = userrepo.findAll().stream()
+                .filter(user -> user.getName().toLowerCase().startsWith(name.toLowerCase())
+                        && !"Admin".equals(user.getRole()))
+                .sorted(Comparator.comparing(User::getName)) // Sort by name
+                .collect(Collectors.toList());
 
-	@Override
-	public List<User> getVolunteerList() {
-		List<User> volunteerList = userrepo.findByRole("Volunteer");
-		return volunteerList;
-	}
+        return allStudentList;
+    }
 
-	public Map getAverage() {
-		List<Batch> activeBatches = batchrepo.findByCurrentStatus("Active");
-		if (activeBatches == null || activeBatches.isEmpty())
-			return null;
-		Map<Batch, Integer> avgBatches = new HashMap<>();
-		for (Batch batch : activeBatches) {
-			int avgOfStudents = 0;
-			List<Student> studentList = studentrepo.findByBatch(batch);
-			if (studentList != null && !studentList.isEmpty()) {
-				for (Student student : studentList) {
-					LinkedList<Integer> marks = new LinkedList<>(student.getMarks());
-					if (marks != null && !marks.isEmpty())
-						avgOfStudents = avgOfStudents + (int) marks.get(marks.size() - 1);
-				}
-			}
-			if (avgOfStudents != 0)
-				avgBatches.put(batch, avgOfStudents / studentList.size());
-			else
-				avgBatches.put(batch, 0);
-		}
+    @Override
+    public String allowOrBlockVolunteerByID(String id, String allowed) {
+        Optional<User> optional = userrepo.findById(id);
+        User user = optional.get();
+        user.setRole(allowed);
+        userrepo.save(user);
+        return allowed;
+    }
 
-		return avgBatches;
-	}
+    @Override
+    public Map<String, Object> tempRegister(User user) {
+        Map<String, Object> response = new HashMap<>();
+        if (finder(user)) {
+            response.put("message", "email or contact no already registered");
+            response.put("user", null);
+            return response;
+        }
 
-	@Override
-	public List<Integer> getMarksListCompletedBatch(String studId) {
-		Optional<Student> student = studentrepo.findById(Integer.parseInt(studId));
-		if (student == null)
-			return null;
-		Student st = student.get();
-		return st.getMarks();
-	}
+        tempUserRepo.save(new TempUser(user.getEmail(), null));
 
-	@Override
-	public String[] validation(User user) {
-		// String [] patternString = {"^(\\w+[@](gmail|yahoo)\\.(com|in))$" ,
-		// "^(([+]91)?[6-9]\\d{9})$"
-		// ,"^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"};
-		// String [] matcherString = {user.getEmail() , user.getContactNo() ,
-		// user.getPassword()};
-		// int count =0;
-		// for (int i=0;i<patternString.length;i++)
-		// {
-		// Pattern pattern =Pattern.compile(patternString[i]);
-		// Matcher matcher=pattern.matcher(matcherString[i]);
-		// if (matcher.matches()) count++;
-		// }
-		//
-		Pattern emailValid = Pattern.compile("^(\\w+[@](gmail|yahoo)\\.(com|in))$");
-		Matcher emailMatcher = emailValid.matcher(user.getEmail());
-		if (!emailMatcher.matches())
-			return new String[] { "false", "email is not valid " };
+        response.put("message", "User registered successfully");
+        response.put("user", user);
+        return response;
+    }
 
-		Pattern phoneValid = Pattern.compile("^(([+]91)?[6-9]\\d{9})$");
-		Matcher phoneMatcher = phoneValid.matcher(user.getContactNo());
-		if (!phoneMatcher.matches())
-			return new String[] { "false", "phone no is invalid " };
+    @Override
+    public List<User> getVolunteerList() {
+        List<User> volunteerList = userrepo.findByRole("Volunteer");
+        return volunteerList;
+    }
 
-		Pattern passValid = Pattern.compile("^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
-		Matcher passMatcher = passValid.matcher(user.getPassword());
-		if (!passMatcher.matches())
-			return new String[] { "false", "password is invalid " };
+    public Map getAverage() {
+        List<Batch> activeBatches = batchrepo.findByCurrentStatus("Active");
+        if (activeBatches == null || activeBatches.isEmpty())
+            return null;
+        Map<Batch, Integer> avgBatches = new HashMap<>();
+        for (Batch batch : activeBatches) {
+            int avgOfStudents = 0;
+            List<Student> studentList = studentrepo.findByBatch(batch);
+            if (studentList != null && !studentList.isEmpty()) {
+                for (Student student : studentList) {
+                    LinkedList<Integer> marks = new LinkedList<>(student.getMarks());
+                    if (marks != null && !marks.isEmpty())
+                        avgOfStudents = avgOfStudents + (int) marks.get(marks.size() - 1);
+                }
+            }
+            if (avgOfStudents != 0)
+                avgBatches.put(batch, avgOfStudents / studentList.size());
+            else
+                avgBatches.put(batch, 0);
+        }
 
-		// return passMatcher.matches() && emailMatcher.matches() &&
-		// phoneMatcher.matches() ;
-		return new String[] { "true", "sucess" };
-	}
+        return avgBatches;
+    }
+
+    @Override
+    public List<Integer> getMarksListCompletedBatch(String studId) {
+        Optional<Student> student = studentrepo.findById(Integer.parseInt(studId));
+        if (student == null)
+            return null;
+        Student st = student.get();
+        return st.getMarks();
+    }
+
+    @Override
+    public String[] validation(User user) {
+        // String [] patternString = {"^(\\w+[@](gmail|yahoo)\\.(com|in))$" ,
+        // "^(([+]91)?[6-9]\\d{9})$"
+        // ,"^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"};
+        // String [] matcherString = {user.getEmail() , user.getContactNo() ,
+        // user.getPassword()};
+        // int count =0;
+        // for (int i=0;i<patternString.length;i++)
+        // {
+        // Pattern pattern =Pattern.compile(patternString[i]);
+        // Matcher matcher=pattern.matcher(matcherString[i]);
+        // if (matcher.matches()) count++;
+        // }
+        //
+        Pattern emailValid = Pattern.compile("^(\\w+[@](gmail|yahoo)\\.(com|in))$");
+        Matcher emailMatcher = emailValid.matcher(user.getEmail());
+        if (!emailMatcher.matches())
+            return new String[]{"false", "email is not valid "};
+
+        Pattern phoneValid = Pattern.compile("^(([+]91)?[6-9]\\d{9})$");
+        Matcher phoneMatcher = phoneValid.matcher(user.getContactNo());
+        if (!phoneMatcher.matches())
+            return new String[]{"false", "phone no is invalid "};
+
+        Pattern passValid = Pattern.compile("^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
+        Matcher passMatcher = passValid.matcher(user.getPassword());
+        if (!passMatcher.matches())
+            return new String[]{"false", "password is invalid "};
+
+        // return passMatcher.matches() && emailMatcher.matches() &&
+        // phoneMatcher.matches() ;
+        return new String[]{"true", "sucess"};
+    }
 
 }

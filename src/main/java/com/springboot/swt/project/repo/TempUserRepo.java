@@ -8,8 +8,8 @@ import com.springboot.swt.project.entity.TempUser;
 
 @Repository
 public interface TempUserRepo extends JpaRepository<TempUser, String> {
-    
+
     TempUser findByEmail(String email);
-    
+
     void deleteByEmail(String email);
 }
