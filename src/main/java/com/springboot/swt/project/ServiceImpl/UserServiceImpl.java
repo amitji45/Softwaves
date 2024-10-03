@@ -306,7 +306,7 @@ public class UserServiceImpl implements UserService {
         StringBuilder currenttime = new StringBuilder();
         currenttime = currenttime.append(local.getYear() + "-");
         int month = local.getMonthValue();
-        currenttime=(month <= 9)?currenttime.append("0" + local.getMonthValue() + "-"):currenttime.append(local.getMonthValue() + "-");
+        currenttime=(month <= 9)?currenttime.append("0"+ local.getMonthValue() + "-"):currenttime.append(local.getMonthValue() + "-");
         currenttime=(local.getDayOfMonth()<=9)?currenttime.append("0" + local.getDayOfMonth()):currenttime.append(local.getDayOfMonth());
         if (student.absent.contains(currenttime.toString()))// mana galti se pehle pesent lag gai to
             return student;
