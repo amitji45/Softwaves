@@ -158,7 +158,7 @@ try {
                                     </div>
                                 </td>
                                 <%
-                                // Close the row after 7 cards or at the end of the loop
+                                 // Close the row after 7 cards or at the end of the loop
                                 if (i % 7 == 0 || i == totalDays) {
                                     %>
                                     </tr>
