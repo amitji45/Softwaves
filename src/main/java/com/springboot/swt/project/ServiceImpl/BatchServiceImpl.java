@@ -89,9 +89,16 @@ public class BatchServiceImpl implements BatchService {
         return batchrepo.findAll();
     }
 
+
     @Override
     public void deleteBatchByID(String batchId) {
-        batchrepo.delete(batchrepo.findById(batchId).get());
-    }
+        List<Student> studentList = studentrepo.findByBatch(batchrepo.findByBatchId(batchId));
+        if (studentList != null &&  !studentList.isEmpty()) {
 
+            for (Student student : studentList) {
+                studentrepo.deleteById(student.getId());
+            }
+            batchrepo.delete(batchrepo.findById(batchId).get());
+        }
+    }
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.springboot.swt.project.utilities.Permision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,7 +98,7 @@ public class UserController {
     public String getDashBoard(HttpServletRequest request) {
         if (request.getSession().getAttribute("user") == null)
             return "redirect:" + Permision.redirectLink + "/swt/login";
-        System.out.println("dashboard worked fine");
+
         return "dashboard";
     }
 

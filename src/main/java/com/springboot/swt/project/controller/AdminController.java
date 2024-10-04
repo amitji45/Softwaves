@@ -208,7 +208,6 @@ public class AdminController {
         List<Student> studentList = studentServiceImpl.findByBatch(batchId);
         HttpSession session = request.getSession();
         session.setAttribute("studentList", studentList);
-        System.out.println(studentList);
         return "result";
     }
 }

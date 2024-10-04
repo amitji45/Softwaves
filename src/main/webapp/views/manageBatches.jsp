@@ -92,7 +92,7 @@
 									batch.currentStatus === "Enroll" ? $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="deletebatch(\'' + batch.batchId + '\')">delete</button>') : null,
 									batch.currentStatus === "Active" ? $('<td>').html('<button type="button" class="btn btn-outline-danger" onclick="endbatch(\'' + batch.batchId + '\')">end</button>') : null,
 									$('<td>').html('<a class="btn btn-outline-primary" href="/admin/getBatchDetails?id=' + batch.batchId + '">Details</a>'),
-								batch.currentStatus==="Active" ?	$('<td>').html('<a class="btn btn-outline-primary" href="/admin/getBatchMarks?id=' + batch.batchId + '"> marks</a>') : null
+								batch.currentStatus==="Active" ?	$('<td>').html('<a class="btn btn-outline-success" href="/admin/getBatchMarks?id=' + batch.batchId + '"> marks</a>') : null
 								);
 								// Append the new row to the table
 								batch.currentStatus != "Completed" ? $('#tableid').append(newRow):null;

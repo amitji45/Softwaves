@@ -3,6 +3,6 @@ package com.springboot.swt.project.utilities;
 public class Permision {
 
     public static boolean BATCH_PERMIT = false;
-    	public static String redirectLink = "https://d970cd84-6da2-4608-9620-6f7cf53d725c.e1-us-east-azure.choreoapps.dev";
-    //public static String redirectLink = "";
+//    	public static String redirectLink = "https://d970cd84-6da2-4608-9620-6f7cf53d725c.e1-us-east-azure.choreoapps.dev";
+    public static String redirectLink = "";
 }
