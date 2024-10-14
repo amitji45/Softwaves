@@ -109,9 +109,21 @@ try {
             onchange="findStudentBatches1()">
         </select>
     </div>
-        <div id="calendar" class="">
+        <div id="calendar" class="mt-3">
             <table class="table">
+                <thead>
+                    <tr>
+                      <th scope="col">Mon</th>
+                      <th scope="col">Tue</th>
+                      <th scope="col">Wed</th>
+                      <th scope="col">Thu</th>
+                      <th scope="col">Fri</th>
+                      <th scope="col">Sat</th>
+                      <th scope="col">Sun</th>
+                     </tr>
+                  </thead>
                 <tbody>
+
                     <%if(student != null && student.getBatch().getStartDate() != null) {
                         Date date = student.getBatch().getStartDate();
                         Calendar calendar = Calendar.getInstance();
@@ -121,8 +133,8 @@ try {
                             calendar.get(Calendar.DAY_OF_MONTH));
                         boolean isAbsent = false;
                         int totalDays = student.getAttendanceCount() + student.absent.size();
-
                         if (totalDays >= 1) {
+                        int j = 1;
                             for (int i = 1; i <= totalDays; i++)
                             {
 
@@ -136,34 +148,73 @@ try {
                                         break;
                                     }
                                 }
-
                                 // Start a new row for every 7 cards
-                                if ((i - 1) % 7 == 0) {
+                                if ((j - 1) % 7 == 0) {
                                     %>
                                     <tr>
                                     <%
                                 }
+                                if(i == 1)
+                                {
+                                int k = 0;
+                                 switch(dayName)
+                                 {
+                                  case "Monday": k = 0;
+                                  break;
+                                  case "Tuesday": k = 1;
+                                  break;
+                                  case "Wednesday": k = 2;
+                                  break;
+                                  case "Thursday": k = 3;
+                                  break;
+                                  case "Friday": k = 4;
+                                  break;
+                                  case "Saturday": k = 5;
+                                  break;
+                                  case "Sunday": k = 6;
+                                  break;
+                                  }
+                                for(int day = 1 ; day <= k ; day++  )
+                                {
                                 %>
-                                <td>
+                                  <td>
+                                     <div class="card bg-light">
+                                        <div class="card-body p-3">
+                                            <p class="font-weight-bolder text-sm mb-0">
+
+                                            </p>
+                                            <h5 class="font-weight-bolder text-light">
+
+                                            </h5>
+                                        </div>
+                                     </div>
+                                  </td>
+                                <%
+                                }
+                                j += k;
+                                }
+                                %>
+                                   <td>
                                     <div class="card <%=isAbsent ? "bg-danger" : "bg-success"%>">
                                         <div class="card-body p-3">
                                             <p class="font-weight-bolder text-sm mb-0">
                                                 <%=localDate.getDayOfMonth()%>
-                                                <%=dayName%>
+                                                <%=localDate.getMonth().toString().substring(0,3)%>
                                             </p>
                                             <h5 class="font-weight-bolder text-light">
                                                 <%=isAbsent ? "A" : "P"%>
                                             </h5>
                                         </div>
                                     </div>
-                                </td>
+                                   </td>
                                 <%
                                  // Close the row after 7 cards or at the end of the loop
-                                if (i % 7 == 0 || i == totalDays) {
+                                if (j % 7 == 0 || i == totalDays) {
                                     %>
                                     </tr>
                                     <%
                                 }
+                                j++;
                                 // Move to the next day
                                 localDate = localDate.plusDays(1);
                             }
